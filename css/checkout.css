@@ -203,6 +203,10 @@ div.personal input:hover{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -221,7 +225,6 @@ div.personal input:hover{
     text-transform: capitalize;
 }
 
-.main-content-wrapper .checkout-table-area table thead tr .note,
 .main-content-wrapper .checkout-table-area table tbody tr .note
 {
     border-top: none;
@@ -236,7 +239,7 @@ div.personal input:hover{
     text-transform: capitalize;
 }
 
-.main-content-wrapper .checkout-table-area table tbody tr .note input{
+.main-content-wrapper .checkout-table-area table tbody tr .note textarea{
     width: 100%;
 }
 
