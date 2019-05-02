@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>Amado - Furniture Ecommerce Template | Checkout</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- Search Wrapper Area Start -->
+    <div class="search-wrapper section-padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Search Wrapper Area End -->
+
+    <!-- ##### Main Content Wrapper Start ##### -->
+    <div class="main-content-wrapper d-flex clearfix">
+
+        <!-- Mobile Nav (max width 767px)-->
+        <div class="mobile-nav">
+            <!-- Navbar Brand -->
+            <div class="amado-navbar-brand">
+                <a href="index.html"><img src="img/icon-img/11.jpg" alt=""></a>
+            </div>
+        </div>
+
+        <!-- Toolbar start -->
+            <div class = "toolbar row">
+                <!-- Logo -->
+                <a class = "icon_link" href = "./home.html">
+                    <img class = "icon_img" src = "img/icon-img/11.jpg" alt = "">
+                </a>
+                <!-- Search -->
+                <div class = "search_base">
+                    <form action="#" method="get">
+                        <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                    </form>
+                    <select name = "itemfilter">
+                            <option value = "productname">商品名稱</option>
+                            <option value = "seller">賣家</option>
+                    </select>
+                </div>
+                
+                <div class = "personal">
+                    <input type = "button" value = "Cart">
+                    <input type = "button" value = "User">
+                </div>
+            </div>
+            <!-- Toolbar end -->
+
+        <div class="checkout-table-area section-padding-100">
+            <div class="container-fluid">
+                <div class="">
+                    <div class="checkout_details_area clearfix">
+                        <!-- one buying list start -->
+                        <!-- seller's name -->
+                        <div class="cart-title">
+                            <h2>賣家:NtouAdmin</h2>
+                        </div>
+                        <!-- detail of the selling list start -->
+                        <table class = "table checkout_table-responsive">
+                            <!-- header of the list -->
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>姓名</th>
+                                    <th>價格</th>
+                                    <th>數量</th>
+                                    <th>運送方式</th>
+                                    <th class = "note">備註</th>
+                                </tr>
+                            </thead>
+                            
+                            <!-- product in the list -->
+                            <tbody>
+                                <tr>
+                                    <!-- product image -->
+                                    <td class="checkout_product_img">
+                                        <a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>
+                                    </td>
+                                    <!-- product name -->
+                                    <td class="check_product_desc">
+                                        <h5>White Modern Chair</h5>
+                                    </td>
+                                    <!-- product name -->
+                                    <td class="price">
+                                        <span>$130</span>
+                                    </td>
+                                    <!-- product quantity -->
+                                    <td class="qty">
+                                        <div class="qty-btn d-flex">
+                                            <p>Qty</p>
+                                            <div class="quantity">
+                                                <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!-- delievery -->
+                                    <td>
+                                         <select name = "itemfilter">
+                                            <option value = "1">7-11貨到付款</option>
+                                            <option value = "2">宅急便</option>
+                                            <option value = "3">面交</option>
+                                        </select>
+                                    </td>
+                                    <!-- P.S. -->
+                                    <td class = "note">
+                                        <textarea placeholder="請輸入產品規格(若沒有責圖需輸入)或想給賣家的話"></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- detail of the selling list end -->
+                        <!-- one buying list end -->
+                    </div>
+                </div>
+                <!-- Summarize of the list above -->
+                <div class="col-12 col-lg-4">
+                    <div class="checkout-summary">
+                        <h5>結帳總計</h5>
+                        <ul class="summary-table">
+                            <li><span>商品價格:</span> <span>$140.00</span></li>
+                            <li><span>運費:</span> <span>Free</span></li>
+                            <li><span>總計:</span> <span>$140.00</span></li>
+                        </ul>
+
+                        <div class="cart-btn mt-100">
+                            <a href="#" class="btn amado-btn w-100">確認結帳</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Main Content Wrapper End ##### -->
+
+    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Title  -->
+        <title>Amado - Furniture Ecommerce Template | Cart</title>
+
+        <!-- Favicon  -->
+        <link rel="icon" href="img/core-img/favicon.ico">
+
+        <!-- Core Style CSS -->
+        <link rel="stylesheet" href="css/core-style.css">
+        <link rel="stylesheet" href="css/cart.css">
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+
+    <body>
+
+        <!-- ##### Main Content Wrapper Start ##### -->
+        <div class="main-content-wrapper clearfix">
+
+            <!-- Mobile Nav (max width 767px)-->
+            <div class="mobile-nav">
+                <!-- Navbar Brand -->
+                <div class="amado-navbar-brand">
+                    <a href="home.html"><img src="img/icon-img/11.jpg" alt=""></a>
+                </div>
+            </div>
+            
+            <!-- Toolbar start -->
+            <div class = "toolbar row">
+                <!-- Logo -->
+                <a class = "icon_link" href = "./home.html">
+                    <img class = "icon_img" src = "img/icon-img/11.jpg" alt = "">
+                </a>
+                <!-- Search -->
+                <div class = "search_base">
+                    <form action="#" method="get">
+                        <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                    </form>
+                    <select name = "itemfilter">
+                            <option value = "productname">商品名稱</option>
+                            <option value = "seller">賣家</option>
+                    </select>
+                </div>
+                
+                <div class = "personal">
+                    <input type = "button" value = "Cart">
+                    <input type = "button" value = "User">
+                </div>
+            </div>
+            <!-- Toolbar end -->
+
+            <div class="cart-table-area section-padding-0-100">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <div class="cart-title mt-50">
+                                <h2>購物車</h2>
+                            </div>
+
+                            <div class="cart-table clearfix">
+                                <table class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th><input class = "checkbox" type = "checkbox"> 選擇全部</th>
+                                            <th></th>
+                                            <th>產品名稱</th>
+                                            <th>價格</th>
+                                            <th>數量</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input class = "checkbox" type = "checkbox">
+                                            </td>
+                                            <td class="cart_product_img">
+                                                <a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>
+                                            </td>
+                                            <td class="cart_product_desc">
+                                                <h5>White Modern Chair</h5>
+                                            </td>
+                                            <td class="price">
+                                                <span>$130</span>
+                                            </td>
+                                            <td class="qty">
+                                                <div class="qty-btn d-flex">
+                                                    <p>Qty</p>
+                                                    <div class="quantity">
+                                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                <input class = "checkbox" type = "checkbox">
+                                            </td>
+                                            <td class="cart_product_img">
+                                                <a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>
+                                            </td>
+                                            <td class="cart_product_desc">
+                                                <h5>White Modern Chair</h5>
+                                            </td>
+                                            <td class="price">
+                                                <span>$130</span>
+                                            </td>
+                                            <td class="qty">
+                                                <div class="qty-btn d-flex">
+                                                    <p>Qty</p>
+                                                    <div class="quantity">
+                                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class = "deletebutton">
+                                <input class = "btn amado-btn" type = "button" value = "刪除">
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="cart-summary">
+                                <h5>購物車總計</h5>
+                                <ul class="summary-table">
+                                    <li><span>物品總價:</span> <span>$140.00</span></li>
+                                    <li><span>運費:</span> <span>Free</span></li>
+                                    <li><span>合計:</span> <span>$140.00</span></li>
+                                </ul>
+                                <div class="cart-btn mt-100">
+                                    <a href="checkout.html" class="btn amado-btn w-100">結帳</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ##### Main Content Wrapper End ##### -->
+
+        <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="js/active.js"></script>
+
+    </body>
+
+</html>
