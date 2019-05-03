@@ -17,5 +17,5 @@
 *  Bidding List
 *  SellerList
 *  ProductManage
-*  Upload Product
+*  Upload Product -- Done
 *  Modify Product
