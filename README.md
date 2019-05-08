@@ -4,8 +4,8 @@
 *  Login -- Done
 *  SignUp -- Done
 ### Market Page
-*  Home 
-*  Shop
+*  Home -- Done
+*  Shop -- Done
 *  Product -- Done
 *  Bid Product
 *  Cart -- Done
