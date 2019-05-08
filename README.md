@@ -26,7 +26,7 @@
 *  BuyList
 *  Bidding List
 *  SellerList
-*  @ProductManage
+*  ProductManage
 *  @Upload Product -- Done
 *  Modify Product
 >>>>>>> Update README.md
