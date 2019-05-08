@@ -13,7 +13,7 @@
     <body>
         <div class = "icon_base">
             <a class = "icon_link" href = "./index.html">
-                <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
+                <img class = "icon_img" src = "img/icon-img/11.jpg" alt = "">
             </a>
         </div>
         
@@ -21,20 +21,20 @@
             <form>
                 <li class = "Account">
                     <label for = "Account">Account : </label>
-                    <input type = "text" name = "Account">
+                    <input type = "text" name = "Account" id="Account">
                 </li>
                 <li class = "Password">
                     <label for = "Password">Password : </label>
-                    <input type = "text" name = "Password">
+                    <input type = "text" name = "Password" id="Password">
                 </li>
                     
                 <div class = "button_base">
-                    <input class = "Login" type = "button" value = "Login"> 
-                    <input class = "Signup" type = "button" value = "Signup">
+                    <input class = "Login" type = "button" value = "Login" onclick='login();'> 
+                    <input class = "Signup" type = "button" value = "Signup"  onclick="javascript:location.href='./signup.html'">
                 </div>
             </form>
         </div>
-    </body>
+    </body><script src="js/login1.js"></script>
     
     
 </html>
