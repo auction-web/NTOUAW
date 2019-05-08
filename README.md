@@ -11,6 +11,7 @@
 *  Cart -- Done
 *  CheckOut -- Done@
 ### Personal Page  
+<<<<<<< UI
 *  Personal --Done@
 *  ListDetail -- Done
 *  BuyList -- Done
@@ -19,3 +20,13 @@
 *  ProductManage -- Done@
 *  Upload Product -- Done@
 *  Modify Product -- Done
+=======
+*  Personal
+*  ListDetail
+*  BuyList
+*  Bidding List
+*  SellerList
+*  @ProductManage
+*  @Upload Product -- Done
+*  Modify Product
+>>>>>>> Update README.md
