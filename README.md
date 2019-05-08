@@ -7,8 +7,8 @@
 *  @Home 
 *  @Shop
 *  @Product -- Done
-*  @Bid Product
-*  Cart -- Done
+*  Bid Product
+*  @Cart -- Done
 *  @CheckOut -- Done
 ### Personal Page  
 *  Personal
@@ -16,6 +16,6 @@
 *  BuyList
 *  Bidding List
 *  SellerList
-*  @ProductManage
+*  ProductManage
 *  @Upload Product -- Done
 *  Modify Product
