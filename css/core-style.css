@@ -516,21 +516,24 @@ img {
     -ms-flex: 0 0 calc(100% - 320px);
     flex: 0 0 calc(100% - 320px);
     width: calc(100% - 320px);
-    max-width: calc(100% - 320px); }
+    max-width: calc(100% - 320px);
+    margin-top:20px;}
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .main-content-wrapper .products-catagories-area {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 calc(100% - 280px);
         flex: 0 0 calc(100% - 280px);
         width: calc(100% - 280px);
-        max-width: calc(100% - 280px); } }
+        max-width: calc(100% - 280px);
+        margin-top:20px;} }
     @media only screen and (max-width: 767px) {
       .main-content-wrapper .products-catagories-area {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;
         width: 100%;
-        max-width: 100%; } }
+        max-width: 100%;
+        margin-top:20px;} }
   .main-content-wrapper .shop_sidebar_area {
     position: relative;
     z-index: 1;
@@ -625,7 +628,7 @@ img {
     .main-content-wrapper .cart-table-area .cart-title h2 {
       font-size: 30px;
       margin-bottom: 30px;
-      color: #242424; }
+      color: #242424;}
     .main-content-wrapper .cart-table-area table thead {
       width: 100%;
       display: block; }
@@ -1009,7 +1012,7 @@ img {
   .single-products-catagory:hover .hover-content p,
   .single-products-catagory:hover .hover-content h4, .single-products-catagory:focus .hover-content p,
   .single-products-catagory:focus .hover-content h4 {
-    color: #fff; }
+    color: #ffffff;}
 
 /* :: 6.0 Newsletter Area CSS */
 .newsletter-area {
