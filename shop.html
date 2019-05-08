@@ -16,13 +16,38 @@
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="css/shop.css">
 
 </head>
 
 <body>
     <!-- ##### Main Content Wrapper Start ##### -->
     <div class="main-content-wrapper d-flex clearfix">
+        
+        <!-- Toolbar start -->
+        <div class = "toolbar row">
+            <!-- Logo -->
+            <a class = "icon_link" href = "./home.html">
+                <img class = "icon_img" src = "img/icon-img/11.jpg" alt = "">
+            </a>
+            <!-- Search -->
+            <div class = "search_base">
+                <form action="#" method="get">
+                    <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                    <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                </form>
+                <select name = "itemfilter">
+                        <option value = "productname">商品名稱</option>
+                        <option value = "seller">賣家</option>
+                </select>
+            </div>
+
+            <div class = "personal">
+                <input type = "button" value = "Cart">
+                <input type = "button" value = "User">
+            </div>
+        </div>
+        <!-- Toolbar end -->
 
         <!-- Side Bar Area Start -->
         <div class="shop_sidebar_area">
