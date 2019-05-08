@@ -11,11 +11,11 @@
 *  Cart -- Done
 *  @CheckOut -- Done
 ### Personal Page  
-*  @Personal
+*  Personal
 *  ListDetail
 *  BuyList
 *  Bidding List
 *  SellerList
 *  @ProductManage
 *  @Upload Product -- Done
-*  @Modify Product
+*  Modify Product
