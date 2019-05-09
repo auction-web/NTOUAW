@@ -1,3 +1,4 @@
+/* tool bar start */
 .icon_img{
     height: auto;
     width: inherit;
@@ -136,7 +137,9 @@ div.personal input:hover{
     font-weight: 400;
     font-size: 14px; 
 }
+/* tool bar end */
 
+/* list detail start*/
 .main-content-wrapper .list-table-area table thead {
     width: 100%;
     display: block;
@@ -216,3 +219,4 @@ div.personal input:hover{
 .main-content-wrapper .list-table-area table tbody tr .note textarea{
     width: 100%;
 }
+/* list detail end*/
