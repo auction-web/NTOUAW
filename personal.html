@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <!-- Title  -->
+        <title>Amado - Furniture Ecommerce Template | Personal</title>
+
+        <!-- Favicon  -->
+        <link rel="icon" href="img/core-img/favicon.ico">
+
+        <!-- Core Style CSS -->
+        <link rel="stylesheet" href="css/core-style.css">
+        <link rel="stylesheet" href="css/personal.css">
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+
+    <body>
+
+        <!-- ##### Main Content Wrapper Start ##### -->
+        <div class="main-content-wrapper clearfix">
+
+            <!-- Mobile Nav (max width 767px)-->
+            <div class="mobile-nav">
+                <!-- Navbar Brand -->
+                <div class="amado-navbar-brand">
+                    <a href="home.html"><img src="img/core-img/logo (3).png" alt=""></a>
+                </div>
+            </div>
+            
+            <!-- Toolbar start -->
+            <div class = "toolbar row">
+                <!-- Logo -->
+                <a class = "icon_link" href = "./home.html">
+                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
+                </a>
+                
+                <div class = "personal">
+                    <input type = "button" value = "Cart">
+                    <input type = "button" value = "User">
+                </div>
+            </div>
+            <!-- Toolbar end -->
+            
+            <!-- Tab menu start-->
+            <div class = "tab">
+                <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
+                <button class = "tablinks" onclick="personalpage(event, 'buylist')">個人購物清單</button>
+                <button class = "tablinks" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
+                <button class = "tablinks" onclick="personalpage(event, 'selllist')">賣家訂單清單</button>
+                <button class = "tablinks" onclick="personalpage(event, 'productmanage')">賣家商品管理</button>
+            </div>
+            <!-- Tab menu end-->
+            
+            <!-- Tab menu content start -->
+            <!-- Personal page start -->
+            <div id = "personal" class = "tabcontent section-padding-0-100">
+                
+            </div>
+            <!-- Personal page end -->
+            
+            <!-- Buylist page start -->
+            <div id = "buylist" class = "tabcontent">
+                
+                <!-- list detail start -->
+                <div class="container-fluid">
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                        </form>
+                        <select name = "itemfilter">
+                            <option value = "listID">訂單編號</option>
+                            <option value = "seller">訂單狀態</option>
+                            <option value = "status">賣家</option>
+                        </select>
+                        <div class = "page">
+                            <a href="#" class="previous round">&#8249;</a>
+                            <label class = "page">1.</label>
+                            <a href="#" class="next round">&#8250;</a>
+                        </div>
+                    </div>
+
+                    <div class="buylist-table-area clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>訂單編號</th>
+                                    <th>價格</th>
+                                    <th>賣家</th>
+                                    <th>訂單狀態</th>
+                                    <th>評價</th>
+                                    <th>取消訂單</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class = "selfdefine">2019/5/9</span>
+                                    </td>
+                                    <td>
+                                        <a class = "listID" href = "">123456</a>
+                                    </td>
+                                    <td class="price">
+                                        <span class = "selfdefine">150$</span>
+                                    </td>
+                                    <td class="">
+                                        <a class = "seller" href = "">Admin</a>
+                                    </td>
+                                    <td class = "">
+                                        <span class = "selfdefine">運送中</span>
+                                    </td>
+                                    <td >
+                                        <input class = "criticize" type = "button" value = "評價">
+                                    </td>
+                                    <td>
+                                        <input  class = "cancel" type = "button" value = "取消訂單">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                 
+                </div>
+                <!-- list detail end -->
+            </div>
+            <!-- Buylist page end -->
+            
+            <!--  Bidlist page start -->
+            <div id = "bidlist" class = "tabcontent">
+                <!-- bidlist detail start -->
+                <div class="container-fluid">
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                        </form>
+                        <select name = "itemfilter">
+                            <option value = "listID">訂單編號</option>
+                            <option value = "seller">訂單狀態</option>
+                            <option value = "status">賣家</option>
+                        </select>
+                        <div class = "page">
+                            <a href="#" class="previous round">&#8249;</a>
+                            <label class = "page">1.</label>
+                            <a href="#" class="next round">&#8250;</a>
+                        </div>
+                    </div>
+
+                    <div class="bidlist-table-area clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>訂單編號</th>
+                                    <th>價格</th>
+                                    <th>數量</th>
+                                    <th>賣家</th>
+                                    <th>訂單狀態</th>
+                                    <th>評價</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class = "selfdefine">2019/5/9</span>
+                                    </td>
+                                    <td>
+                                        <a class = "listID" href = "">123456</a>
+                                    </td>
+                                    <td>
+                                        <span class = "selfdefine">150$</span>
+                                    </td>
+                                    <td>
+                                        <span class = "quantity">5</span>
+                                    </td>
+                                    <td>
+                                        <a class = "seller" href = "">Admin</a>
+                                    </td>
+                                    <td >
+                                        <span class = "selfdefine">運送中</span>
+                                    </td>
+                                    <td>
+                                        <input class = "criticize" type = "button" value = "評價">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                 
+                </div>
+                <!-- bidlist detail end -->
+            </div>
+            <!--  Bidlist page start -->
+            
+            <!-- Sell list page start -->
+            <div id = "selllist" class = "tabcontent">
+                <!-- Sell list detail start -->
+                <div class="container-fluid">
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                        </form>
+                        <select name = "itemfilter">
+                            <option value = "listID">訂單編號</option>
+                            <option value = "seller">訂單狀態</option>
+                            <option value = "status">買家</option>
+                        </select>
+                        <div class = "page">
+                            <a href="#" class="previous round">&#8249;</a>
+                            <label class = "page">1.</label>
+                            <a href="#" class="next round">&#8250;</a>
+                        </div>
+                    </div>
+
+                    <div class="selllist-table-area clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>訂單編號</th>
+                                    <th>買家評價</th>
+                                    <th>價格</th>
+                                    <th>數量</th>
+                                    <th>運費</th>
+                                    <th>買家</th>
+                                    <th>訂單狀態</th>
+                                    <th>評價</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class = "selfdefine">2019/5/9</span>
+                                    </td>
+                                    <td>
+                                        <a class = "listID" href = "">123456</a>
+                                    </td>
+                                    <td>
+                                        <span class = "criticize">5</span>
+                                    </td>
+                                    <td>
+                                        <span class = "price">150$</span>
+                                    </td>
+                                    <td>
+                                        <span class = "quantity">5</span>
+                                    </td>
+                                    <td>
+                                        <span class = "d_price">60$</span>
+                                    </td>
+                                    <td>
+                                        <a class = "buyer" href = "">Admin</a>
+                                    </td>
+                                    <td>
+                                        <span class = "selfdefine">運送中</span>
+                                    </td>
+                                    <td>
+                                        <input class = "criticize" type = "button" value = "評價">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                 
+                </div>
+                <!-- Sell list detail end -->
+            </div>
+            <!-- Product Manage page start -->
+            
+            <!-- Product manage page start -->
+            <div id = "productmanage" class = "tabcontent">
+                <!-- Product manage detail start -->
+                <div class="container-fluid">
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                        </form>
+                        <select name = "itemfilter">
+                            <option value = "listID">訂單編號</option>
+                            <option value = "seller">訂單狀態</option>
+                            <option value = "status">買家</option>
+                        </select>
+                        <div class = "page">
+                            <a href="#" class="previous round">&#8249;</a>
+                            <label class = "page">1.</label>
+                            <a href="#" class="next round">&#8250;</a>
+                        </div>
+                    </div>
+
+                    <div class="selllist-table-area clearfix">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>商品名稱(ID)</th>
+                                    <th>是否競標</th>
+                                    <th>價格</th>
+                                    <th>庫存</th>
+                                    <th>運費</th>
+                                    <th>商品狀態</th>
+                                    <th>修改商品</th>
+                                    <th>刪除商品</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class = "selfdefine">2019/5/9</span>
+                                    </td>
+                                    <td>
+                                        <a class = "listID" href = "">無敵大腿哥(5948787)</a>
+                                    </td>
+                                    <td>
+                                        <span class = "bid">否</span>
+                                    </td>
+                                    <td>
+                                        <span class = "price">150$</span>
+                                    </td>
+                                    <td>
+                                        <span class = "quantity">20</span>
+                                    </td>
+                                    <td>
+                                        <span class = "d_price">60$</span>
+                                    </td>
+                                    <td>
+                                        <span class = "status">販售中</span>
+                                    </td>
+                                    <td>
+                                        <input class = "modify" type = "button" value = "修改商品">
+                                    </td>
+                                    <td>
+                                        <input class = "delete" type = "button" value = "刪除">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                 
+                </div>
+                <!-- Product manage detail end -->
+            </div>
+            <!-- Product manage page end -->
+            <!-- Tab menu content end -->
+            
+        </div>
+        <!-- ##### Main Content Wrapper End ##### -->
+
+        <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="js/active.js"></script>
+        
+        <script>
+            function personalpage(evt, tagName) {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByClassName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablinks");
+              for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+              }
+              document.getElementById(tagName).style.display = "block";
+              evt.currentTarget.className += " active";
+            }
+        </script>
+
+    </body>
+
+</html>
