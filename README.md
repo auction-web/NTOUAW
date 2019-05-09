@@ -12,10 +12,10 @@
 *  CheckOut -- Done@
 ### Personal Page  
 *  Personal @
-*  ListDetail
-*  BuyList
-*  Bidding List
-*  SellerList
-*  ProductManage @
+*  ListDetail -- Done
+*  BuyList -- Done
+*  Bidding List -- Done
+*  SellerList -- Done
+*  ProductManage -- Done@
 *  Upload Product -- Done@
 *  Modify Product
