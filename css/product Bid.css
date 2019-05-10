@@ -1,0 +1,55 @@
+.main-content-wrapper .single-product-area .single_product_desc .product-meta-data .ratings-review .timeset p{
+    font-size: 50px;
+    margin: auto;
+}
+
+  .main-content-wrapper .single-product-area .single_product_desc .product-meta-data .line2 {
+    width: 80px;
+    height: 3px;
+    background-color: #fbb710;
+    display: block;
+    position: relative;
+    bottom: 52px;
+    left: 125px;}
+  .main-content-wrapper .single-product-area .single_product_desc .product-meta-data .product-price2 {
+    font-size: 24px;
+    font-weight: 400;
+    color: #fbb710;
+    line-height: 1;
+    position: relative;
+    bottom: 37px;
+    left: 125px;}
+
+.single-product-wrapper .product-description .product-meta-data .line2 {
+  width: 80px;
+  height: 3px;
+  background-color: #fbb710;
+  bottom: 52px;
+  left: 125px;
+  display: block; }
+.single-product-wrapper .product-description .product-meta-data .product-price2 {
+  line-height: 1;
+  color: red;
+  font-size: 24px;
+  position: relative;
+  bottom: 52px;
+  left: 125px;}
+
+.userID{
+  position: relative;
+  bottom: 80px;
+  left: 215px;
+  display:inline;
+}
+
+.main-content-wrapper .single-product-area .single_product_desc .product-meta-data a h6 {
+    font-size: 30px;
+    margin-bottom: 5px;
+    margin-top: -60px;
+}
+
+.main-content-wrapper .single-product-area .single_product_desc .short_overview p {
+    line-height: 2.1;
+    color: #6b6b6b;
+    margin-top: -40px;
+}
