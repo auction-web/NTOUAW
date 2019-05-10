@@ -7,7 +7,7 @@
 *  Home -- Done
 *  Shop -- Done
 *  Product -- Done
-*  Bid Product
+*  Bid Product -- Done
 *  Cart -- Done
 *  CheckOut -- Done
 ### Personal Page  
@@ -18,4 +18,4 @@
 *  SellerList -- Done
 *  ProductManage -- Done
 *  Upload Product -- Done
-*  Modify Product
+*  Modify Product -- Done
