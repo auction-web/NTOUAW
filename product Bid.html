@@ -9,13 +9,14 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Product Page</title>
+    <title>Product Bid Page</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="css/product Bid.css">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -140,15 +141,41 @@
                             <!-- Product Meta Data -->
                             <div class="product-meta-data">
                                 <div class="line"></div>
-                                <p class="product-price">$180</p>
+                                <p class="product-price">$180</p> 
+                                <div class="line2"></div>
+                                <p class="product-price2">$270</p> <!-- 180+180*50% -->
+                                <p class="userID">目前得標者: userID</p>
+
                                 <a href="product-details.html">
                                     <h6>白色現代椅</h6>
                                 </a>
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                                    
                                     <div class= "criticize">
                                         <p>評價: 0</p>
                                     </div>
+                                    <div class= "timeset">
+                                        <p><time>10:30:20</time></p>
+                                    </div> 
+
+                                    <!--
+                                    <script language="JavaScript">
+                                    function ShowTime(){
+                                         var NowDate=new Date();
+                                         var h=NowDate.getHours();
+                                         var m=NowDate.getMinutes();
+                                         var s=NowDate.getSeconds();　
+                                         document.getElementById('showbox').innerHTML = h+':'+m+':'+s;
+                                         setTimeout('ShowTime()',1000);
+                                    }
+                                    </script>
+                                    <body onload="ShowTime()">
+                                        <div class="time" id="showbox"></div>
+                                    </body>
+                                    -->
+                                
+
                                 </div>
                             </div>
 
@@ -166,15 +193,14 @@
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post">
                                 <div class="cart-btn d-flex mb-50">
-                                    <p>數量</p>
+                                    <p>增加%</p>
                                     <div class="quantity">
                                         <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
                                         <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">購物車</button>
-                                <button type="submit" name="buyimmediatly" value="6" class="btn amado-btn2">立即購買</button>
+                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">立即購買</button>
                             </form>
                         </div>
                     </div>
