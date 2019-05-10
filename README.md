@@ -11,7 +11,7 @@
 *  Cart -- Done
 *  CheckOut -- Done@
 ### Personal Page  
-*  Personal @
+*  Personal --Done@
 *  ListDetail -- Done
 *  BuyList -- Done
 *  Bidding List -- Done
