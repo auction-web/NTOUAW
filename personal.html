@@ -63,7 +63,8 @@
             <div id = "personal" class = "tabcontent section-padding-0-100">
                 <div class = "personaldata row">
                     <div class = "personalimg">
-                        <a href="personal.html"><img src="img/core-img/personal.png" alt=""></a>
+                        <input class="one" type="file" name="pic" id="file_input" accept="image/gif, image/jpeg, image/png">
+						<img id='myDiv'src="img/core-img/personal.png" alt=""></a>
                     </div>
                     <div class = "input_base">
                         <form>
@@ -97,7 +98,7 @@
                             </li>
 
                             <div class = "button_base">
-                                <input class = "confirm" type = "button" value = "確認">
+                                <input class = "confirm" type = "button" value = "確認" onclick='write_firbase();'>
                             </div>
                         </form>
                     </div>
@@ -404,7 +405,8 @@
         <script src="js/plugins.js"></script>
         <!-- Active js -->
         <script src="js/active.js"></script>
-        
+        <script src="js/personal1.js"></script>
+		<script src="js/cookies.js"></script>
         <script>
             function personalpage(evt, tagName) {
               var i, tabcontent, tablinks;
@@ -424,3 +426,4 @@
     </body>
 
 </html>
+© 2019 GitHub, Inc.
