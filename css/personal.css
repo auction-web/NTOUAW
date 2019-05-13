@@ -18,23 +18,23 @@ label.page{
 }
 
 div.page{
-    margin-left: 30%;
+    margin-left: 20%;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     div.page{
-        margin-left: 20%;
+        margin-left: 13%;
     }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     div.page{
-        margin-left: 15%;
+        margin-left: 0%;
     }
 }
 
 @media only screen and (max-width: 767px) {
     div.page{
-        margin-left:0%;
+        display: block
     }
     label.page{
         font-size: 18px;
@@ -267,21 +267,24 @@ div.personal input:hover{
 /* buylist, bidlist detail start*/
 .main-content-wrapper .buylist-table-area table thead,
 .main-content-wrapper .bidlist-table-area table thead,
-.main-content-wrapper .selllist-table-area table thead{
+.main-content-wrapper .selllist-table-area table thead,
+.main-content-wrapper .productmanage-table-area table thead{
     width: 100%;
     display: block;
 }
 
 .main-content-wrapper .buylist-table-area table tbody,
 .main-content-wrapper .bidlist-table-area table tbody,
-.main-content-wrapper .selllist-table-area table tbody{
+.main-content-wrapper .selllist-table-area table tbody,
+.main-content-wrapper .productmanage-table-area table tbody{
     width: 100%;
     display: block;
 }
 
 .main-content-wrapper .buylist-table-area table thead tr,
 .main-content-wrapper .bidlist-table-area table thead tr,
-.main-content-wrapper .selllist-table-area table thead tr{
+.main-content-wrapper .selllist-table-area table thead tr,
+.main-content-wrapper .productmanage-table-area table thead tr{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -292,7 +295,8 @@ div.personal input:hover{
 
 .main-content-wrapper .buylist-table-area table tbody tr,
 .main-content-wrapper .bidlist-table-area table tbody tr,
-.main-content-wrapper .selllist-table-area table tbody tr{
+.main-content-wrapper .selllist-table-area table tbody tr,
+.main-content-wrapper .productmanage-table-area table tbody tr{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -320,7 +324,9 @@ div.personal input:hover{
     text-transform: capitalize;
 }
 .main-content-wrapper .selllist-table-area table thead tr th,
-.main-content-wrapper .selllist-table-area table tbody tr td
+.main-content-wrapper .selllist-table-area table tbody tr td,
+.main-content-wrapper .productmanage-table-area table thead tr th,
+.main-content-wrapper .productmanage-table-area table tbody tr td
 {
     border-top: none;
     border-bottom: none;
@@ -339,7 +345,9 @@ div.personal input:hover{
     .main-content-wrapper .bidlist-table-area table thead tr th,
     .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
-    .main-content-wrapper .selllist-table-area table tbody tr td{
+    .main-content-wrapper .selllist-table-area table tbody tr td,
+    .main-content-wrapper .productmanage-table-area table thead tr th,
+    .main-content-wrapper .productmanage-table-area table tbody tr td{
         font-size: 19px;
     }
 }
@@ -349,7 +357,9 @@ div.personal input:hover{
     .main-content-wrapper .bidlist-table-area table thead tr th,
     .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
-    .main-content-wrapper .selllist-table-area table tbody tr td{
+    .main-content-wrapper .selllist-table-area table tbody tr td,
+    .main-content-wrapper .productmanage-table-area table thead tr th,
+    .main-content-wrapper .productmanage-table-area table tbody tr td{
         font-size: 18px;
     }
 }
@@ -359,27 +369,34 @@ div.personal input:hover{
     .main-content-wrapper .bidlist-table-area table thead tr th,
     .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
-    .main-content-wrapper .selllist-table-area table tbody tr td{
+    .main-content-wrapper .selllist-table-area table tbody tr td,
+    .main-content-wrapper .productmanage-table-area table thead tr th,
+    .main-content-wrapper .productmanage-table-area table tbody tr td{
         font-size: 15px;
     }
+}
+
+div table tbody tr td a{
+    font-size: 19px;
 }
 
 .cancel,
 input.criticize,
 input.modify,
-input.delete{
+input.delete,
+input.upload{
     height: 35px;
     width: 100px;
     font-size: 18px;
     color: black;
     background-color: #fbb710;
     border-radius:15px;
-    display: block;
 }
 .cancel:hover,
 input.criticize:hover,
 input.modify:hover,
-input.delete:hover{
+input.delete:hover,
+input.upload:hover{
     font-size: 18px;
     color: #ffffff;
     background-color: #131212;
@@ -432,25 +449,33 @@ input.delete:hover{
 /* personaldata start */
 .personaldata{
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 11%;
-    flex: 0 0 11%;
-    width: 50%;
-    max-width: 50%;
-    margin: auto;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
 }
 
 .personalimg{
     margin: auto;
+    width: 225px;
+    margin-right: 0px;
 }
-
 
 .input_base{
     width: 450px;
     margin: auto;
+    margin-left: 0px;
     padding-top: 5px;
     padding-bottom: 10px;
     text-align: right;
-    border-radius: 50px;
+}
+
+@media only screen and (max-width: 767px) {
+    .personalimg,
+    .input_base{
+        margin:auto;
+        
+    }
 }
 
 li.Name,
