@@ -85,7 +85,7 @@
                             </li>
 
                             <div class = "button_base">
-                                <input class = "confirm" type = "button" value = "確認" onclick='write_firbase();'>
+                                <input class = "confirm" type = "button" value = "確認" onclick="write_firbase();">
                             </div>
                         </form>
                     </div>
@@ -322,7 +322,7 @@
                             <a href="#" class="previous round">&#8249;</a>
                             <label class = "page">1.</label>
                             <a href="#" class="next round">&#8250;</a>
-                            <input class = "upload" type = "button" value = "上傳商品">
+                            <input class = "upload" type = "button" value = "上傳商品" onclick="javascript:location.href='./upload_Product.html'">
                         </div>
                     </div>
 
@@ -393,8 +393,9 @@
         <script src="js/plugins.js"></script>
         <!-- Active js -->
         <script src="js/active.js"></script>
-        <script src="js/personal1.js"></script>
 		<script src="js/cookies.js"></script>
+        <script src="js/personal1.js"></script>
+		
         <script>
             function personalpage(evt, tagName) {
               var i, tabcontent, tablinks;
