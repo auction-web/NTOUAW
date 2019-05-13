@@ -87,7 +87,7 @@
         left: 14px;
     }
 
-    .single-product-area .row .uppic .one{
+ .single-product-area .row .uppic .one{
         position: relative;
         left: 0px;
     }
@@ -222,6 +222,3 @@
         -ms-grid-row-align: center;
         align-items: center;
 }
-
-
-
