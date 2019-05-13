@@ -222,3 +222,29 @@
         -ms-grid-row-align: center;
         align-items: center;
 }
+
+.amado-btn3 {
+  display: inline-block;
+  min-width: 160px;
+  height: 55px;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  padding: 0 7px;
+  font-size: 18px;
+  line-height: 56px;
+  background-color: #fbb710;
+  font-weight: 400; }
+
+  .amado-btn3.active, .amado-btn3:hover, .amado-btn3:focus {
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #131212; }
+
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn3 {
+    width: 160px; } }
+@media only screen and (max-width: 767px) {
+  .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn3 {
+    width: 160px; } }
