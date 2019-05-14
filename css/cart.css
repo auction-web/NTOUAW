@@ -8,8 +8,7 @@
     width: 200px;;
 }
 
-
-.toolbar{
+.toolbarbase{
     margin-top: 10px;
     margin-left: 10px;
     height: 125px;
@@ -18,52 +17,56 @@
     /*background: linear-gradient(#ffffffff, #fbb710);*/
 }
 
+.search_base{
+    margin-left: 50px;
+    width: 80%;
+}
+
 input.checkbox{
     height: 15px;
     width: 15px;
     padding-left: 10px;
 }
 
-div.search_base{
-    display: flex;
-    padding-top: 80px;
+div.toolbar{
+    display: block;
+    padding-top: 10px;
     padding-left: 10px;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 calc(100% - 360px);
-    flex: 0 0 calc(100% - 360px);
+    -ms-flex: 0 0 calc(100% - 250px);
+    flex: 0 0 calc(100% - 250px);
     flex-direction: row;
-    width: calc(100% - 360px);
-    max-width: calc(100% - 360px);
+    width: calc(100% - 250px);
+    max-width: calc(100% - 250px);
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-      div.search_base {
+      div.toolbar {
         -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc(100% - 400px);
-        flex: 0 0 calc(100% - 400px);
-        width: calc(100% - 400px);
-        max-width: calc(100% - 400px); 
+        -ms-flex: 0 0 calc(100% - 300px);
+        flex: 0 0 calc(100% - 300px);
+        width: calc(100% - 300px);
+        max-width: calc(100% - 300px); 
     }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    div.search_base {
+    div.toolbar {
         -webkit-box-flex: 0;
-        -ms-flex: 0 0 calc(100% - 360px);
-        flex: 0 0 calc(100% - 360px);
-        width: calc(100% - 360px);
-        max-width: calc(100% - 360px);
+        -ms-flex: 0 0 calc(100% - 300px);
+        flex: 0 0 calc(100% - 300px);
+        width: calc(100% - 300px);
+        max-width: calc(100% - 300px);
     }
 }
 
 @media only screen and (max-width: 767px) {
-    div.search_base {
+    div.toolbar {
         -webkit-box-flex: 0;
-        -ms-flex: 0 0 40%;
-        flex: 0 0 40%;
-        width: 40%;
-        max-width: 40%;
-        
+        -ms-flex: 0 0 60%;
+        flex: 0 0 60%;
+        width: 60%;
+        max-width: 60%;
     }
 }
 
@@ -80,24 +83,27 @@ div.search_base{
     text-align: center;
 }
 
-div.search_base form {
-    width: 50%;
+div.toolbar form {
+    margin-top: 20px;
+    display: flex;
+    width: 80%;
     position: relative;
     margin-right: 10px;
     z-index: 1;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.075); 
 }
 
-div.search_base form input {
+div.toolbar form input {
     width: 100%;
     height: 40px;
     border: none;
     padding-left: 40px;
+    margin-right: 10px;
     font-size: 14px;
     color: #6b6b6b; 
 }
 
-div.search_base form button {
+div.toolbar form button {
     position: absolute;
     top: 0;
     left: 0;
@@ -111,6 +117,7 @@ div.search_base form button {
 }
 
 div.personal{
+    text-align: right;
     width: auto;
     height: inherit;
 }

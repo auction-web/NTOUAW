@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Amado - Furniture Ecommerce Template | Checkout</title>
+    <title>NTOUAW | Checkout</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -17,6 +17,7 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
     <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -54,29 +55,33 @@
         </div>
 
         <!-- Toolbar start -->
-            <div class = "toolbar row">
-                <!-- Logo -->
-                <a class = "icon_link" href = "./home.html">
-                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
-                </a>
+        <div class = "toolbarbase row">
+            <!-- Logo -->
+            <a class = "icon_link" href = "./home.html">
+                <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
+            </a>
+
+            <div class = "toolbar">
+                <div class = "personal">
+                    <input type = "button" value = "登出">
+                    <input type = "button" value = "購物車">
+                    <input type = "button" value = "個人資料">
+                </div>
                 <!-- Search -->
                 <div class = "search_base">
                     <form action="#" method="get">
                         <input type="search" name="search" id="search" placeholder="Type your keyword...">
                         <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
-                    </form>
-                    <select name = "itemfilter">
+                        <select name = "itemfilter">
                             <option value = "productname">商品名稱</option>
                             <option value = "seller">賣家</option>
-                    </select>
-                </div>
-                
-                <div class = "personal">
-                    <input type = "button" value = "Cart">
-                    <input type = "button" value = "User">
+                        </select>
+                    </form>
+
                 </div>
             </div>
-            <!-- Toolbar end -->
+        </div>
+        <!-- Toolbar end -->
 
         <div class="checkout-table-area section-padding-100">
             <div class="container-fluid">

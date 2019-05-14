@@ -236,15 +236,20 @@
   background-color: #fbb710;
   font-weight: 400; }
 
-  .amado-btn3.active, .amado-btn3:hover, .amado-btn3:focus {
+.amado-btn3.active, .amado-btn3:hover, .amado-btn3:focus {
     font-size: 18px;
     color: #ffffff;
-    background-color: #131212; }
+    background-color: #131212;
+}
 
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn3 {
-    width: 160px; } }
+        width: 160px;
+  }
+}
 @media only screen and (max-width: 767px) {
-  .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn3 {
-    width: 160px; } }
+    .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn3 {
+        width: 160px;
+    }
+}
