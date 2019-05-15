@@ -41,7 +41,8 @@ div.page{
     }
 }
 
-div.page a{
+div.page a.previous,
+div.page a.next{
     height: 45px;
     width: 45px;
     text-decoration: none;
@@ -60,33 +61,7 @@ div.list-title h2{
 }
 
 
-/* tool bar start */
-.icon_img{
-    height: auto;
-    width: inherit;
-}
-
-.icon_link{
-    height: inherit;
-    width: 200px;;
-}
-
-
-.toolbar{
-    margin-top: 10px;
-    margin-left: 10px;
-    height: 125px;
-    background: #f5f7fa;
-    width: 99%;
-    /*background: linear-gradient(#ffffffff, #fbb710);*/
-}
-
-input.checkbox{
-    height: 15px;
-    width: 15px;
-    padding-left: 10px;
-}
-
+/* search_base start */
 div.search_base{
     display: flex;
     padding-top: 10px;
@@ -173,56 +148,7 @@ div.search_base form button {
     background-color: transparent;
     text-align: center; 
 }
-
-div.personal{
-    margin-left: calc(89% - 200px);
-    width: auto;
-    height: inherit;
-}
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    div.personal{
-        margin-left: calc(79% - 200px);
-        width: auto;
-        height: inherit;
-    }
-}
-@media only screen and (min-width: 768px) and (max-width: 991px){
-    div.personal{
-        margin-left: calc(79% - 200px);
-        width: auto;
-        height: inherit;
-    }
-}
-@media only screen and (max-width: 767px) {
-    div.personal{
-        margin-left: calc(79% - 200px);
-        width: auto;
-        height: inherit;
-    }
-}
-
-div.personal input{
-    display: inline-block;
-    min-width: 60px;
-    height: 30px;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    background-color: #fbb710;
-}
-
-div.personal input:hover{
-    color: #ffffff;
-    background-color: #131212;
-    -webkit-transition: all 500ms ease 0s;
-    transition: all 500ms ease 0s;
-    text-decoration: none;
-    outline: 0 solid transparent;
-    font-weight: 400;
-    font-size: 14px; 
-}
-/* tool bar end */
+/* search_base end */
 
 /* tab style start */
 /* Style the tab */
