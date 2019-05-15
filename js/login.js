@@ -13,8 +13,7 @@
 	  var db = firebase.firestore();
 	  var citiesRef = db.collection('User23');
   
-	 var allCities = citiesRef.where('account', '==',Account ).where('account', '==',Password ).get()
-	 .then(snapshot => {
+	 var allCities = citiesRef.where('account', '==',Account ).where('account', '==',Password ).get().then(snapshot => {
 		if (snapshot.empty) {
 			console.log('No matching documents.');
 			alert("帳密錯誤");
@@ -30,7 +29,5 @@
 	.catch(err => {
 		console.log('Error getting documents', err);
 	});
-	 
- 
  
  }
