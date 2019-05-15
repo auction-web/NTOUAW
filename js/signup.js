@@ -55,7 +55,7 @@ write_firbase=function() {
 			console.log('No matching documents.');
 			query(db,citiesRef,'User',data);
 			alert("123");
-			//location.href = "./index.html";
+			
 		} 
 		else{
 			alert("帳號重複，請重新輸入");
@@ -70,5 +70,6 @@ write_firbase=function() {
 	.catch(err => {
 		console.log('Error getting documents', err);
 	});
+  //window.location.href = "./index.html";
 }
 //write_firbase();

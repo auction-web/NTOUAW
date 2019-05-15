@@ -52537,7 +52537,7 @@ firebase.initializeApp(config);
 module.exports = firebase
 
 },{"firebase":3}],144:[function(require,module,exports){
- login=function(){
+login=function(){
 	 var Account_element = document.getElementById('Account');
 	 var Account= Account_element.value;
 	 var Password_element = document.getElementById('Password');
@@ -52552,7 +52552,7 @@ module.exports = firebase
 	  var db = firebase.firestore();
 	  var citiesRef = db.collection('User23');
   
-	 var allCities = citiesRef.where('account', '==',Account ).where('account', '==',Password ).get()
+	 var allCities = citiesRef.where('account', '==',Account ).where('password', '==',Password ).get()
 	 .then(snapshot => {
 		if (snapshot.empty) {
 			console.log('No matching documents.');
@@ -52562,15 +52562,14 @@ module.exports = firebase
 		else{
 			snapshot.forEach(doc => {
 				console.log(doc.id, '=>', doc.data());
+				setCookie('id',doc.data()['user_id'],30);
 			});
-			location.href = "./index.html";
+			location.href = "./home.html";
 		}
 	})
 	.catch(err => {
 		console.log('Error getting documents', err);
 	});
-	 
- 
- 
  }
+
 },{"./firebase":143}]},{},[144]);
