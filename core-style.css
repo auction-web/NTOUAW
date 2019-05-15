@@ -317,6 +317,7 @@ img {
   line-height: 56px;
   background-color: #fbb710;
   font-weight: 400; }
+
 .amado-btn2 {
   display: inline-block;
   min-width: 160px;
@@ -423,6 +424,7 @@ img {
     -webkit-transition-duration: 500ms;
     transition-duration: 500ms;
     position: relative;
+    top: 160px;
     z-index: 1;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 320px;
@@ -549,24 +551,21 @@ img {
     -ms-flex: 0 0 calc(100% - 320px);
     flex: 0 0 calc(100% - 320px);
     width: calc(100% - 320px);
-    max-width: calc(100% - 320px);
-    margin-top:20px;}
+    max-width: calc(100% - 320px); }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .main-content-wrapper .products-catagories-area {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 calc(100% - 280px);
         flex: 0 0 calc(100% - 280px);
         width: calc(100% - 280px);
-        max-width: calc(100% - 280px);
-        margin-top:20px;} }
+        max-width: calc(100% - 280px); } }
     @media only screen and (max-width: 767px) {
       .main-content-wrapper .products-catagories-area {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 100%;
         flex: 0 0 100%;
         width: 100%;
-        max-width: 100%;
-        margin-top:20px;} }
+        max-width: 100%; } }
   .main-content-wrapper .shop_sidebar_area {
     position: relative;
     z-index: 1;
@@ -661,7 +660,7 @@ img {
     .main-content-wrapper .cart-table-area .cart-title h2 {
       font-size: 30px;
       margin-bottom: 30px;
-      color: #242424;}
+      color: #242424; }
     .main-content-wrapper .cart-table-area table thead {
       width: 100%;
       display: block; }
@@ -902,6 +901,7 @@ img {
           @media only screen and (min-width: 992px) and (max-width: 1199px) {
             .main-content-wrapper .single-product-area .single_product_desc .product-meta-data a h6 {
               font-size: 20px; } }
+      /* star's css */
       .main-content-wrapper .single-product-area .single_product_desc .product-meta-data .ratings-review .ratings i {
         font-size: 10px;
         color: #fbb710; }
@@ -909,6 +909,10 @@ img {
         display: inline-block;
         color: #6b6b6b;
         font-size: 14px; }
+      .main-content-wrapper .single-product-area .single_product_desc .product-meta-data .ratings-review .criticize p {
+        font-size: 15px;
+        color: #6b6b6b; }
+
       .main-content-wrapper .single-product-area .single_product_desc .product-meta-data .avaibility {
         margin-bottom: 0;
         font-size: 12px;
@@ -920,6 +924,18 @@ img {
       .main-content-wrapper .single-product-area .single_product_desc .short_overview p {
         line-height: 2.1;
         color: #6b6b6b; }
+      .main-content-wrapper .single-product-area .single_product_desc .delivery_price p {
+        position: relative;
+        left:0px;
+        top:45px;
+        font-size: 18px;
+        color: #6b6b6b; }
+      .main-content-wrapper .single-product-area .single_product_desc .store p {
+        position: relative;
+        left:200px;
+        top:55px;
+        font-size: 18px;
+        color: #6b6b6b; }
       .main-content-wrapper .single-product-area .single_product_desc .cart p {
         margin-bottom: 0;
         line-height: 40px;
@@ -928,10 +944,13 @@ img {
         background-color: #f5f7fa; }
       .main-content-wrapper .single-product-area .single_product_desc .cart .quantity {
         position: relative;
+        /*top:105px;*/
         z-index: 1; }
         .main-content-wrapper .single-product-area .single_product_desc .cart .quantity input {
           text-align: center;
           background-color: #f5f7fa;
+          /*position: relative;
+          top:105px;*/
           height: 40px;
           width: 100px;
           border: none;
@@ -960,7 +979,7 @@ img {
           cursor: pointer;
           color: #959595; }
 
-      .main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn {
+.main-content-wrapper .single-product-area .single_product_desc .cart .amado-btn {
         width: 160px;
         height: 80px;
         line-height: 80px; }
@@ -1065,7 +1084,7 @@ img {
   .single-products-catagory:hover .hover-content p,
   .single-products-catagory:hover .hover-content h4, .single-products-catagory:focus .hover-content p,
   .single-products-catagory:focus .hover-content h4 {
-    color: #ffffff;}
+    color: #fff; }
 
 /* :: 6.0 Newsletter Area CSS */
 .newsletter-area {
@@ -1157,7 +1176,7 @@ img {
       display: block; }
     .single-product-wrapper .product-description .product-meta-data .product-price {
       line-height: 1;
-      color: #fbb710;
+      color: red;
       font-size: 24px;
       margin-bottom: 10px; }
     .single-product-wrapper .product-description .product-meta-data a {
