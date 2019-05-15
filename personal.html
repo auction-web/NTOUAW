@@ -17,7 +17,7 @@
         <!-- Core Style CSS -->
         <link rel="stylesheet" href="css/core-style.css">
         <link rel="stylesheet" href="css/personal.css">
-        <link rel="stylesheet" href="css/cart.css">
+        <link rel="stylesheet" href="style.css">
 
     </head>
 
@@ -34,26 +34,6 @@
                 </div>
             </div>
             
-            <!-- Toolbar start -->
-            <div class = "toolbarbase row">
-                <!-- Logo -->
-                <a class = "icon_link" href = "./home.html">
-                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
-                </a>
-
-                <div class = "toolbar">
-                    <div class = "personal">
-                        <input type = "button" value = "登出">
-                        <input type = "button" value = "購物車">
-                        <input type = "button" value = "個人資料">
-                    </div>
-                    <!-- Search -->
-                    <div class = "search_base">
-
-                    </div>
-                </div>
-            </div>
-            <!-- Toolbar end -->
             
             <!-- Tab menu start-->
             <div class = "tab">
@@ -105,7 +85,7 @@
                             </li>
 
                             <div class = "button_base">
-                                <input class = "confirm" type = "button" value = "確認" onclick='write_firbase();'>
+                                <input class = "confirm" type = "button" value = "確認" onclick="write_firbase();">
                             </div>
                         </form>
                     </div>
@@ -342,7 +322,7 @@
                             <a href="#" class="previous round">&#8249;</a>
                             <label class = "page">1.</label>
                             <a href="#" class="next round">&#8250;</a>
-                            <input class = "upload" type = "button" value = "上傳商品">
+                            <input class = "upload" type = "button" value = "上傳商品" onclick="javascript:location.href='./upload_Product.html'">
                         </div>
                     </div>
 
@@ -413,8 +393,9 @@
         <script src="js/plugins.js"></script>
         <!-- Active js -->
         <script src="js/active.js"></script>
-        <script src="js/personal1.js"></script>
 		<script src="js/cookies.js"></script>
+        <script src="js/personal1.js"></script>
+		
         <script>
             function personalpage(evt, tagName) {
               var i, tabcontent, tablinks;

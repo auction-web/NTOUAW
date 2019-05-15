@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="css/core-style.css">
     <link rel="stylesheet" href="css/checkout.css">
     <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -90,7 +89,7 @@
                         <!-- one buying list start -->
                         <!-- seller's name -->
                         <div class="cart-title">
-                            <h2>賣家:NtouAdmin</h2>
+                            <h2 id="seller">賣家:</h2>
                         </div>
                         <!-- detail of the selling list start -->
                         <table class = "table checkout_table-responsive">
@@ -98,7 +97,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>姓名</th>
+                                    <th>商品名稱</th>
                                     <th>價格</th>
                                     <th>數量</th>
                                     <th>運送方式</th>
@@ -115,20 +114,15 @@
                                     </td>
                                     <!-- product name -->
                                     <td class="check_product_desc">
-                                        <h5>White Modern Chair</h5>
+                                        <h5 id="product-name"></h5>
                                     </td>
                                     <!-- product name -->
                                     <td class="price">
-                                        <span>$130</span>
+                                        <span id="product-price"></span>
                                     </td>
                                     <!-- product quantity -->
                                     <td class="qty">
-                                        <div class="qty-btn d-flex">
-                                            <p>Qty</p>
-                                            <div class="quantity">
-                                                <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                                            </div>
-                                        </div>
+                                        <span id="qty"></span>
                                     </td>
                                     <!-- delievery -->
                                     <td>
@@ -154,13 +148,13 @@
                     <div class="checkout-summary">
                         <h5>結帳總計</h5>
                         <ul class="summary-table">
-                            <li><span>商品價格:</span> <span>$140.00</span></li>
-                            <li><span>運費:</span> <span>Free</span></li>
-                            <li><span>總計:</span> <span>$140.00</span></li>
+                            <li><span>商品價格:</span> <span id="summery-product-price">$</span></li>
+                            <li><span>運費:</span> <span id="summery-delievery-fee">$</span></li>
+                            <li><span>總計:</span> <span id="summery-sum">$</span></li>
                         </ul>
 
                         <div class="cart-btn mt-100">
-                            <a href="#" class="btn amado-btn w-100">確認結帳</a>
+                            <a id="checkoutConfirm" href="#" class="btn amado-btn w-100">確認結帳</a>
                         </div>
                     </div>
                 </div>
@@ -179,6 +173,8 @@
     <script src="js/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
+    
+    <script src="js/loadCheckoutPage_run.js"></script>
 
 </body>
 

@@ -1,0 +1,22 @@
+{
+  "name": "auctionweb",
+  "version": "1.0.0",
+  "description": "npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auction-web/NtouAW.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/auction-web/NtouAW/issues"
+  },
+  "homepage": "https://github.com/auction-web/NtouAW#readme",
+  "dependencies": {
+    "firebase": "^6.0.2"
+  }
+}

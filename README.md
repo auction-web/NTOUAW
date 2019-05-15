@@ -1,6 +1,4 @@
 # AuctionWeb_UI Part
-## Three part of the Auction Web  
-### Start Page  
 *  Login -- Done@
 *  SignUp -- Done@
 ### Market Page
@@ -10,7 +8,6 @@
 *  Bid Product -- Done
 *  Cart -- Done
 *  CheckOut -- Done@
-### Personal Page  
 *  Personal --Done@
 *  ListDetail -- Done
 *  BuyList -- Done
@@ -19,3 +16,6 @@
 *  ProductManage -- Done@
 *  Upload Product -- Done@
 *  Modify Product -- Done
+## Three part of the Auction Web  
+### Start Page  
+### Personal Page  
