@@ -1,4 +1,4 @@
- login=function(){
+login=function(){
 	 var Account_element = document.getElementById('Account');
 	 var Account= Account_element.value;
 	 var Password_element = document.getElementById('Password');
@@ -13,7 +13,8 @@
 	  var db = firebase.firestore();
 	  var citiesRef = db.collection('User23');
   
-	 var allCities = citiesRef.where('account', '==',Account ).where('account', '==',Password ).get().then(snapshot => {
+	 var allCities = citiesRef.where('account', '==',Account ).where('password', '==',Password ).get()
+	 .then(snapshot => {
 		if (snapshot.empty) {
 			console.log('No matching documents.');
 			alert("帳密錯誤");
@@ -22,12 +23,12 @@
 		else{
 			snapshot.forEach(doc => {
 				console.log(doc.id, '=>', doc.data());
+				setCookie('id',doc.data()['user_id'],30);
 			});
-			location.href = "./index.html";
+			location.href = "./home.html";
 		}
 	})
 	.catch(err => {
 		console.log('Error getting documents', err);
 	});
- 
  }
