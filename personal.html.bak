@@ -17,7 +17,7 @@
         <!-- Core Style CSS -->
         <link rel="stylesheet" href="css/core-style.css">
         <link rel="stylesheet" href="css/personal.css">
-        <link rel="stylesheet" href="css/cart.css">
+        <link rel="stylesheet" href="style.css">
 
     </head>
 
@@ -34,34 +34,6 @@
                 </div>
             </div>
             
-            <!-- Toolbar start -->
-            <div class = "toolbarbase row">
-                <!-- Logo -->
-                <a class = "icon_link" href = "./home.html">
-                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
-                </a>
-                
-                <div class = "toolbar">
-                    <div class = "personal">
-                        <input type = "button" value = "登出">
-                        <input type = "button" value = "購物車">
-                        <input type = "button" value = "個人資料">
-                    </div>
-                    <!-- Search -->
-                    <div class = "search_base">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
-                            <select name = "itemfilter">
-                                <option value = "productname">商品名稱</option>
-                                <option value = "seller">賣家</option>
-                            </select>
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-            <!-- Toolbar end -->
             
             <!-- Tab menu start-->
             <div class = "tab">
@@ -421,7 +393,7 @@
         <script src="js/plugins.js"></script>
         <!-- Active js -->
         <script src="js/active.js"></script>
-        <script src="js/cookies.js"></script>
+		<script src="js/cookies.js"></script>
         <script src="js/personal1.js"></script>
 		
         <script>
