@@ -13,6 +13,7 @@ query=function(db,dir,id,data){
 					id: quid+1
 				});	
 				data['user_id']=quid;
+				data['cart_id']=quid;
 				//console.log(data);
 				dir.doc(id+quid.toString()).set(data);
 				

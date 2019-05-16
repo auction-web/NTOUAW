@@ -52552,6 +52552,7 @@ query=function(db,dir,id,data){
 					id: quid+1
 				});	
 				data['user_id']=quid;
+				data['cart_id']=quid;
 				//console.log(data);
 				dir.doc(id+quid.toString()).set(data);
 				
@@ -52607,8 +52608,8 @@ write_firbase=function() {
 	  return;
   }
   var data={ 
-  account: Account,buyer_evaluation:'0', cart_id: '0', address: Address,
-  password:Password,phone:Phone,seller_evaluation:"0",
+  account: Account,buyer_evaluation:0, cart_id: 0, address: Address,
+  password:Password,phone:Phone,seller_evaluation:0,
   user_id: 0, user_name: Username,user_email:Email,birth:Birth,seller_Product:0
   };
   /*var data={

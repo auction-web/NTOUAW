@@ -1,14 +1,39 @@
-product_order = function(id, snapshot, page){//div_id
+product_order = function(id, storage, snapshot, page){//div_id
+
+
+
+
+
 
 	//id for create html tags
 	for (var i = (Number(page)-1)*8; i < Number(page)*8; i++){
 
- 		
+
  		var temp = snapshot.docs[i].data();
 		var temp_id = snapshot.docs[i].id;
 		console.log(temp_id);
 		console.log(temp);
  		//show products....
+
+        var storageRef = storage.ref();
+        var productsRef = storageRef.child('Products');
+
+        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
+        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+            var show_img = document.getElementById('product_img1');
+            show_img.src = url;
+        }).catch(function(){
+            console.log("error get img!!");
+        });
+
+        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
+        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+            var show_img = document.getElementById('product_img2');
+            show_img.src = url;
+        }).catch(function(){
+            console.log("error get img!!");
+        });
+
 
 
 		var show = document.getElementById('Products');
@@ -16,12 +41,20 @@ product_order = function(id, snapshot, page){//div_id
  		div.className = "col-12 col-sm-6 col-md-12 col-xl-6";
     	div.innerHTML = 
     	'<div class="single-product-wrapper" id = "single_product">' +
+
                 '<!-- Product Image -->' +
-                '<div class="product-img">' +
-                    '<img src="img/product-img/product1.jpg" alt="">' + 
+                '<div class="product-img" >' +
+
+                    '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+
+                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  //img/product-img/product1.jpg 
                     '<!-- Hover Thumb -->' +
-                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="">' +
+                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+
+                    '</a>' + 
+
                 '</div>' +
+
 
                 '<!-- Product Description -->' +
                 '<div class="product-description d-flex align-items-center justify-content-between">' +

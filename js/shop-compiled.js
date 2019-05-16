@@ -212,8 +212,7 @@ cant_find = function(){
 module.exports = cant_find;
 },{}],3:[function(require,module,exports){
 var firebase = require("firebase");
-
-var firebaseConfig = {
+var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
     authDomain: "ntousellstudent.firebaseapp.com",
     databaseURL: "https://ntousellstudent.firebaseio.com",
@@ -221,23 +220,21 @@ var firebaseConfig = {
     storageBucket: "ntousellstudent.appspot.com",
     messagingSenderId: "131442063335"
   };
-  // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
 
+firebase.initializeApp(config);
 module.exports = firebase
 
 },{"firebase":17}],4:[function(require,module,exports){
-getKindPoducts = function(db, kind, page){
+getKindPoducts = function(db, storage, kind, page){
 	//var product_order= require("./product_order");
 	//var cant_find= require("./cant_find");
-
 
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().//order by sold
 			then(snapshot => {
 
-				product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
+				product_order('Products', storage, snapshot, page);//product_order(div_id, snapshot, page);
 
       			/*snapshot.forEach(doc => {
       				console.log(doc.id, '=>', doc.data());
@@ -264,13 +261,13 @@ getKindPoducts = function(db, kind, page){
 module.exports = getKindPoducts;
 
 },{}],5:[function(require,module,exports){
-(function (global){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var tslib_1 = require('tslib');
 var util = require('@firebase/util');
+var logger$1 = require('@firebase/logger');
 
 /**
  * @license
@@ -533,7 +530,7 @@ function createFirebaseNamespaceCore(firebaseAppImpl) {
         initializeApp: initializeApp,
         app: app,
         apps: null,
-        SDK_VERSION: '6.0.0',
+        SDK_VERSION: '6.0.2',
         INTERNAL: {
             registerService: registerService,
             removeApp: removeApp,
@@ -734,31 +731,33 @@ function createFirebaseNamespace() {
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Node detection logic from: https://github.com/iliakan/detect-node/
-var isNode = false;
-try {
-    isNode =
-        Object.prototype.toString.call(global.process) === '[object process]';
-}
-catch (e) { }
-isNode &&
-    console.warn("\nWarning: This is a browser-targeted Firebase bundle but it appears it is being\nrun in a Node environment.  If running in a Node environment, make sure you\nare using the bundle specified by the \"main\" field in package.json.\n\nIf you are using Webpack, you can specify \"main\" as the first item in\n\"resolve.mainFields\":\nhttps://webpack.js.org/configuration/resolve/#resolvemainfields\n\nIf using Rollup, use the rollup-plugin-node-resolve plugin and set \"module\"\nto false and \"main\" to true:\nhttps://github.com/rollup/rollup-plugin-node-resolve\n");
+var logger = new logger$1.Logger('@firebase/app');
 // Firebase Lite detection
-if (self && 'firebase' in self) {
-    console.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
+if (util.isBrowser() && 'firebase' in self) {
+    logger.warn("\n    Warning: Firebase is already defined in the global scope. Please make sure\n    Firebase library is only loaded once.\n  ");
     var sdkVersion = self.firebase.SDK_VERSION;
     if (sdkVersion && sdkVersion.indexOf('LITE') >= 0) {
-        console.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
+        logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
     }
 }
-var firebase = createFirebaseNamespace();
+var firebaseNamespace = createFirebaseNamespace();
+var initializeApp = firebaseNamespace.initializeApp;
+firebaseNamespace.initializeApp = function () {
+    // Environment check before initializing app
+    // Do the check in initializeApp, so people have a chance to disable it by setting logLevel
+    // in @firebase/logger
+    if (util.isNode()) {
+        logger.warn("\n      Warning: This is a browser-targeted Firebase bundle but it appears it is being\n      run in a Node environment.  If running in a Node environment, make sure you\n      are using the bundle specified by the \"main\" field in package.json.\n      \n      If you are using Webpack, you can specify \"main\" as the first item in\n      \"resolve.mainFields\":\n      https://webpack.js.org/configuration/resolve/#resolvemainfields\n      \n      If using Rollup, use the rollup-plugin-node-resolve plugin and set \"module\"\n      to false and \"main\" to true:\n      https://github.com/rollup/rollup-plugin-node-resolve\n      ");
+    }
+    return initializeApp.apply(undefined, arguments);
+};
+var firebase = firebaseNamespace;
 
 exports.default = firebase;
 exports.firebase = firebase;
 
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@firebase/util":15,"tslib":19}],6:[function(require,module,exports){
+},{"@firebase/logger":11,"@firebase/util":15,"tslib":19}],6:[function(require,module,exports){
 (function (global){
 (function() {var firebase = require('@firebase/app').default;var k,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},ba="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ca(a,b){if(b){var c=ba;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];e in c||(c[e]={});c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&aa(c,a,{configurable:!0,writable:!0,value:b})}}
 function da(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function ea(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):{next:da(a)}}
@@ -25428,6 +25427,11 @@ var SimpleDb = /** @class */ (function () {
             : '-1';
         return Number(version);
     };
+    SimpleDb.prototype.setVersionChangeListener = function (versionChangeListener) {
+        this.db.onversionchange = function (event) {
+            return versionChangeListener(event);
+        };
+    };
     SimpleDb.prototype.runTransaction = function (mode, objectStores, transactionFn) {
         var transaction = SimpleDbTransaction.open(this.db, mode, objectStores);
         var transactionFnResult = transactionFn(transaction)
@@ -28324,6 +28328,22 @@ var IndexedDbPersistence = /** @class */ (function () {
         }); };
         return primaryStateListener(this.isPrimary);
     };
+    IndexedDbPersistence.prototype.setDatabaseDeletedListener = function (databaseDeletedListener) {
+        var _this = this;
+        this.simpleDb.setVersionChangeListener(function (event) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(event.newVersion === null)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, databaseDeletedListener()];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        }); });
+    };
     IndexedDbPersistence.prototype.setNetworkEnabled = function (networkEnabled) {
         var _this = this;
         if (this.networkEnabled !== networkEnabled) {
@@ -30685,6 +30705,9 @@ var MemoryPersistence = /** @class */ (function () {
     MemoryPersistence.prototype.setPrimaryStateListener = function (primaryStateListener) {
         // All clients using memory persistence act as primary.
         return primaryStateListener(true);
+    };
+    MemoryPersistence.prototype.setDatabaseDeletedListener = function () {
+        // No op.
     };
     MemoryPersistence.prototype.setNetworkEnabled = function (networkEnabled) {
         // No op.
@@ -35487,6 +35510,22 @@ var FirestoreClient = /** @class */ (function () {
                         // NOTE: This will immediately call the listener, so we make sure to
                         // set it after localStore / remoteStore are started.
                         _a.sent();
+                        // When a user calls clearPersistence() in one client, all other clientfs
+                        // need to shut down to allow the delete to succeed.
+                        return [4 /*yield*/, this.persistence.setDatabaseDeletedListener(function () { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                                return tslib_1.__generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.shutdown()];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
+                    case 4:
+                        // When a user calls clearPersistence() in one client, all other clientfs
+                        // need to shut down to allow the delete to succeed.
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });
@@ -36898,11 +36937,32 @@ var Firestore = /** @class */ (function () {
         return this.configureClient(new IndexedDbPersistenceSettings(this._config.settings.cacheSizeBytes, synchronizeTabs));
     };
     Firestore.prototype._clearPersistence = function () {
+        var _this = this;
         if (this.clientRunning) {
             throw new FirestoreError(Code.FAILED_PRECONDITION, 'Persistence cannot be cleared while the client is running');
         }
         var persistenceKey = IndexedDbPersistence.buildStoragePrefix(this.makeDatabaseInfo());
-        return IndexedDbPersistence.clearPersistence(persistenceKey);
+        var deferred = new Deferred();
+        this._queue.enqueueAndForget(function () { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+            var e_1;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, IndexedDbPersistence.clearPersistence(persistenceKey)];
+                    case 1:
+                        _a.sent();
+                        deferred.resolve();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_1 = _a.sent();
+                        deferred.reject(e_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
+        return deferred.promise;
     };
     Firestore.prototype.ensureClientConfigured = function () {
         if (!this._firestoreClient) {
@@ -39078,7 +39138,7 @@ var tslib_1 = /*#__PURE__*/Object.freeze({
  * limitations under the License.
  */
 var PENDING_TIMEOUT_MS = 10000;
-var PACKAGE_VERSION = 'w:0.1.0'; // Will be replaced by Rollup
+var PACKAGE_VERSION = 'w:0.1.1'; // Will be replaced by Rollup
 var INTERNAL_AUTH_VERSION = 'FIS_v2';
 var INSTALLATIONS_API_URL = 'https://firebaseinstallations.googleapis.com/v1';
 var TOKEN_EXPIRATION_BUFFER = 60 * 60 * 1000; // One hour
@@ -40349,28 +40409,29 @@ var util = require('@firebase/util');
 var _a;
 var ERROR_MAP = (_a = {},
     _a["only-available-in-window" /* AVAILABLE_IN_WINDOW */] = 'This method is available in a Window context.',
-    _a["only-available-in-sw" /* AVAILABLE_IN_SW */] = 'This method is available in a service worker ' + 'context.',
-    _a["should-be-overriden" /* SHOULD_BE_INHERITED */] = 'This method should be overriden by ' + 'extended classes.',
+    _a["only-available-in-sw" /* AVAILABLE_IN_SW */] = 'This method is available in a service worker context.',
+    _a["should-be-overriden" /* SHOULD_BE_INHERITED */] = 'This method should be overriden by extended classes.',
     _a["bad-sender-id" /* BAD_SENDER_ID */] = "Please ensure that 'messagingSenderId' is set " +
         'correctly in the options passed into firebase.initializeApp().',
-    _a["permission-default" /* PERMISSION_DEFAULT */] = 'The required permissions were not granted and ' + 'dismissed instead.',
-    _a["permission-blocked" /* PERMISSION_BLOCKED */] = 'The required permissions were not granted and ' + 'blocked instead.',
+    _a["permission-default" /* PERMISSION_DEFAULT */] = 'The required permissions were not granted and dismissed instead.',
+    _a["permission-blocked" /* PERMISSION_BLOCKED */] = 'The required permissions were not granted and blocked instead.',
     _a["unsupported-browser" /* UNSUPPORTED_BROWSER */] = "This browser doesn't support the API's " +
         'required to use the firebase SDK.',
     _a["notifications-blocked" /* NOTIFICATIONS_BLOCKED */] = 'Notifications have been blocked.',
     _a["failed-serviceworker-registration" /* FAILED_DEFAULT_REGISTRATION */] = 'We are unable to register the ' +
         'default service worker. {$browserErrorMessage}',
-    _a["sw-registration-expected" /* SW_REGISTRATION_EXPECTED */] = 'A service worker registration was the ' + 'expected input.',
+    _a["sw-registration-expected" /* SW_REGISTRATION_EXPECTED */] = 'A service worker registration was the expected input.',
     _a["get-subscription-failed" /* GET_SUBSCRIPTION_FAILED */] = 'There was an error when trying to get ' +
         'any existing Push Subscriptions.',
     _a["invalid-saved-token" /* INVALID_SAVED_TOKEN */] = 'Unable to access details of the saved token.',
-    _a["sw-reg-redundant" /* SW_REG_REDUNDANT */] = 'The service worker being used for push was made ' + 'redundant.',
-    _a["token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */] = 'A problem occured while subscribing the ' + 'user to FCM: {$message}',
-    _a["token-subscribe-no-token" /* TOKEN_SUBSCRIBE_NO_TOKEN */] = 'FCM returned no token when subscribing ' + 'the user to push.',
-    _a["token-subscribe-no-push-set" /* TOKEN_SUBSCRIBE_NO_PUSH_SET */] = 'FCM returned an invalid response ' + 'when getting an FCM token.',
-    _a["token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */] = 'A problem occured while unsubscribing the ' + 'user from FCM: {$message}',
-    _a["token-update-failed" /* TOKEN_UPDATE_FAILED */] = 'A problem occured while updating the ' + 'user from FCM: {$message}',
-    _a["token-update-no-token" /* TOKEN_UPDATE_NO_TOKEN */] = 'FCM returned no token when updating ' + 'the user to push.',
+    _a["sw-reg-redundant" /* SW_REG_REDUNDANT */] = 'The service worker being used for push was made redundant.',
+    _a["token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */] = 'A problem occured while subscribing the user to FCM: {$errorInfo}',
+    _a["token-subscribe-no-token" /* TOKEN_SUBSCRIBE_NO_TOKEN */] = 'FCM returned no token when subscribing the user to push.',
+    _a["token-subscribe-no-push-set" /* TOKEN_SUBSCRIBE_NO_PUSH_SET */] = 'FCM returned an invalid response when getting an FCM token.',
+    _a["token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */] = 'A problem occured while unsubscribing the ' +
+        'user from FCM: {$errorInfo}',
+    _a["token-update-failed" /* TOKEN_UPDATE_FAILED */] = 'A problem occured while updating the user from FCM: {$errorInfo}',
+    _a["token-update-no-token" /* TOKEN_UPDATE_NO_TOKEN */] = 'FCM returned no token when updating the user to push.',
     _a["use-sw-before-get-token" /* USE_SW_BEFORE_GET_TOKEN */] = 'The useServiceWorker() method may only be called once and must be ' +
         'called before calling getToken() to ensure your service worker is used.',
     _a["invalid-delete-token" /* INVALID_DELETE_TOKEN */] = 'You must pass a valid token into ' +
@@ -40379,11 +40440,11 @@ var ERROR_MAP = (_a = {},
         'be performed as the token was not found.',
     _a["delete-scope-not-found" /* DELETE_SCOPE_NOT_FOUND */] = 'The deletion attempt for service worker ' +
         'scope could not be performed as the scope was not found.',
-    _a["bg-handler-function-expected" /* BG_HANDLER_FUNCTION_EXPECTED */] = 'The input to ' + 'setBackgroundMessageHandler() must be a function.',
-    _a["no-window-client-to-msg" /* NO_WINDOW_CLIENT_TO_MSG */] = 'An attempt was made to message a ' + 'non-existant window client.',
+    _a["bg-handler-function-expected" /* BG_HANDLER_FUNCTION_EXPECTED */] = 'The input to setBackgroundMessageHandler() must be a function.',
+    _a["no-window-client-to-msg" /* NO_WINDOW_CLIENT_TO_MSG */] = 'An attempt was made to message a non-existant window client.',
     _a["unable-to-resubscribe" /* UNABLE_TO_RESUBSCRIBE */] = 'There was an error while re-subscribing ' +
         'the FCM token for push messaging. Will have to resubscribe the ' +
-        'user on next visit. {$message}',
+        'user on next visit. {$errorInfo}',
     _a["no-fcm-token-for-resubscribe" /* NO_FCM_TOKEN_FOR_RESUBSCRIBE */] = 'Could not find an FCM token ' +
         'and as a result, unable to resubscribe. Will have to resubscribe the ' +
         'user on next visit.',
@@ -40395,7 +40456,7 @@ var ERROR_MAP = (_a = {},
     _a["bad-scope" /* BAD_SCOPE */] = 'The service worker scope must be a string with at ' +
         'least one character.',
     _a["bad-vapid-key" /* BAD_VAPID_KEY */] = 'The public VAPID key is not a Uint8Array with 65 bytes.',
-    _a["bad-subscription" /* BAD_SUBSCRIPTION */] = 'The subscription must be a valid ' + 'PushSubscription.',
+    _a["bad-subscription" /* BAD_SUBSCRIPTION */] = 'The subscription must be a valid PushSubscription.',
     _a["bad-token" /* BAD_TOKEN */] = 'The FCM Token used for storage / lookup was not ' +
         'a valid token string.',
     _a["bad-push-set" /* BAD_PUSH_SET */] = 'The FCM push set used for storage / lookup was not ' +
@@ -40404,7 +40465,7 @@ var ERROR_MAP = (_a = {},
     _a["invalid-public-vapid-key" /* INVALID_PUBLIC_VAPID_KEY */] = 'The public VAPID key must be a string.',
     _a["use-public-key-before-get-token" /* USE_PUBLIC_KEY_BEFORE_GET_TOKEN */] = 'The usePublicVapidKey() method may only be called once and must be ' +
         'called before calling getToken() to ensure your VAPID key is used.',
-    _a["public-vapid-key-decryption-failed" /* PUBLIC_KEY_DECRYPTION_FAILED */] = 'The public VAPID key did not equal ' + '65 bytes when decrypted.',
+    _a["public-vapid-key-decryption-failed" /* PUBLIC_KEY_DECRYPTION_FAILED */] = 'The public VAPID key did not equal 65 bytes when decrypted.',
     _a);
 var errorFactory = new util.ErrorFactory('messaging', 'Messaging', ERROR_MAP);
 
@@ -40643,7 +40704,7 @@ var IidModel = /** @class */ (function () {
                         if (responseData.error) {
                             message = responseData.error.message;
                             throw errorFactory.create("token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */, {
-                                message: message
+                                errorInfo: message
                             });
                         }
                         if (!responseData.token) {
@@ -40705,7 +40766,7 @@ var IidModel = /** @class */ (function () {
                         if (responseData.error) {
                             message = responseData.error.message;
                             throw errorFactory.create("token-update-failed" /* TOKEN_UPDATE_FAILED */, {
-                                message: message
+                                errorInfo: message
                             });
                         }
                         if (!responseData.token) {
@@ -40747,7 +40808,7 @@ var IidModel = /** @class */ (function () {
                         if (responseData.error) {
                             message = responseData.error.message;
                             throw errorFactory.create("token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */, {
-                                message: message
+                                errorInfo: message
                             });
                         }
                         return [3 /*break*/, 5];
@@ -41750,7 +41811,7 @@ var SwController = /** @class */ (function (_super) {
                     case 2:
                         err_1 = _a.sent();
                         throw errorFactory.create("unable-to-resubscribe" /* UNABLE_TO_RESUBSCRIBE */, {
-                            message: err_1
+                            errorInfo: err_1
                         });
                     case 3:
                         _a.trys.push([3, 5, , 8]);
@@ -42483,7 +42544,7 @@ var logger$1 = require('@firebase/logger');
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var SDK_VERSION = '0.2.1';
+var SDK_VERSION = '0.2.2';
 /** The prefix for start User Timing marks used for creating Traces. */
 var TRACE_START_MARK_PREFIX = 'FB-PERF-TRACE-START';
 /** The prefix for stop User Timing marks used for creating Traces. */
@@ -47143,6 +47204,7 @@ exports.registerStorage = registerStorage;
 
 
 },{"@firebase/app":5}],15:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -47678,7 +47740,7 @@ var Deferred = /** @class */ (function () {
  * Returns navigator.userAgent string or '' if it's not defined.
  * @return {string} user agent string
  */
-var getUA = function () {
+function getUA() {
     if (typeof navigator !== 'undefined' &&
         typeof navigator['userAgent'] === 'string') {
         return navigator['userAgent'];
@@ -47686,7 +47748,7 @@ var getUA = function () {
     else {
         return '';
     }
-};
+}
 /**
  * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
  *
@@ -47695,27 +47757,47 @@ var getUA = function () {
  *
  * @return {boolean} isMobileCordova
  */
-var isMobileCordova = function () {
+function isMobileCordova() {
     return (typeof window !== 'undefined' &&
         !!(window['cordova'] || window['phonegap'] || window['PhoneGap']) &&
         /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA()));
-};
+}
+/**
+ * Detect Node.js.
+ *
+ * @return {boolean} True if Node.js environment is detected.
+ * Node detection logic from: https://github.com/iliakan/detect-node/
+ */
+function isNode() {
+    try {
+        return (Object.prototype.toString.call(global.process) === '[object process]');
+    }
+    catch (e) {
+        return false;
+    }
+}
+/**
+ * Detect Browser Environment
+ */
+function isBrowser() {
+    return typeof window !== 'undefined';
+}
 /**
  * Detect React Native.
  *
  * @return {boolean} True if ReactNative environment is detected.
  */
-var isReactNative = function () {
+function isReactNative() {
     return (typeof navigator === 'object' && navigator['product'] === 'ReactNative');
-};
+}
 /**
- * Detect Node.js.
+ * Detect whether the current SDK build is the Node version.
  *
- * @return {boolean} True if Node.js environment is detected.
+ * @return {boolean} True if it's the Node SDK build.
  */
-var isNodeSdk = function () {
+function isNodeSdk() {
     return CONSTANTS.NODE_CLIENT === true || CONSTANTS.NODE_ADMIN === true;
-};
+}
 
 /**
  * @license
@@ -48849,8 +48931,10 @@ exports.getCount = getCount;
 exports.getUA = getUA;
 exports.getValues = getValues;
 exports.isAdmin = isAdmin;
+exports.isBrowser = isBrowser;
 exports.isEmpty = isEmpty;
 exports.isMobileCordova = isMobileCordova;
+exports.isNode = isNode;
 exports.isNodeSdk = isNodeSdk;
 exports.isNonNullObject = isNonNullObject;
 exports.isReactNative = isReactNative;
@@ -48872,6 +48956,7 @@ exports.validateContextObject = validateContextObject;
 exports.validateNamespace = validateNamespace;
 
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"tslib":19}],16:[function(require,module,exports){
 (function (global){
 (function() {'use strict';var g,goog=goog||{},k=this;function m(a){return"string"==typeof a}function aa(a){return"number"==typeof a}function n(a,b){a=a.split(".");b=b||k;for(var c=0;c<a.length;c++)if(b=b[a[c]],null==b)return null;return b}function ba(){}
@@ -49684,17 +49769,42 @@ var __importDefault;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],20:[function(require,module,exports){
-product_order = function(id, snapshot, page){//div_id
+product_order = function(id, storage, snapshot, page){//div_id
+
+
+
+
+
 
 	//id for create html tags
 	for (var i = (Number(page)-1)*8; i < Number(page)*8; i++){
 
- 		
+
  		var temp = snapshot.docs[i].data();
 		var temp_id = snapshot.docs[i].id;
 		console.log(temp_id);
 		console.log(temp);
  		//show products....
+
+        var storageRef = storage.ref();
+        var productsRef = storageRef.child('Products');
+
+        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
+        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+            var show_img = document.getElementById('product_img1');
+            show_img.src = url;
+        }).catch(function(){
+            console.log("error get img!!");
+        });
+
+        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
+        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+            var show_img = document.getElementById('product_img2');
+            show_img.src = url;
+        }).catch(function(){
+            console.log("error get img!!");
+        });
+
 
 
 		var show = document.getElementById('Products');
@@ -49702,12 +49812,20 @@ product_order = function(id, snapshot, page){//div_id
  		div.className = "col-12 col-sm-6 col-md-12 col-xl-6";
     	div.innerHTML = 
     	'<div class="single-product-wrapper" id = "single_product">' +
+
                 '<!-- Product Image -->' +
-                '<div class="product-img">' +
-                    '<img src="img/product-img/product1.jpg" alt="">' + 
+                '<div class="product-img" >' +
+
+                    '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+
+                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  //img/product-img/product1.jpg 
                     '<!-- Hover Thumb -->' +
-                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="">' +
+                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+
+                    '</a>' + 
+
                 '</div>' +
+
 
                 '<!-- Product Description -->' +
                 '<div class="product-description d-flex align-items-center justify-content-between">' +
@@ -49783,26 +49901,58 @@ product_order = function(id, snapshot, page){//div_id
 
 module.exports = product_order;
 },{}],21:[function(require,module,exports){
-search = function(db, input, page){
+search = function(db, storage, input, itemfilter, page){
 	//var product_order = require("./product_order");
 	//var cant_find= require("./cant_find");
 
+	//var itemfilter = ???????????
+	var productQueryRef;
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
-	var productQueryRef = productsRef.get().then(snapshot => {
+	if(itemfilter == 'seller'){
+		productQueryRef = productsRef.where('seller_account', '==', input).get()
+		.then(snapshot => {
+				product_order('Products', storage, snapshot, page);
+    		})
+    		.catch(err => {
+  				console.log('Error getting documents', err);
+  				cant_find();
+    		});
+	}
+	else{
+	productQueryRef = productsRef.get().then(snapshot => {
 
-				
 				var i = 0;
 
 				//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
 				//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
 
-      			snapshot.forEach(doc => {
-      				//console.log(doc.id, '=>', doc.data());
+      			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
+      				///console.log(doc.id, '=>', doc.data());
       				var temp = doc.data();
+      				//console.log(temp);
       				if(temp['product_title'].indexOf(input) != -1){
-						console.log(temp);
+      					var storageRef = storage.ref();
+				        var productsRef = storageRef.child('Products');
 
+				        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
+				        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+				            var show_img = document.getElementById('product_img1');
+				            show_img.src = url;
+				        }).catch(function(){
+				            console.log("error get img!!");
+				        });
+
+				        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
+				        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+				            var show_img = document.getElementById('product_img2');
+				            show_img.src = url;
+				        }).catch(function(){
+				            console.log("error get img!!");
+				        });
+
+
+						console.log(temp);
 
 
 						var show = document.getElementById('Products');
@@ -49812,9 +49962,13 @@ search = function(db, input, page){
 				    	'<div class="single-product-wrapper" id = "single_product">' +
 				                '<!-- Product Image -->' +
 				                '<div class="product-img">' +
-				                    '<img src="img/product-img/product1.jpg" alt="">' + 
+				                '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+
+				                    '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' + 
 				                    '<!-- Hover Thumb -->' +
-				                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="">' +
+				                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+
+				                '</a>' + 
 				                '</div>' +
 
 				                '<!-- Product Description -->' +
@@ -49846,13 +50000,13 @@ search = function(db, input, page){
 				        '</div>';
 				        show.appendChild(div);
 
-
-
-
 						i = i + 1;
 
-					}
 
+					}
+					//if(i >= 8)
+					//	return true; //can break from forEach
+					
 
      	 		});
 
@@ -49872,11 +50026,20 @@ search = function(db, input, page){
 		            '</div>';
 	            show_1.appendChild(div_1);
 
+	            /*var show_2 = document.getElementById('total_products');
+		        if(Number(page)*8 >= snapshot.size)
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
+		        else
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
+
+		        var show_2 = document.getElementById('total_products');
+		     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
+		    
 
      	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
 
      	 		
-     	 		//console.log(snapshot.size);
+     	 		console.log(i); //how many products we get in search
      	 	
     		})
     		.catch(err => {
@@ -49884,10 +50047,10 @@ search = function(db, input, page){
   				console.log('Error getting documents', err);
   				cant_find();
 
-  				//????
     		});//query of "kind_product = kind"
-    return productQueryRef;
-
+    
+	}
+	return productQueryRef;
 }
 
 module.exports = search;
@@ -49900,6 +50063,7 @@ module.exports = search;
 	    window.location.reload(false);
 	}, false);
 	
+
 	var firebase = require("./firebase");
 	var product_order = require("./product_order");//
 	var getKindPoducts = require("./getKindPoducts");//
@@ -49908,6 +50072,7 @@ module.exports = search;
 	//var sendSearch = require("./sendSearch.js");//
 
 	var db = firebase.firestore();
+	var storage = firebase.storage();
 
 	var url_origun = location.href;
 	var url = decodeURI(url_origun);
@@ -49916,11 +50081,16 @@ module.exports = search;
 	var page = '';//page 1(0~7), page 2(8~15), page 3(16~23), page n( (n-1)*8 ~ (n*8)-1 )
 	var input = '';
 	var is_Search = false;
+	var itemfilter = '';
+
+	//file:///D:/web/NTOUAW-master/shop.html?search=asd&itemfilter=productname#&page=1
+
 
 	//three kinds of url  1.kind+page 2.search+page    //3.search(home search)
 	
 	
-	alert(url);
+	//alert(url);
+
 	//if(url.indexOf('kind')==-1)////////////////////////////////////??????????????????????????????????//
 	//	return;
 
@@ -49928,26 +50098,31 @@ module.exports = search;
 		if(url.indexOf('search') != -1){
 			is_Search = true;
 			input = url.split('?')[1].split('&')[0].split('=')[1];
-			input = input.substr(0, input.length - 1); //search
+			//input = input.substr(0, input.length - 1); //search
+			itemfilter = url.split('?')[1].split('&')[1].split('=')[1];
+			itemfilter = itemfilter.substr(0, itemfilter.length - 1); //itemfilter - #
+			page = url.split('?')[1].split('&')[2].split('=')[1];
 		}
-		else
+		else{
 			kind = url.split('?')[1].split('&')[0].split('=')[1];
-		page = url.split('?')[1].split('&')[1].split('=')[1];
+			page = url.split('?')[1].split('&')[1].split('=')[1];
+		}
 	}
 
 	if(is_Search){
 		//alert(kind);//search function=> sendSearch()
-		alert('in search');
+		//alert('in search');
 		/////////////////////////////////////////////////////////////imp in version 2
-		var e = document.getElementById("sel");
+		/*var e = document.getElementById("sel");
 		var str = e.options[e.selectedIndex].value;
 		//selectedIndex = 0 or 1 
 
 		if (str == 'productname')
 			alert('choose: productname');
 		else if (str == 'seller')
-			alert('choose: seller');
+			alert('choose: seller');*/
 
+	
 
 		/////////////////////////////////////////////////////////////
 
@@ -49958,27 +50133,27 @@ module.exports = search;
 		if(input === "")
 			alert("Please search something!");
 		else
-			var search_product = search(db, input, page);
+			var search_call = search(db, storage, input, itemfilter, page);
 
 		//search...
 
 		//if(promise)
 	}
 	else{
-		alert('in kind');
-		var products = getKindPoducts(db, kind, page);//type: promise
+		//alert('in kind');
+		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
-		console.log(products);
+		console.log(products_all);
 
 		//if(promise)
 	}
 
 
-
-	alert("is_Search: " + is_Search)
-	alert("kind: " + kind);
-	alert("page: " + page);
-	alert("input: " + input);
+	//alert('itemfilter: '+itemfilter);
+	//alert("is_Search: " + is_Search)
+	//alert("kind: " + kind);
+	//alert("page: " + page);
+	//alert("input: " + input);
 
 
 

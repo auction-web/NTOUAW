@@ -33,8 +33,8 @@ write_firbase=function() {
 	  return;
   }
   var data={ 
-  account: Account,buyer_evaluation:'0', cart_id: '0', address: Address,
-  password:Password,phone:Phone,seller_evaluation:"0",
+  account: Account,buyer_evaluation:0, cart_id: 0, address: Address,
+  password:Password,phone:Phone,seller_evaluation:0,
   user_id: 0, user_name: Username,user_email:Email,birth:Birth,seller_Product:0
   };
   /*var data={
