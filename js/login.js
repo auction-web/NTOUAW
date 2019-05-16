@@ -1,6 +1,6 @@
 var cook=getCookie('id');
 
-
+alert(cook);
 if(cook!=""){
 	location.href = "./home.html";
 }

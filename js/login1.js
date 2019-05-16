@@ -52539,7 +52539,7 @@ module.exports = firebase
 },{"firebase":3}],144:[function(require,module,exports){
 var cook=getCookie('id');
 
-
+alert(cook);
 if(cook!=""){
 	location.href = "./home.html";
 }
