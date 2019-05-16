@@ -13,8 +13,9 @@ if(typeof FileReader==='undefined'){
 //var User1='User77';
 var User1='User'+getCookie('id');
 var User=User1+'/';
-alert("請先登入，跳轉至登入頁面");
+
 if(User1==""){
+	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
 }
 storageRef.child(User+'picture').getDownloadURL().then(function(url) {
@@ -77,7 +78,7 @@ citiesRef = db.collection('User23').doc(User1);
 						var date=(doc.data()['birth']).toDate();
 						Birth_element.value=date;
 						//console.log(data);		
-						alert("aaaaasas");									
+						//alert("aaaaasas");									
 			})
 			.catch(err => {
 			console.log('Error getting document', err);
