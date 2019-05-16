@@ -11,9 +11,8 @@ const $ = require('jQuery')(window);
 
 //get and set data in checkout page
 (function ($) {
-    alert("READ COOKIE");
     //get info form cookie
-    //eraseCookie('productID');
+    alert("page loading");
     var sellerName = readCookie('sellerName');
     var productName = readCookie('productName');
     var productPrice = readCookie('productPrice');
@@ -32,7 +31,8 @@ const $ = require('jQuery')(window);
     $('#checkoutConfirm').click(function () {
 
         alert("訂單已成立! 按下確定返回商店頁面");
-    })
+        location.href = "./home.html";
+    });
 
 })(jQuery);//end "get and set data in checkout page"
 
