@@ -16,8 +16,8 @@ var sellerDetail = new Object();
 var aa;
 var url = location.href; // product-detail.html
 aa = (url.split('?')[1]).split('=')[1];
-//var id = Number(aa);
-//console.log('aa = ',aa);
+var id = "Product" + aa;
+console.log('id = ',id);
 
 
 //get and set data in the product-detail page
@@ -28,7 +28,7 @@ aa = (url.split('?')[1]).split('=')[1];
     var db = firebase.firestore();
 
     //get Product detail
-    var productRef = db.collection("Product").doc('Product'+aa).get() //getDoc是Promise物件
+    var productRef = db.collection("Product").doc(id).get() //getDoc是Promise物件
         .then(doc => {  
             alert("GET SUCESS.");
                 //get data successfully       
