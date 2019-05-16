@@ -11,8 +11,9 @@ const $ = require('jQuery')(window);
 
 //get and set data in checkout page
 (function ($) {
+    alert("READ COOKIE");
     //get info form cookie
-    eraseCookie('productID');
+    //eraseCookie('productID');
     var sellerName = readCookie('sellerName');
     var productName = readCookie('productName');
     var productPrice = readCookie('productPrice');
