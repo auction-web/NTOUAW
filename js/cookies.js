@@ -23,3 +23,7 @@ function DelCookie(name){
 	var cval=getCookie(name); 
 	if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString(); 
 } 
+function signout(){
+	DelCookie('id');
+	location.href = "./index.html";
+}
