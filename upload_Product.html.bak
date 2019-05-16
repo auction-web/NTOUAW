@@ -23,7 +23,25 @@
 </head>
 
 <body>
-
+    <!-- Search Wrapper Area Start -->
+    <div class="search-wrapper section-padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Search Wrapper Area End -->
 
     <!-- ##### Main Content Wrapper Start ##### -->
     <div class="main-content-wrapper d-flex clearfix">
@@ -40,35 +58,6 @@
             </div>
         </div>
 
-        <!-- Toolbar start -->
-            <div class = "toolbarbase row">
-                <!-- Logo -->
-                <a class = "icon_link" href = "./home.html">
-                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
-                </a>
-                
-                <div class = "toolbar">
-                    <div class = "personal">
-                        <input type = "button" value = "登出">
-                        <input type = "button" value = "購物車">
-                        <input type = "button" value = "個人資料">
-                    </div>
-                    <!-- Search -->
-                    <div class = "search_base">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
-                            <select name = "itemfilter">
-                                <option value = "productname">商品名稱</option>
-                                <option value = "seller">賣家</option>
-                            </select>
-                        </form>
-                        
-                    </div>
-                </div>
-            </div>
-            <!-- Toolbar end -->
-
         
         <!-- Header Area Start -->
         <header class="header-area clearfix">
@@ -78,7 +67,7 @@
         
         
         <!-- Product Details Area Start -->
-        <div class="single-product-area section-padding-0-100 clearfix">
+        <div class="single-product-area section-padding-100 clearfix">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -107,7 +96,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-7">
-                        <form class="uppic" style="height: 800px;">
+                        <form class="uppic">
                           <input class="one" type="file" name="pic" id="file_input" accept="image/gif, image/jpeg, image/png">
 						  <img id="myDiv">
                           <input class="two" type="file" name="pic" id="file_input1" accept="image/gif, image/jpeg, image/png">
@@ -117,7 +106,7 @@
                           <input class="four" type="file" name="pic" id="file_input3" accept="image/gif, image/jpeg, image/png">
                           <img id="myDiv3">  
                           <input class="five" type="file" name="pic" id="file_input4" accept="image/gif, image/jpeg, image/png"> 
-	            <img id="myDiv4">
+						  <img id="myDiv4">
                         </form>
                     </div>
                     <div class="col-12 col-lg-5">
@@ -160,7 +149,7 @@
                                         <span class="qty-plus_u" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <button type="submit" name="Uploadproduct" value="7" class="btn amado-btn3">上傳商品</button>
+                                <input class = "btn amado-btn3" type = "button" value = "上傳商品"  name="Uploadproduct"  onclick='up()'>
                             </form>
                         </div>
                     </div>
