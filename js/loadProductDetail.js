@@ -15,20 +15,22 @@ var sellerDetail = new Object();
 //get product id
 var aa;
 var url = location.href; // product-detail.html
-aa= url.split('?')[1].split('=')[1];
-var id = Number(aa);
-console.log(id);
+aa = (url.split('?')[1]).split('=')[1];
+//var id = Number(aa);
+console.log('aa = ',aa);
+
 
 //get and set data in the product-detail page
 (function ($) {
-
+    //console.log("URL"=aa);
     //initialize firebase
     var firebase = require("./firebase");
     var db = firebase.firestore();
 
     //get Product detail
-    var productRef = db.collection("Product").doc('Product' + id).get() //getDoc是Promise物件
-        .then(doc => {   
+    var productRef = db.collection("Product").doc('Product4').get() //getDoc是Promise物件
+        .then(doc => {  
+            alert("GET SUCESS.");
                 //get data successfully       
                 productDetail = doc.data();
                 console.log(productDetail);
