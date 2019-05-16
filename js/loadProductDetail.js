@@ -106,8 +106,8 @@ console.log('id = ',id);
                     createCookie('quantity',choosedQuantity);
 //                    createCookie('test',"hello cookie!");
 //                    eraseCookie('test');
-//                    console.log("cookie = {" + document.cookie + "}");
-                    location.href = "./checkout.html";
+                    console.log("cookie = {" + document.cookie + "}");
+                    //location.href = "./checkout.html";
                 })
 
             
