@@ -1,23 +1,55 @@
-search = function(db, input, page){
+search = function(db, storage, input, itemfilter, page){
 	//var product_order = require("./product_order");
 	//var cant_find= require("./cant_find");
 
+	//var itemfilter = ???????????
+	var productQueryRef;
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
-	var productQueryRef = productsRef.get().then(snapshot => {
+	if(itemfilter == 'seller'){
+		productQueryRef = productsRef.where('seller_account', '==', input).get()
+		.then(snapshot => {
+				product_order('Products', storage, snapshot, page);
+    		})
+    		.catch(err => {
+  				console.log('Error getting documents', err);
+  				cant_find();
+    		});
+	}
+	else{
+	productQueryRef = productsRef.get().then(snapshot => {
 
-				
 				var i = 0;
 
 				//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
 				//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
 
-      			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for??
-      				//console.log(doc.id, '=>', doc.data());
+      			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
+      				///console.log(doc.id, '=>', doc.data());
       				var temp = doc.data();
+      				//console.log(temp);
       				if(temp['product_title'].indexOf(input) != -1){
-						console.log(temp);
+      					var storageRef = storage.ref();
+				        var productsRef = storageRef.child('Products');
 
+				        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
+				        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+				            var show_img = document.getElementById('product_img1');
+				            show_img.src = url;
+				        }).catch(function(){
+				            console.log("error get img!!");
+				        });
+
+				        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
+				        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+				            var show_img = document.getElementById('product_img2');
+				            show_img.src = url;
+				        }).catch(function(){
+				            console.log("error get img!!");
+				        });
+
+
+						console.log(temp);
 
 
 						var show = document.getElementById('Products');
@@ -27,9 +59,13 @@ search = function(db, input, page){
 				    	'<div class="single-product-wrapper" id = "single_product">' +
 				                '<!-- Product Image -->' +
 				                '<div class="product-img">' +
-				                    '<img src="img/product-img/product1.jpg" alt="">' + 
+				                '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+
+				                    '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' + 
 				                    '<!-- Hover Thumb -->' +
-				                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="">' +
+				                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+
+				                '</a>' + 
 				                '</div>' +
 
 				                '<!-- Product Description -->' +
@@ -61,13 +97,13 @@ search = function(db, input, page){
 				        '</div>';
 				        show.appendChild(div);
 
-
-
-
 						i = i + 1;
 
-					}
 
+					}
+					//if(i >= 8)
+					//	return true; //can break from forEach
+					
 
      	 		});
 
@@ -87,6 +123,15 @@ search = function(db, input, page){
 		            '</div>';
 	            show_1.appendChild(div_1);
 
+	            /*var show_2 = document.getElementById('total_products');
+		        if(Number(page)*8 >= snapshot.size)
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
+		        else
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
+
+		        var show_2 = document.getElementById('total_products');
+		     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
+		    
 
      	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
 
@@ -99,10 +144,10 @@ search = function(db, input, page){
   				console.log('Error getting documents', err);
   				cant_find();
 
-  				//????
     		});//query of "kind_product = kind"
-    return productQueryRef;
-
+    
+	}
+	return productQueryRef;
 }
 
 module.exports = search;
