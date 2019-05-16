@@ -9,39 +9,21 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Upload Product Page</title>
+    <title>NTOUAW | Upload Product Page</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="css/upload.css">
+    <link rel="stylesheet" href="css/upload Product.css">
+    <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="style.css">
     
 
 </head>
 
 <body>
-    <!-- Search Wrapper Area Start -->
-    <div class="search-wrapper section-padding-100">
-        <div class="search-close">
-            <i class="fa fa-close" aria-hidden="true"></i>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Search Wrapper Area End -->
 
     <!-- ##### Main Content Wrapper Start ##### -->
     <div class="main-content-wrapper d-flex clearfix">
@@ -57,6 +39,35 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
+        
+        <!-- Toolbar start -->
+            <div class = "toolbarbase row">
+                <!-- Logo -->
+                <a class = "icon_link" href = "./home.html">
+                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
+                </a>
+                
+                <div class = "toolbar">
+                    <div class = "personal">
+                        <input type = "button" value = "登出">
+                        <input type = "button" value = "購物車">
+                        <input type = "button" value = "個人資料">
+                    </div>
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                            <select name = "itemfilter">
+                                <option value = "productname">商品名稱</option>
+                                <option value = "seller">賣家</option>
+                            </select>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Toolbar end -->
 
         
         <!-- Header Area Start -->
@@ -67,7 +78,7 @@
         
         
         <!-- Product Details Area Start -->
-        <div class="single-product-area section-padding-100 clearfix">
+        <div class="single-product-area section-padding-0-100 clearfix">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -81,45 +92,50 @@
                         </nav>
                     </div>
                     <form class="category">
-                        <select name="category" id="category">
-                            <option value="0">書籍文具</option>
-                            <option value="1">衣物配飾</option>
-                            <option value="2">廚房用品</option>
-                            <option value="3">3c週邊</option>
-                            <option value="4">運動用品</option>
-                            <option value="5">美味食品</option>
-                            <option value="6">美妝保養</option>
-                            <option value="7">家俱家電</option>
-                            <option value="8">其他類</option>   
+                        <select name="category">
+                            <option value="category">書籍文具</option>
+                            <option value="category">衣物配飾</option>
+                            <option value="category">廚房用品</option>
+                            <option value="category">3c週邊</option>
+                            <option value="category">運動用品</option>
+                            <option value="category">美味食品</option>
+                            <option value="category">美妝保養</option>
+                            <option value="category">家俱家電</option>
+                            <option value="category">其他類</option>   
                         </select>
                     </form>
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-7">
-                        <form class="uppic">
-                          <input class="one" type="file" name="pic" id="file_input" accept="image/gif, image/jpeg, image/png">
-						  <img id="myDiv">
-                          <input class="two" type="file" name="pic" id="file_input1" accept="image/gif, image/jpeg, image/png">
-                          <img id="myDiv1">  
-                          <input class="three" type="file" name="pic" id="file_input2" accept="image/gif, image/jpeg, image/png"> 
-                          <img id="myDiv2">  
-                          <input class="four" type="file" name="pic" id="file_input3" accept="image/gif, image/jpeg, image/png">
-                          <img id="myDiv3">  
-                          <input class="five" type="file" name="pic" id="file_input4" accept="image/gif, image/jpeg, image/png"> 
-						  <img id="myDiv4">
+                        <form class="uppic" style="height: 800px;">
+                          <input class="one" type="file" name="pic" accept="image/gif, image/jpeg, image/png">
+                          <img class="img1" src="img/core-img/tool.png" alt="one">
+                            
+                            <input class="two" type="file" name="pic" accept="image/gif, image/jpeg, image/png">
+                            <img class="img2" src="img/core-img/tool.png" alt="two">
+                            
+                          <input class="three" type="file" name="pic" accept="image/gif, image/jpeg, image/png">
+                            <img class="img3" src="img/core-img/tool.png" alt="trree">
+                            
+                          <input class="four" type="file" name="pic" accept="image/gif, image/jpeg, image/png">
+                            <img class="img4" src="img/core-img/tool.png" alt="four">
+                            
+                          <input class="five" type="file" name="pic" accept="image/gif, image/jpeg, image/png"> 
+                            <img class="img5" src="img/core-img/tool.png" alt="five">                            
+
                         </form>
                     </div>
                     <div class="col-12 col-lg-5">
                         <div class="single_product_desc">
                             <!-- Product Meta Data -->
-                            <div id='test' class="product-meta-data">
+                            <div class="product-meta-data">
                                 <div class="line"></div>
-                                請設定價錢:<input type="number" id="price"  name="price" min="0" max="10000000000000000"><br>
-                                <textarea class="product-name" id="product">請寫商品名稱...</textarea>
-                                <form class="selectbid" >
-                                    <select name="bidorUnbid" id="bidorUnbid">
-                                        <option value="0">一般</option>
-                                        <option value="1">競標</option>
+                                請設定價錢:<input type="number" name="price" min="0" max="10000000000000000"><br>
+                                <textarea class="product-name" placeholder = "請寫商品名稱..."></textarea>
+                                <form class="selectbid">
+                                    <select name="bidorUnbid">
+                                        <option value="Bid">一般</option>
+                                        <option value="Bid">競標</option>
                                     </select>
                                 </form>
                                 <!-- Ratings & Review -->
@@ -131,13 +147,13 @@
                             </div>
 
                             <div class="short_overview my-5">
-                                <textarea class="introduction" id="introduction">請寫商品內容...</textarea>
+                                <textarea class="introduction" placeholder = "請寫商品內容..."></textarea>
                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p> -->
                             </div>
-                            <form class="del_input" id="delivery1" >
-                                <input type="checkbox" name="transport" id="delivery"  value="delivery">貨到付款<label class ="label1" style="display:inline">運費:<input type="number" name="price" id="price1"  min="0" max="10000000000"></label><br>
-                                <input type="checkbox" name="transport" id="delivery"  value="delivery">宅急便<label class ="label2" style="display:inline">運費:<input type="number" name="price" id="price2" min="0" max="10000000000"></label><br>
-                                <input type="checkbox" name="transport" id="delivery"  value="delivery">面交<br>
+                            <form class="del_input">
+                                <input type="checkbox" name="transport" value="delivery">貨到付款<label class ="label1" style="display:inline">運費:<input type="number" name="price" min="0" max="10000000000"></label><br>
+                                <input type="checkbox" name="transport" value="delivery">宅急便<label class ="label2" style="display:inline">運費:<input type="number" name="price" min="0" max="10000000000"></label><br>
+                                <input type="checkbox" name="transport" value="delivery">面交<br>
                             </form>
                             <!-- Add to Cart Form -->
                             <form class="cart_u clearfix" method="post">
@@ -149,7 +165,7 @@
                                         <span class="qty-plus_u" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <input class = "btn amado-btn3" type = "button" value = "上傳商品"  name="Uploadproduct"  onclick='up()'>
+                                <button type="submit" name="Uploadproduct" value="7" class="btn amado-btn3">上傳商品</button>
                             </form>
                         </div>
                     </div>
@@ -173,9 +189,7 @@
     <script src="js/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
-	  <script src="js/cookies.js"></script>
-	<script src="js/upload_Product1.js"></script>
-	  
+
 </body>
 
 </html>
