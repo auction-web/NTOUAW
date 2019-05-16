@@ -104,9 +104,10 @@ console.log('id = ',id);
                     createCookie('productName',productName);
                     createCookie('productPrice',price);
                     createCookie('quantity',choosedQuantity);
-//                    createCookie('test',"hello cookie!");
-//                    eraseCookie('test');
-                    console.log("cookie = {" + document.cookie + "}");
+                    createCookie('delievery_payWhenGet',deliveryFee[0]);
+                    createCookie('delievery_blackCat',deliveryFee[1]);
+                    createCookie('delievery_face',deliveryFee[2]);               
+//                    console.log("cookie = {" + document.cookie + "}");
                     location.href = "./checkout.html";
                 })
 

@@ -62,7 +62,7 @@
 
             <div class = "toolbar">
                 <div class = "personal">
-                    <input type = "button" onclick = "signout()" value = "登出">
+                    <input type = "button" value = "登出">
                     <input type = "button" onclick = "javascript:location.href = './cart.html'" value = "購物車">
                     <input type = "button" onclick = "javascript:location.href = './personal.html'" value = "個人資料">
                 </div>
@@ -126,7 +126,7 @@
                                     </td>
                                     <!-- delievery -->
                                     <td>
-                                         <select name = "itemfilter">
+                                         <select id="deliveryMethod" name = "itemfilter">
                                             <option value = "1">7-11貨到付款</option>
                                             <option value = "2">宅急便</option>
                                             <option value = "3">面交</option>
@@ -173,10 +173,8 @@
     <script src="js/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
-    <!-- loadCheckoutPage_run js -->
+    
     <script src="js/loadCheckoutPage_run.js"></script>
-	<!-- Cookies js -->
-	<script src="js/cookies.js"></script>
 
 </body>
 
