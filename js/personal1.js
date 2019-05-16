@@ -52550,10 +52550,12 @@ if(typeof FileReader==='undefined'){
 }
 //var User='User77/';
 //var User1='User77';
-var User1='User'+getCookie('id');
+var cook=getCookie('id');
+var User1='User'+cook;
 var User=User1+'/';
-alert(User1);
-if(User1==""){
+
+if(cook==""){
+	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
 }
 storageRef.child(User+'picture').getDownloadURL().then(function(url) {
@@ -52587,10 +52589,10 @@ function readFile(){
 		var myDiv = document.getElementById('myDiv'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
 	
-	var uploadTask = storageRef.child(User+'picture').put(file);
+	var uploadTask = storageRef.child('Users/'+User+'picture').put(file);
 }
   var Username_element = document.getElementById('Username');
   var Account_element = document.getElementById('Account'); 
@@ -52613,7 +52615,7 @@ citiesRef = db.collection('User23').doc(User1);
 						Phone_element.value=doc.data()['phone'];
 						Email_element.value=doc.data()['user_email'];
 						Address_element.value=doc.data()['address'];
-						var date=(doc.data()['user_birth']).toDate();
+						var date=(doc.data()['birth']).toDate();
 						Birth_element.value=date;
 						//console.log(data);		
 						//alert("aaaaasas");									
@@ -52679,7 +52681,7 @@ write_firbase=function() {
 							return;
 						}
 						else{
-							console.log(doc.data()['account']);
+							//console.log(doc.data()['account']);
 							//console.log(Account1);
 							console.log('No matching documents.');
 							alert("帳號重複，請重新輸入");

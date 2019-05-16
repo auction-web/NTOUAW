@@ -52537,6 +52537,13 @@ firebase.initializeApp(config);
 module.exports = firebase
 
 },{"firebase":3}],144:[function(require,module,exports){
+var cook=getCookie('id');
+
+
+if(cook!=""){
+	location.href = "./home.html";
+}
+
 login=function(){
 	 var Account_element = document.getElementById('Account');
 	 var Account= Account_element.value;

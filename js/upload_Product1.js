@@ -52558,16 +52558,17 @@ if(typeof FileReader==='undefined'){
 }
 //var User='User77/';
 //var User1='User77';
-var User1='User'+getCookie('id');
+var cook=getCookie('id');
+var User1='User'+cook;
 var User=User1+'/';
-alert(User1);
-if(User1==""){
+
+if(cook==""){
+	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
 }
 
-
  del=function(){
-	   var Counter = db.collection('User23').doc(User1);
+	   var Counter = db.collection('Counter').doc('Product');
 	   var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52575,36 +52576,37 @@ if(User1==""){
 			} else {
 				console.log('Document data:', doc.data());
 			}
-					quid=doc.data()['seller_Product']*5;
-					var desertRef = storageRef.child(User+quid.toString());
-					var desertRef1 = storageRef.child(User+(quid+1).toString());
-					var desertRef2 = storageRef.child(User+(quid+2).toString());
-					var desertRef3 = storageRef.child(User+(quid+3).toString());
-					var desertRef4 = storageRef.child(User+(quid+4).toString());
+					quid=doc.data()['id'];
+					'Products/'+'Products'+quid.toString()+'/0'
+					var desertRef = storageRef.child('Products/'+'Products'+quid.toString()+'/0');
+					var desertRef1 = storageRef.child('Products/'+'Products'+quid.toString()+'/1');
+					var desertRef2 = storageRef.child('Products/'+'Products'+quid.toString()+'/2');
+					var desertRef3 = storageRef.child('Products/'+'Products'+quid.toString()+'/3');
+					var desertRef4 = storageRef.child('Products/'+'Products'+quid.toString()+'/4');
 						desertRef.delete().then(function() {
-							console.log(User+quid.toString()+"delete successful");
+							console.log('Products/'+'Products'+quid.toString()+'/0'+"delete successful");
 						}).catch(function(error) {	
-						console.log(User+quid.toString()+"delete fail");
+						console.log('Products/'+'Products'+quid.toString()+'/0'+"delete fail");
 					});
 						desertRef1.delete().then(function() {
-							console.log(User+quid.toString()+"delete successful");
+							console.log('Products/'+'Products'+quid.toString()+'/1'+"delete successful");
 						}).catch(function(error) {	
-						console.log(User+(quid+1).toString()+"delete fail");
+						console.log('Products/'+'Products'+quid.toString()+'/1'+"delete fail");
 					});
 						desertRef2.delete().then(function() {
-							console.log(User+quid.toString()+"delete successful");
+							console.log('Products/'+'Products'+quid.toString()+'/2'+"delete successful");
 						}).catch(function(error) {	
-						console.log(User+(quid+2).toString()+"delete fail");
+						console.log('Products/'+'Products'+quid.toString()+'/2'+"delete fail");
 					});
 						desertRef3.delete().then(function() {
-							console.log(User+quid.toString()+"delete successful");
+							console.log('Products/'+'Products'+quid.toString()+'/3'+"delete successful");
 						}).catch(function(error) {	
-						console.log(User+(quid+3).toString()+"delete fail");
+						console.log('Products/'+'Products'+quid.toString()+'/3'+"delete fail");
 					});
 						desertRef4.delete().then(function() {
-							console.log(User+quid.toString()+"delete successful");
+							console.log('Products/'+'Products'+quid.toString()+'/4'+"delete successful");
 						}).catch(function(error) {	
-						console.log(User+(quid+4).toString()+"delete fail");
+						console.log('Products/'+'Products'+quid.toString()+'/4'+"delete fail");
 					});
 			})
 			.catch(err => {
@@ -52617,7 +52619,7 @@ del();
 
 function readFile(){	
 	var file = this.files[0]; 
-	//alert(this.files.length);
+//	alert(this.files.length);
 	var reader = new FileReader(); 
 	//var bigImg = document.createElement("img");
 	reader.readAsDataURL(file); 
@@ -52628,9 +52630,9 @@ function readFile(){
 		var myDiv = document.getElementById('myDiv'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
-	var Counter = db.collection('User23').doc(User1);
+	var Counter = db.collection('Counter').doc('Product');
 	var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52638,8 +52640,8 @@ function readFile(){
 			} else {
 				console.log('Document data:', doc.data());
 			}
-					var quid=doc.data()['seller_Product']*5;
-					var uploadTask = storageRef.child(User+quid.toString()).put(file);
+					var quid=doc.data()['id'];
+					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/0').put(file);
 			})
 			.catch(err => {
 			console.log('Error getting document', err);
@@ -52677,12 +52679,12 @@ function readFile1(){
 		var myDiv1 = document.getElementById('myDiv1'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv1.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
 	//var firebase= require("./firebase");
 	//var db = firebase.firestore();
 	//var storageRef = firebase.storage().ref();
-		var Counter = db.collection('User23').doc(User1);
+	var Counter = db.collection('Counter').doc('Product');
 	var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52690,8 +52692,8 @@ function readFile1(){
 			} else {
 				console.log('Document data:', doc.data());
 			}
-					var quid=doc.data()['seller_Product']*5+1;
-					var uploadTask = storageRef.child(User+quid.toString()).put(file);
+					var quid=doc.data()['id'];
+					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/1').put(file);
 			})
 			.catch(err => {
 			console.log('Error getting document', err);
@@ -52730,12 +52732,12 @@ function readFile2(){
 		var myDiv2 = document.getElementById('myDiv2'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv2.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
 	//var firebase= require("./firebase");
 	//var db = firebase.firestore();
 	//var storageRef = firebase.storage().ref();
-		var Counter = db.collection('User23').doc(User1);
+	var Counter = db.collection('Counter').doc('Product');
 	var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52743,8 +52745,8 @@ function readFile2(){
 			} else {
 				console.log('Document data:', doc.data());
 			}
-					var quid=doc.data()['seller_Product']*5+2;
-					var uploadTask = storageRef.child(User+quid.toString()).put(file);
+					var quid=doc.data()['id'];
+					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/2').put(file);
 					
 					
 			})
@@ -52785,12 +52787,12 @@ function readFile3(){
 		var myDiv3 = document.getElementById('myDiv3'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv3.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
 	//var firebase= require("./firebase");
 	//var db = firebase.firestore();
 	//var storageRef = firebase.storage().ref();
-		var Counter = db.collection('User23').doc(User1);
+	var Counter = db.collection('Counter').doc('Product');
 	var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52798,9 +52800,8 @@ function readFile3(){
 			} else {
 				console.log('Document data:', doc.data());
 			}
-					var quid=doc.data()['seller_Product']*5+3;
-					
-					var uploadTask = storageRef.child(User+quid.toString()).put(file);
+					var quid=doc.data()['id'];
+					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/3').put(file);
 			})
 			.catch(err => {
 			console.log('Error getting document', err);
@@ -52839,12 +52840,12 @@ function readFile4(){
 		var myDiv4 = document.getElementById('myDiv4'); //获得dom对象
 		//myDiv.appendChild(bigImg);
 		myDiv4.src=this.result;
-		console.log(file);
+		//console.log(file);
 	} 
 		//var firebase= require("./firebase");
 		//var db = firebase.firestore();
 		//var storageRef = firebase.storage().ref();
-			var Counter = db.collection('User23').doc(User1);
+		var Counter = db.collection('Counter').doc('Product');
 		var getDoc = Counter.get()
 				.then(doc => {
 				if (!doc.exists) {
@@ -52852,8 +52853,8 @@ function readFile4(){
 				} else {
 					console.log('Document data:', doc.data());
 				}
-						var quid=doc.data()['seller_Product']*5+4;
-						var uploadTask = storageRef.child(User+quid.toString()).put(file);				
+						var quid=doc.data()['id'];
+					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/4').put(file);				
 				})
 				.catch(err => {
 				console.log('Error getting document', err);
@@ -52942,7 +52943,7 @@ up=function(){
    var data={build_time:date,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
    delivery_fee:[Number(price1),Number(price2),0],finish_time:0,increase_price:0,is_Bid:false,payment:[false,false,false],
    price:Number(price),product_evaluation:0,product_id:0,product_kind:Number(category),product_quantity:Number(qty),product_title:product
-   ,reserve_price:0,seller_account:0,sold:0,state:0,winner_account:0
+   ,reserve_price:0,seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
    };
    back=function(){
 	  window.location = "./personal.html";
@@ -52950,7 +52951,7 @@ up=function(){
    seller=function(id){
 	   var Counter = db.collection('User23').doc(User1);
 	   data['is_Order']=0;
-	   citiesRef = db.collection('User23').doc(User1).collection('iamSeller');
+	   citiesRef1 = db.collection('User23').doc(User1).collection('iamSeller');
 	   var getDoc = Counter.get()
 			.then(doc => {
 			if (!doc.exists) {
@@ -52963,9 +52964,11 @@ up=function(){
 						Counter.update({
 							seller_Product: quid+1
 						});	
-						data['product_id']=id.toString();
-						console.log(data);
-						citiesRef.doc('Product'+quid.toString()).set(data);			
+						data['product_id']=id;
+						data['seller_account']=doc.data()['account'];
+						citiesRef.doc('Product'+id.toString()).update({'seller_account':data['seller_account']});	
+						//console.log(data);
+						citiesRef1.doc('Product'+quid.toString()).set(data);			
 						alert("上傳成功");
 						callback();
 					}	
@@ -52987,7 +52990,7 @@ up=function(){
 				Counter.set({
 					id: quid+1
 				});	
-				data['product_id']=quid.toString();
+				data['product_id']=quid;
 				console.log(data);
 				citiesRef.doc('Product'+quid.toString()).set(data);			
 				//alert("asas");
