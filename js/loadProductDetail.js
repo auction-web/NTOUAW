@@ -30,7 +30,7 @@ console.log('id = ',id);
     //get Product detail
     var productRef = db.collection("Product").doc(id).get() //getDoc是Promise物件
         .then(doc => {  
-            alert("GET SUCESS.");
+//            alert("GET SUCESS.");
                 //get data successfully       
                 productDetail = doc.data();
                 console.log(productDetail);

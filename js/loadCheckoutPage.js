@@ -12,7 +12,9 @@ const $ = require('jQuery')(window);
 //get and set data in checkout page
 (function ($) {
     //get info form cookie
-    alert("page loading");
+//    console.log(document.cookie);
+//    alert("page loading");
+    
     var sellerName = readCookie('sellerName');
     var productName = readCookie('productName');
     var productPrice = readCookie('productPrice');
