@@ -11,10 +11,11 @@ if(typeof FileReader==='undefined'){
 }
 //var User='User77/';
 //var User1='User77';
-var User1='User'+getCookie('id');
+var cook=getCookie('id');
+var User1='User'+cook;
 var User=User1+'/';
 
-if(User1==""){
+if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
 }

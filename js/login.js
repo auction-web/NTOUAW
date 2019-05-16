@@ -1,3 +1,10 @@
+var cook=getCookie('id');
+
+
+if(cook!=""){
+	location.href = "./home.html";
+}
+
 login=function(){
 	 var Account_element = document.getElementById('Account');
 	 var Account= Account_element.value;

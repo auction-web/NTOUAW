@@ -25,6 +25,7 @@
 
 <body>
 
+
     <!-- ##### Main Content Wrapper Start ##### -->
     <div class="main-content-wrapper d-flex clearfix">
 
@@ -49,9 +50,38 @@
                 
                 <div class = "toolbar">
                     <div class = "personal">
-                        <input type = "button" value = "登出">
+                        <input type = "button" onclick = "signout()" value = "登出">
                         <input type = "button" onclick = "javascript:location.href = './cart.html'" value = "購物車">
                         <input type = "button" onclick = "javascript:location.href = './personal.html'" value = "個人資料">
+                    </div>
+                    <!-- Search -->
+                    <div class = "search_base">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                            <select name = "itemfilter">
+                                <option value = "productname">商品名稱</option>
+                                <option value = "seller">賣家</option>
+                            </select>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Toolbar end -->
+
+        <!-- Toolbar start -->
+            <div class = "toolbarbase row">
+                <!-- Logo -->
+                <a class = "icon_link" href = "./home.html">
+                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
+                </a>
+                
+                <div class = "toolbar">
+                    <div class = "personal">
+                        <input type = "button" value = "登出">
+                        <input type = "button" value = "購物車">
+                        <input type = "button" value = "個人資料">
                     </div>
                     <!-- Search -->
                     <div class = "search_base">
@@ -165,7 +195,7 @@
                                         <span class="qty-plus_u" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <input class = "btn amado-btn3" type = "button" value = "上傳商品"  name="Uploadproduct"  onclick='up()'>
+                                <button type="submit" name="Uploadproduct" value="7" class="btn amado-btn3">上傳商品</button>
                             </form>
                         </div>
                     </div>
