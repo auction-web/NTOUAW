@@ -31,7 +31,8 @@ const $ = require('jQuery')(window);
     $('#checkoutConfirm').click(function () {
 
         alert("訂單已成立! 按下確定返回商店頁面");
-    })
+        location.href = "./home.html";
+    });
 
 })(jQuery);//end "get and set data in checkout page"
 
