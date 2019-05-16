@@ -52537,31 +52537,13 @@ firebase.initializeApp(config);
 module.exports = firebase
 
 },{"firebase":3}],144:[function(require,module,exports){
-var firebase= require("./firebase");
-var db = firebase.firestore();
-var citiesRef = db.collection('User23');
-
-
-
 var cook=getCookie('id');
-//alert(cook);
-var allCities = citiesRef.where('user_id', '==',cook ).get()
-	 .then(snapshot => {
-		// alert(snapshot.empty);
-		if (snapshot.empty) {
-			//console.log('No matching documents.');
-			//alert("帳密錯誤");
-			//location.href = "./index.html";
-			//alert("123");
-		} 
-		else{
-			//alert("3456");
-			location.href = "./home.html";
-		}
-	})
-	.catch(err => {
-		console.log('Error getting documents', err);
-	});
+
+
+if(cook!=""){
+	location.href = "./home.html";
+}
+
 login=function(){
 	 var Account_element = document.getElementById('Account');
 	 var Account= Account_element.value;
@@ -52573,9 +52555,9 @@ login=function(){
 		 // console.log('Document data1111:');
 		  return ;
 	 }
-	  /*var firebase= require("./firebase");
+	  var firebase= require("./firebase");
 	  var db = firebase.firestore();
-	  var citiesRef = db.collection('User23');*/
+	  var citiesRef = db.collection('User23');
   
 	 var allCities = citiesRef.where('account', '==',Account ).where('password', '==',Password ).get()
 	 .then(snapshot => {
