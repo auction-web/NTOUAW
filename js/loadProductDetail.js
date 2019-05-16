@@ -12,6 +12,7 @@ const $ = require('jQuery')(window);
 var productDetail = new Object();
 var sellerDetail = new Object();
 
+//get product id
 var aa;
 var url = location.href; // product-detail.html
 aa= url.split('?')[1].split('=')[1];
@@ -27,8 +28,7 @@ console.log(id);
 
     //get Product detail
     var productRef = db.collection("Product").doc('Product' + id).get() //getDoc是Promise物件
-        .then(doc => {
-            
+        .then(doc => {   
                 //get data successfully       
                 productDetail = doc.data();
                 console.log(productDetail);
