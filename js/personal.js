@@ -19,7 +19,7 @@ if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
 }
-storageRef.child(User+'picture').getDownloadURL().then(function(url) {
+storageRef.child('Users/'+User+'picture').getDownloadURL().then(function(url) {
   // `url` is the download URL for 'images/stars.jpg'
 
   // This can be downloaded directly:
