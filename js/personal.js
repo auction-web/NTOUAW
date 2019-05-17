@@ -20,7 +20,7 @@ if(cook==""){
 	location.href = "./index.html";
 }
 storageRef.child('Users/'+User+'picture').getDownloadURL().then(function(url) {
-  // `url` is the download URL for 'images/stars.jpg'
+  //// `url` is the download URL for 'images/stars.jpg'
 
   // This can be downloaded directly:
   var xhr = new XMLHttpRequest();
