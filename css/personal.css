@@ -302,8 +302,9 @@ div.search_base form button {
     }
 }
 
-div table tbody tr td a{
-    font-size: 19px;
+div table tbody tr td a,
+div table tbody tr td a:hover{
+    font-size: 15px;
 }
 
 .cancel,
