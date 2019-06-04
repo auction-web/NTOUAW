@@ -69,7 +69,7 @@
                 <button class = "tablinks" onclick="personalpage(event, 'buylist')">個人購物清單</button>
                 <button class = "tablinks" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
                 <button class = "tablinks" onclick="personalpage(event, 'selllist')">賣家訂單清單</button>
-                <button class = "tablinks" onclick="personalpage(event, 'productmanage')">賣家商品管理</button>
+                <button class = "tablinks PM" onclick="personalpage(event, 'productmanage'); PMloadproduct(1)">賣家商品管理</button>
             </div>
             <!-- Tab menu end-->
             
@@ -138,9 +138,15 @@
                             <option value = "status">賣家</option>
                         </select>
                         <div class = "page">
-                            <a href="#" class="previous round">&#8249;</a>
-                            <label class = "page">1.</label>
-                            <a href="#" class="next round">&#8250;</a>
+                            <!-- Pagination -->
+                            <nav aria-label="navigation">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
 
@@ -205,9 +211,15 @@
                             <option value = "status">賣家</option>
                         </select>
                         <div class = "page">
-                            <a href="#" class="previous round">&#8249;</a>
-                            <label class = "page">1.</label>
-                            <a href="#" class="next round">&#8250;</a>
+                            <!-- Pagination -->
+                            <nav aria-label="navigation">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
 
@@ -217,8 +229,10 @@
                                 <tr>
                                     <th>日期</th>
                                     <th>訂單編號</th>
-                                    <th>價格</th>
+                                    <th>商品名稱</th>
+                                    <th>自己標價</th>
                                     <th>數量</th>
+                                    <th>最高標價</th>
                                     <th>賣家</th>
                                     <th>訂單狀態</th>
                                     <th>評價</th>
@@ -233,10 +247,16 @@
                                         <a class = "listID" href = "">123456</a>
                                     </td>
                                     <td>
+                                        <span class = "selfdefine">無敵腿哥大腿一隻</span>
+                                    </td>
+                                    <td>
                                         <span class = "selfdefine">150$</span>
                                     </td>
                                     <td>
                                         <span class = "quantity">5</span>
+                                    </td>
+                                    <td>
+                                        <span class = "selfdefine">500$</span>
                                     </td>
                                     <td>
                                         <a class = "seller" href = "">Admin</a>
@@ -272,9 +292,15 @@
                             <option value = "status">買家</option>
                         </select>
                         <div class = "page">
-                            <a href="#" class="previous round">&#8249;</a>
-                            <label class = "page">1.</label>
-                            <a href="#" class="next round">&#8250;</a>
+                            <!-- Pagination -->
+                            <nav aria-label="navigation">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
 
@@ -337,19 +363,24 @@
                 <div class="container-fluid">
                     <!-- Search -->
                     <div class = "search_base">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                        <form onsubmit="return false">
+                            <input type="search" name="search" id="PMsearch" placeholder="Type your keyword...">
+                            <button class = "searchbutton" onclick="PMsearch"><img src="img/core-img/search.png" alt=""></button>
                         </form>
                         <select name = "itemfilter">
                             <option value = "listID">訂單編號</option>
                             <option value = "seller">訂單狀態</option>
-                            <option value = "status">買家</option>
                         </select>
-                        <div class = "page">
-                            <a href="#" class="previous round">&#8249;</a>
-                            <label class = "page">1.</label>
-                            <a href="#" class="next round">&#8250;</a>
+                        <div class = "page row">
+                            <!-- Pagination -->
+                            <nav aria-label="navigation">
+                                <ul class="pagination justify-content-end" id="pagination">
+                                    <li class="page-item active"><a class="page-link" onclick="PMchangePage(1)">01.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="PMchangePage(2)">02.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="PMchangePage(3)">03.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="PMchangePage(4)">04.</a></li>
+                                </ul>
+                            </nav>
                             <input class = "upload" type = "button" value = "上傳商品" onclick="javascript:location.href='./upload_Product.html'">
                         </div>
                     </div>
@@ -359,7 +390,7 @@
                             <thead>
                                 <tr>
                                     <th>日期</th>
-                                    <th>商品名稱(ID)</th>
+                                    <th>商品名稱</th>
                                     <th>是否競標</th>
                                     <th>價格</th>
                                     <th>庫存</th>
@@ -369,36 +400,8 @@
                                     <th>刪除商品</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class = "selfdefine">2019/5/9</span>
-                                    </td>
-                                    <td>
-                                        <a class = "listID" href = "">無敵大腿哥(5948787)</a>
-                                    </td>
-                                    <td>
-                                        <span class = "bid">否</span>
-                                    </td>
-                                    <td>
-                                        <span class = "price">150$</span>
-                                    </td>
-                                    <td>
-                                        <span class = "quantity">20</span>
-                                    </td>
-                                    <td>
-                                        <span class = "d_price">60$</span>
-                                    </td>
-                                    <td>
-                                        <span class = "status">販售中</span>
-                                    </td>
-                                    <td>
-                                        <input class = "modify" type = "button" value = "修改商品">
-                                    </td>
-                                    <td>
-                                        <input class = "delete" type = "button" value = "刪除">
-                                    </td>
-                                </tr>
+                            <tbody id = "productlist">
+                            <!--Dynamic create -->
                             </tbody>
                         </table>
                     </div>                 
@@ -421,27 +424,15 @@
         <script src="js/plugins.js"></script>
         <!-- Active js -->
         <script src="js/active.js"></script>
+        
         <script src="js/cookies.js"></script>
+        
         <script src="js/personal1.js"></script>
-		
-        <script>
-            function personalpage(evt, tagName) {
-              var i, tabcontent, tablinks;
-              tabcontent = document.getElementsByClassName("tabcontent");
-              for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-              }
-              tablinks = document.getElementsByClassName("tablinks");
-              for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-              }
-              document.getElementById(tagName).style.display = "block";
-              evt.currentTarget.className += " active";
-            }
-        </script>
-		<!-- Cookies js 
-		<script src="js/cookies.js"></script>
-		-->
+        
+		<script src="js/personal_tab_c.js"></script>
+        
+        <script type="text/javascript" src="./js/product_manage_c.js"></script>
+        
     </body>
 
 </html>

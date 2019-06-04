@@ -18,11 +18,11 @@ label.page{
 }
 
 div.page{
-    margin-left: 20%;
+    margin-left: 10%;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     div.page{
-        margin-left: 13%;
+        margin-left: 5%;
     }
 }
 
@@ -34,7 +34,7 @@ div.page{
 
 @media only screen and (max-width: 767px) {
     div.page{
-        display: block
+        margin-left: 0%;
     }
     label.page{
         font-size: 18px;
@@ -102,7 +102,6 @@ div.search_base{
         flex: 0 0 100%;
         width: 100%;
         max-width: 100%;
-        
     }
 }
 
@@ -123,6 +122,7 @@ div.search_base form {
     width: 50%;
     position: relative;
     margin-right: 10px;
+    height: 40px;
     z-index: 1;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.075); 
 }
@@ -234,9 +234,7 @@ div.search_base form button {
 }
 
 .main-content-wrapper .buylist-table-area table thead tr th,
-.main-content-wrapper .buylist-table-area table tbody tr td,
-.main-content-wrapper .bidlist-table-area table thead tr th,
-.main-content-wrapper .bidlist-table-area table tbody tr td
+.main-content-wrapper .buylist-table-area table tbody tr td
 {
     border-top: none;
     border-bottom: none;
@@ -249,6 +247,8 @@ div.search_base form button {
     color: #242424;
     text-transform: capitalize;
 }
+.main-content-wrapper .bidlist-table-area table thead tr th,
+.main-content-wrapper .bidlist-table-area table tbody tr td,
 .main-content-wrapper .selllist-table-area table thead tr th,
 .main-content-wrapper .selllist-table-area table tbody tr td,
 .main-content-wrapper .productmanage-table-area table thead tr th,
@@ -286,7 +286,7 @@ div.search_base form button {
     .main-content-wrapper .selllist-table-area table tbody tr td,
     .main-content-wrapper .productmanage-table-area table thead tr th,
     .main-content-wrapper .productmanage-table-area table tbody tr td{
-        font-size: 18px;
+        font-size: 13px;
     }
 }
 @media only screen and (max-width: 767px) {
@@ -298,7 +298,7 @@ div.search_base form button {
     .main-content-wrapper .selllist-table-area table tbody tr td,
     .main-content-wrapper .productmanage-table-area table thead tr th,
     .main-content-wrapper .productmanage-table-area table tbody tr td{
-        font-size: 15px;
+        font-size: 10px;
     }
 }
 
@@ -307,14 +307,32 @@ div table tbody tr td a:hover{
     font-size: 15px;
 }
 
+span.date{
+    font-size: 15px;
+}
+
+input.delete{
+    height: 35px;
+    width: 50px;
+    font-size: 18px;
+    color: black;
+    background-color: #fbb710;
+    border-radius:15px;
+}
+
+input.delete:hover{
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #131212;
+}
+
 .cancel,
 input.criticize,
 input.modify,
-input.delete,
 input.upload{
     height: 35px;
     width: 100px;
-    font-size: 18px;
+    font-size: 16px;
     color: black;
     background-color: #fbb710;
     border-radius:15px;
@@ -322,7 +340,6 @@ input.upload{
 .cancel:hover,
 input.criticize:hover,
 input.modify:hover,
-input.delete:hover,
 input.upload:hover{
     font-size: 18px;
     color: #ffffff;
@@ -335,7 +352,7 @@ input.upload:hover{
     input.delete{
         height: 35px;
         width: 100px;
-        font-size: 18px;
+        font-size: 16px;
         color: black;
         background-color: #fbb710;
         border-radius:15px;
@@ -349,8 +366,8 @@ input.upload:hover{
     input.modify,
     input.delete{
         height: 35px;
-        width: 80px;
-        font-size: 18px;
+        width: 65px;
+        font-size: 15px;
         color: black;
         background-color: #fbb710;
         border-radius:15px;

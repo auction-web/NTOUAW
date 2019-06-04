@@ -1070,7 +1070,8 @@ img {
   .single-products-catagory:hover .hover-content p,
   .single-products-catagory:hover .hover-content h4, .single-products-catagory:focus .hover-content p,
   .single-products-catagory:focus .hover-content h4 {
-    color: #ffffff;}
+    color: #000000;
+    }
 
 /* :: 6.0 Newsletter Area CSS */
 .newsletter-area {

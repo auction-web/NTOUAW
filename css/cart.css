@@ -18,7 +18,7 @@
 }
 
 .search_base{
-    margin-left: 50px;
+    margin-left: 10px;
     width: 80%;
 }
 
@@ -29,7 +29,6 @@ input.checkbox{
 }
 
 div.toolbar{
-    display: block;
     padding-top: 10px;
     padding-left: 10px;
     -webkit-box-flex: 0;
@@ -63,10 +62,10 @@ div.toolbar{
 @media only screen and (max-width: 767px) {
     div.toolbar {
         -webkit-box-flex: 0;
-        -ms-flex: 0 0 60%;
-        flex: 0 0 60%;
-        width: 60%;
-        max-width: 60%;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        width: 50%;
+        max-width: 50%;
     }
 }
 
