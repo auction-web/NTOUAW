@@ -52565,13 +52565,13 @@ if(url.indexOf('?')!= -1){
        input = url.split('?')[1].split('=')[1];
 	}
 }
-var User='User23/';
+/*var User='User23/';
 var User1='User7';
-//console.log(product_id);
+//console.log(product_id);*/
 var product_id=Number(input);
-/*var cook=getCookie('id');
+var cook=getCookie('id');
 var User1='User'+cook;
-var User=User1+'/';*/
+var User=User1+'/';
 
 /*if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
