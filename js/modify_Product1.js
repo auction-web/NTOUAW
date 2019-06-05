@@ -52560,8 +52560,8 @@ var aa;
 var url = location.href; // product-detail.html
 aa = (url.split('?')[1]).split('=')[1];
 
-console.log('id = ',aa);
-/*var User='User23/';;
+//console.log('id = ',aa);
+/*var User='User23/';
 var User1='User7';
 //console.log(product_id);*/
 var product_id=Number(aa);
@@ -52987,7 +52987,7 @@ up=function(){
    back=function(){
 	  window.location = "./personal.html";
    }
-   seller=function(){
+   seller=function(callback){
 	   var Counter = db.collection('User23').doc(User1);
 	   data['is_Order']=0;
 	   citiesRef1 = db.collection('User23').doc(User1).collection('iamSeller');
@@ -53000,14 +53000,14 @@ up=function(){
 						//console.log(doc['id']);
 						citiesRef1.doc(doc['id']).update(data);
 					});	
-					
+					callback();
 			})
 			.catch(err => {
 				console.log('Error getting documents', err);
 			});	   
-	   //back();
+	   
    }
-   seller();
+   seller(back);
 	
 
 }
