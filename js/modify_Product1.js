@@ -53000,6 +53000,7 @@ up=function(){
 						//console.log(doc['id']);
 						citiesRef1.doc(doc['id']).update(data);
 					});	
+					alert("修改成功");
 					callback();
 			})
 			.catch(err => {
