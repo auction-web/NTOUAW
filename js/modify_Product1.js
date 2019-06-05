@@ -52556,19 +52556,15 @@ if(typeof FileReader==='undefined'){
 	input3.addEventListener('change',readFile3,false);
 	input4.addEventListener('change',readFile4,false);
 }
-var url_origun = location.href;
-var url = decodeURI(url_origun);
-var input;
-if(url.indexOf('?')!= -1){
-   if(url.indexOf('pmpage') != -1){
-       
-       input = url.split('?')[1].split('=')[1];
-	}
-}
+var aa;
+var url = location.href; // product-detail.html
+aa = (url.split('?')[1]).split('=')[1];
+
+console.log('id = ',id);
 /*var User='User23/';
 var User1='User7';
 //console.log(product_id);*/
-var product_id=Number(input);
+var product_id=Number(aa);
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
