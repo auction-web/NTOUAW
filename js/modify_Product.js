@@ -21,7 +21,7 @@ var aa;
 var url = location.href; // product-detail.html
 aa = (url.split('?')[1]).split('=')[1];
 
-console.log('id = ',id);
+console.log('id = ',aa);
 /*var User='User23/';
 var User1='User7';
 //console.log(product_id);*/
