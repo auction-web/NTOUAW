@@ -22,13 +22,13 @@ console.log('id = ',id);
 
 //get and set data in the product-detail page
 (function ($) {
-    //console.log("URL"=aa);
+
     //initialize firebase
     var firebase = require("./firebase");
     var db = firebase.firestore();
 
     //get Product detail
-    var productRef = db.collection("Product").doc(id).get() //getDoc是Promise物件
+    var productRef = db.collection("Product").doc(id).get() 
         .then(doc => {  
 //            alert("GET SUCESS.");
                 //get data successfully       
@@ -102,6 +102,7 @@ console.log('id = ',id);
                     //將商品id, 賣家名稱, 數量製作成cookie
                     createCookie('sellerName',sellerDetail.user_name);
                     createCookie('productName',productName);
+                    createCookie('productID',productID);
                     createCookie('productPrice',price);
                     createCookie('quantity',choosedQuantity);
                     createCookie('delievery_payWhenGet',deliveryFee[0]);
