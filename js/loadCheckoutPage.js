@@ -31,7 +31,7 @@ const $ = require('jQuery')(window);
     var delievery_final_method = 0; //method[0]:payWhenGet
     var delievery_final_fee = delievery_fee_payWhenGet;
     var sum = totalPrice + delievery_fee_payWhenGet;
-    console.log("sum = ", sum);
+    console.log("sum = ", sum); //<-- get info from cookie
 
     //--> set order's info in checkout page
     // seller region
@@ -44,7 +44,7 @@ const $ = require('jQuery')(window);
     $('#summery-delievery-fee').text(delievery_fee_payWhenGet);
     $('#summery-sum').text("$" + sum);
 
-    //when click 運送方式列表
+    //--> when click 運送方式列表
     $('#deliveryMethod').change(function () {
         var method = Number($('#deliveryMethod').val());
         //console.log("method = ", method);
@@ -71,7 +71,7 @@ const $ = require('jQuery')(window);
         //recaculate the price and sum
         sum = totalPrice + delievery_final_fee;
         $('#summery-sum').text("$" + sum);
-    });
+    }); //<-- when click 運送方式列表
 
     //initialize firebase
     var firebase = require("./firebase");
@@ -80,32 +80,44 @@ const $ = require('jQuery')(window);
 
     //-->　get seller's and buyer's order ref 
     var sellerOrderRef;
+    var sellerOrderNum;
+    var sellerOrderName;
     var buyerOrderRef;
-    // find seller's ref by name
+    var buyerOrderNum;
+    var buyerOrderName;
+    //find seller's ref
     var getSellerRef = userRef.where('user_name', '==', sellerName).get().then(snapshot => { //get data successfully 
             snapshot.forEach(doc => {
                 console.log("ref = ", doc.ref.path);
+                
                 //--> get seller's path on databasae (ref = User23/User~)
                 var sellerRef = (doc.ref.path).split('/')[1]; //get User~
-                sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');
-                // how many order already there?
-                sellerOrderRef.where('is_Order','==',true)
+                sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');              
             });
         })
         .catch(err => {
             console.log('Error getting document', err);
         });
-    //find buyer's ref by id
+    
+    //find buyer's ref 
     var getBuyerRef = userRef.where('user_id', '==', buyerID).get().then(snapshot => {
         snapshot.forEach(doc => {
             console.log("buyerref = ", doc.ref.path);
+
             // -->get buyer's path on database
             var buyerRef = (doc.ref.path).split('/')[1];
             buyerOrderRef = userRef.doc(buyerRef).collection('iamBuyer');
+
+            // how many buyer order already there?
+            sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
+                buyerOrderNum = snap.size+1;
+                buyerOrderName = 'Order' + buyerOrderNum;
+                console.log('buyer order:', buyerOrderName);
+            });
         });
     }).catch(err => {
         console.log('Error getting document', err);
-    })
+    }) //<--　get seller's and buyer's order ref
 
 
     //--> click "checkout confirm" button.
@@ -126,16 +138,16 @@ const $ = require('jQuery')(window);
             buyer_account: buyerID,
             //oder info
             is_Order: true,
-            is_bid : false,
+            is_bid: false,
             order_state: processing,
             build_time: date,
             cancel_reason: "",
             total_price: sum,
         };
-
         var ProductDetail = {
             //product info
             product_id: productID,
+            product_title: productName,
             product_price: productPrice_num,
             product_quantity: Number(quantity),
             delivery: delievery_final_method,
@@ -144,21 +156,30 @@ const $ = require('jQuery')(window);
         }
 
         //--> write seller's order to firebase
-        var setSellerOrder = sellerOrderRef.doc('Order_test_seller').set(OrderDetail);
-        var setSellerOrderProducts = sellerOrderRef.doc('Order_test_seller').collection('Products').doc('Product1').set(ProductDetail);
+        // how many seller's order already there?
+        sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
+            sellerOrderNum = snap.size+1;
+            sellerOrderName = 'Order' + sellerOrderNum;
+            console.log('seller order:', sellerOrderName);
+         
+            //write into firebase
+            var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);
+            var setSellerOrderProducts = sellerOrderRef.doc(sellerOrderName).collection('Products').doc('Product1').set(ProductDetail);
+
+        });
 
         //--> write buyer's order to firebase
-        var setBuyerOrder = buyerOrderRef.doc('Order_test_buyer').set(OrderDetail);
-        var setBuyerOrderProducts = buyerOrderRef.doc('Order_test_buyer').collection('Products').doc('Product1').set(ProductDetail);
+        var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
+        var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
         //--> wait firebase for few seconds
         alert("交易中，請稍後");
-        alert("訂單交易成功! 稍後後將自動跳轉至首頁");
+        alert("訂單交易成功! 稍後將自動跳轉至首頁");
         setTimeout(function () {
             location.href = "./home.html";
         }, 2000);
 
-    }); //end "checkout button" handler
+    }); //<-- "checkout button" handler
 
 })(jQuery); //end "get and set data in checkout page"
 
