@@ -11,70 +11,155 @@ const $ = require('jQuery')(window);
 
 //get and set data in checkout page
 (function ($) {
-    //get info form cookie
-//    console.log(document.cookie);
-//    alert("page loading");  
-    console.log("cookie = ",document.cookie);
+
+    //--> get info form cookie
+    console.log("cookie = ", document.cookie);
     var sellerName = readCookie('sellerName');
+    var buyerID = Number(readCookie('id'));
+    var productID = Number(readCookie('productID'));
     var productName = readCookie('productName');
     var productPrice = readCookie('productPrice');
+    var productPrice_num = Number(productPrice.split('$')[1]);
     var quantity = readCookie('quantity');
-    var delivery1 = readCookie('delievery_payWhenGet');
-    var delivery2 = readCookie('delievery_blackCat');
-    var delivery3 = readCookie('delievery_face');
-    
-    var delievery_payWhenGet = Number(delivery1.split('$')[1]);
-    var delievery_blackCat = Number(delivery2.split('$')[1]);
-    var delievery_face = Number(delivery3.split('$')[1]); 
-    var totalPrice = Number(productPrice.split('$')[1]) * Number(quantity); 
-    var sum = totalPrice + delievery_payWhenGet;
-    console.log("sum = ",sum);
-    
-    //set info in checkout page
-    $('#seller').text("賣家:"+sellerName);
+    var totalPrice = productPrice_num * Number(quantity);
+    var delivery_method1 = readCookie('delievery_payWhenGet');
+    var delivery_method2 = readCookie('delievery_blackCat');
+    var delivery_method3 = readCookie('delievery_face');
+    var delievery_fee_payWhenGet = Number(delivery_method1.split('$')[1]);
+    var delievery_fee_blackCat = Number(delivery_method2.split('$')[1]);
+    var delievery_fee_face = Number(delivery_method3.split('$')[1]);
+    var delievery_final_method = 0; //method[0]:payWhenGet
+    var delievery_final_fee = delievery_fee_payWhenGet;
+    var sum = totalPrice + delievery_fee_payWhenGet;
+    console.log("sum = ", sum);
+
+    //--> set order's info in checkout page
+    // seller region
+    $('#seller').text("賣家:" + sellerName);
     $('#product-name').text(productName);
     $('#product-price').text(productPrice);
     $('#qty').text(quantity);
-    //  -->summery region
+    // summery region
     $('#summery-product-price').text(productPrice);
-    $('#summery-delievery-fee').text(delivery1);
-    $('#summery-sum').text("$"+sum);
-    
-    //when click 運費選擇選單
+    $('#summery-delievery-fee').text(delievery_fee_payWhenGet);
+    $('#summery-sum').text("$" + sum);
+
+    //when click 運送方式列表
     $('#deliveryMethod').change(function () {
-        var method = $('#deliveryMethod').val();
-        console.log("method = ",method);
-        totalPrice = Number(productPrice.split('$')[1]) * Number(quantity); 
-        switch (method) {
-            case "1":
-                $('#summery-delievery-fee').text(delivery1);
-                sum = totalPrice + delievery_payWhenGet;
-                $('#summery-sum').text("$" + sum);
+        var method = Number($('#deliveryMethod').val());
+        //console.log("method = ", method);
+        switch (method - 1) {
+            case 0:
+                delievery_final_method = 0;
+                delievery_final_fee = delievery_fee_payWhenGet;
+                $('#summery-delievery-fee').text(delivery_method1);
                 break;
-            case "2":
-                $('#summery-delievery-fee').text(delivery2);
-                sum = totalPrice + delievery_blackCat;
-                $('#summery-sum').text("$" + sum);
+            case 1:
+                delievery_final_method = 1;
+                delievery_final_fee = delievery_fee_blackCat;
+                $('#summery-delievery-fee').text(delivery_method2);
                 break;
-            case "3":
-                $('#summery-delievery-fee').text(delivery3);
-                sum = totalPrice + delievery_face;
-                $('#summery-sum').text("$" + sum);
+            case 2:
+                delievery_final_method = 2;
+                delievery_final_fee = delievery_fee_face;
+                $('#summery-delievery-fee').text(delivery_method3);
                 break;
             default:
                 console.log("error.");
                 break;
         }
+        //recaculate the price and sum
+        sum = totalPrice + delievery_final_fee;
+        $('#summery-sum').text("$" + sum);
     });
 
-    //when click "checkout confirm" button.
+    //initialize firebase
+    var firebase = require("./firebase");
+    var db = firebase.firestore();
+    var userRef = db.collection("User23");
+
+    //-->　get seller's and buyer's order ref 
+    var sellerOrderRef;
+    var buyerOrderRef;
+    // find seller's ref by name
+    var getSellerRef = userRef.where('user_name', '==', sellerName).get().then(snapshot => { //get data successfully 
+            snapshot.forEach(doc => {
+                console.log("ref = ", doc.ref.path);
+                //--> get seller's path on databasae (ref = User23/User~)
+                var sellerRef = (doc.ref.path).split('/')[1]; //get User~
+                sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');
+
+            });
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
+        });
+    //find buyer's ref by id
+    var getBuyerRef = userRef.where('user_id', '==', buyerID).get().then(snapshot => {
+        snapshot.forEach(doc => {
+            console.log("buyerref = ", doc.ref.path);
+            // -->get buyer's path on database
+            var buyerRef = (doc.ref.path).split('/')[1];
+            buyerOrderRef = userRef.doc(buyerRef).collection('iamBuyer');
+        });
+    }).catch(err => {
+        console.log('Error getting document', err);
+    })
+
+
+    //--> click "checkout confirm" button.
     $('#checkoutConfirm').click(function () {
 
-        alert("訂單已成立! 按下確定返回商店頁面");
-        location.href = "./home.html";
-    });
+        //get product's remark
+        var productRemark = $('#productRemark').val();
+        //get order's build time
+        var date = new Date();
+        //set order's state = processing
+        const processing = 0;
 
-})(jQuery);//end "get and set data in checkout page"
+        //create order data
+        var OrderDetail = {
+            //seller info
+            seller_account: sellerName,
+            //buyer info
+            buyer_account: buyerID,
+            //oder info
+            is_Order: true,
+            order_state: processing,
+            build_time: date,
+            cancel_reason: "",
+            total_price: sum,
+        };
+
+        var ProductDetail = {
+            //product info
+            product_id: productID,
+            product_price: productPrice_num,
+            product_quantity: Number(quantity),
+            delivery: delievery_final_method,
+            delivery_fee: delievery_final_fee,
+            remark: productRemark,
+        }
+
+        //--> write seller's order to firebase
+        var setSellerOrder = sellerOrderRef.doc('Order_test_seller').set(OrderDetail);
+        var setSellerOrderProducts = sellerOrderRef.doc('Order_test_seller').collection('Products').doc('Product1').set(ProductDetail);
+
+        //--> write buyer's order to firebase
+        var setBuyerOrder = buyerOrderRef.doc('Order_test_buyer').set(OrderDetail);
+        var setBuyerOrderProducts = buyerOrderRef.doc('Order_test_buyer').collection('Products').doc('Product1').set(ProductDetail);
+
+        //--> wait firebase for few seconds
+        alert("交易中，請稍後");
+        alert("訂單交易成功! 稍後後將自動跳轉至首頁");
+        setTimeout(function () {
+            location.href = "./home.html";
+        }, 2000);
+
+    }); //end "checkout button" handler
+
+})(jQuery); //end "get and set data in checkout page"
+
 
 //cookie創建
 function createCookie(name, value, days, path) {
