@@ -67,9 +67,9 @@
             <div class = "tab">
                 <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
                 <button class = "tablinks" onclick="personalpage(event, 'buylist')">個人購物清單</button>
-                <button class = "tablinks" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
+                <button class = "tablinks BP" onclick="personalpage(event, 'bidlist') ">個人競標清單</button>
                 <button class = "tablinks" onclick="personalpage(event, 'selllist')">賣家訂單清單</button>
-                <button class = "tablinks PM" onclick="personalpage(event, 'productmanage'); PMloadproduct(1)">賣家商品管理</button>
+                <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMloadproduct(1)">賣家商品管理</button>
             </div>
             <!-- Tab menu end-->
             
@@ -131,12 +131,13 @@
                         <form action="#" method="get">
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                            <select name = "itemfilter">
+                                <option value = "listID">訂單編號</option>
+                                <option value = "seller">訂單狀態</option>
+                                <option value = "status">賣家</option>
+                            </select>
                         </form>
-                        <select name = "itemfilter">
-                            <option value = "listID">訂單編號</option>
-                            <option value = "seller">訂單狀態</option>
-                            <option value = "status">賣家</option>
-                        </select>
+                        
                         <div class = "page">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
@@ -181,7 +182,7 @@
                                         <span class = "selfdefine">運送中</span>
                                     </td>
                                     <td >
-                                        <input class = "criticize" type = "button" value = "評價">
+                                        <input class = "criticize" type = "button" onclick = "product_eval()" value = "評價">
                                     </td>
                                     <td>
                                         <input  class = "cancel" type = "button" value = "取消訂單">
@@ -201,23 +202,23 @@
                 <div class="container-fluid">
                     <!-- Search -->
                     <div class = "search_base">
-                        <form action="#" method="get">
+                        <form action="#BP" method="get">
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                            <select name = "itemfilter">
+                                <option value = "listID">訂單編號</option>
+                                <option value = "seller">賣家</option>
+                            </select>
                         </form>
-                        <select name = "itemfilter">
-                            <option value = "listID">訂單編號</option>
-                            <option value = "seller">訂單狀態</option>
-                            <option value = "status">賣家</option>
-                        </select>
+                        
                         <div class = "page">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                <ul class="pagination justify-content-end" id = "BPpagination">
+                                    <li class="page-item active"><a class="page-link" onclick="BPchangePage(1)">01.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="BPchangePage(2)">02.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="BPchangePage(3)">03.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="BPchangePage(4)">04.</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -238,36 +239,8 @@
                                     <th>評價</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class = "selfdefine">2019/5/9</span>
-                                    </td>
-                                    <td>
-                                        <a class = "listID" href = "">123456</a>
-                                    </td>
-                                    <td>
-                                        <span class = "selfdefine">無敵腿哥大腿一隻</span>
-                                    </td>
-                                    <td>
-                                        <span class = "selfdefine">150$</span>
-                                    </td>
-                                    <td>
-                                        <span class = "quantity">5</span>
-                                    </td>
-                                    <td>
-                                        <span class = "selfdefine">500$</span>
-                                    </td>
-                                    <td>
-                                        <a class = "seller" href = "">Admin</a>
-                                    </td>
-                                    <td >
-                                        <span class = "selfdefine">運送中</span>
-                                    </td>
-                                    <td>
-                                        <input class = "criticize" type = "button" value = "評價">
-                                    </td>
-                                </tr>
+                            <tbody id = "bidlist">
+                                
                             </tbody>
                         </table>
                     </div>                 
@@ -285,12 +258,13 @@
                         <form action="#" method="get">
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
+                            <select name = "itemfilter">
+                                <option value = "listID">訂單編號</option>
+                                <option value = "seller">訂單狀態</option>
+                                <option value = "status">買家</option>
+                            </select>
                         </form>
-                        <select name = "itemfilter">
-                            <option value = "listID">訂單編號</option>
-                            <option value = "seller">訂單狀態</option>
-                            <option value = "status">買家</option>
-                        </select>
+                        
                         <div class = "page">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
@@ -363,18 +337,18 @@
                 <div class="container-fluid">
                     <!-- Search -->
                     <div class = "search_base">
-                        <form onsubmit="return false">
+                        <form  action="#PM" method="get">
                             <input type="search" name="search" id="PMsearch" placeholder="Type your keyword...">
-                            <button class = "searchbutton" onclick="PMsearch"><img src="img/core-img/search.png" alt=""></button>
+                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button>
+                            <select name = "itemfilter">
+                                <option value = "product_title">商品名稱</option>
+                            </select>
                         </form>
-                        <select name = "itemfilter">
-                            <option value = "listID">訂單編號</option>
-                            <option value = "seller">訂單狀態</option>
-                        </select>
+                        
                         <div class = "page row">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
-                                <ul class="pagination justify-content-end" id="pagination">
+                                <ul class="pagination justify-content-end" id="PMpagination">
                                     <li class="page-item active"><a class="page-link" onclick="PMchangePage(1)">01.</a></li>
                                     <li class="page-item"><a class="page-link" onclick="PMchangePage(2)">02.</a></li>
                                     <li class="page-item"><a class="page-link" onclick="PMchangePage(3)">03.</a></li>
@@ -429,10 +403,15 @@
         
         <script src="js/personal1.js"></script>
         
-		<script src="js/personal_tab_c.js"></script>
-        
         <script type="text/javascript" src="./js/product_manage_c.js"></script>
         
+        <script type="text/javascript" src="./js/bidlist_c.js"></script>
+        
+        <script src="js/personal_tab_c.js"></script>
+        
+        <script src="js/personal_search_c.js"></script>
+        
+        <script src="js/product_evalute_c.js"></script>
     </body>
 
 </html>

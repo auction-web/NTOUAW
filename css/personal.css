@@ -119,6 +119,7 @@ div.search_base{
 }
 
 div.search_base form {
+    display: flex;
     width: 50%;
     position: relative;
     margin-right: 10px;
