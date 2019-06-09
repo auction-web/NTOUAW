@@ -198,6 +198,7 @@ var url = decodeURI(url_origun);
 var max_page = 0;
 var search_input = '';
 var search_itemfilter = '';
+var item_per_page = 10;
 
 NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var ignore = 0;
@@ -206,21 +207,21 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     console.log("Dynamic_HTML");
     console.log(snapshot);
     //snapshot.size
-    max_page = Math.floor(snapshot.size / 3) + 1;
+    max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
     var recent_page_item = 0;
     if(item == ''){
-        page_start = (Number(page) - 1) * 3;
-        recent_page_item = 3 * page;
+        page_start = (Number(page) - 1) * item_per_page;
+        recent_page_item = item_per_page * page;
     }
     else{
         for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * 3){
+            if(ignore == (page - 1) * item_per_page){
                 if(page > 1){
                     ignore++;
                 }
                 page_start = ignore;
-                recent_page_item = 3 * page;
+                recent_page_item = item_per_page * page;
                 ignore = 0;
                 console.log("ignore" +　ignore);
                 console.log(page_start);
@@ -318,7 +319,7 @@ NPloadproduct = function (page, item = ''){
 
 NPchangePage = function(page){
     var show = document.getElementById("NPpagination");
-    PMloadproduct(page, search_input);
+    NPloadproduct(page, search_input);
     if(page >= 2){
         show.innerHTML = ''
 
