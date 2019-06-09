@@ -66,8 +66,8 @@
             <!-- Tab menu start-->
             <div class = "tab">
                 <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
-                <button class = "tablinks" onclick="personalpage(event, 'buylist')">個人購物清單</button>
-                <button class = "tablinks BP" onclick="personalpage(event, 'bidlist') ">個人競標清單</button>
+                <button class = "tablinks NP" onclick="personalpage(event, 'buylist');NPloadproduct(1)">個人購物清單</button>
+                <button class = "tablinks BP" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
                 <button class = "tablinks" onclick="personalpage(event, 'selllist')">賣家訂單清單</button>
                 <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMloadproduct(1)">賣家商品管理</button>
             </div>
@@ -141,11 +141,11 @@
                         <div class = "page">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                <ul class="pagination justify-content-end" id = "NPpagination">
+                                    <li class="page-item active"><a class="page-link" href="NPchangePage(1)">01.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="NPchangePage(2)">02.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="NPchangePage(3)">03.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="NPchangePage(4)">04.</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -164,30 +164,8 @@
                                     <th>取消訂單</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class = "selfdefine">2019/5/9</span>
-                                    </td>
-                                    <td>
-                                        <a class = "listID" href = "">123456</a>
-                                    </td>
-                                    <td class="price">
-                                        <span class = "selfdefine">150$</span>
-                                    </td>
-                                    <td class="">
-                                        <a class = "seller" href = "">Admin</a>
-                                    </td>
-                                    <td class = "">
-                                        <span class = "selfdefine">運送中</span>
-                                    </td>
-                                    <td >
-                                        <input class = "criticize" type = "button" onclick = "product_eval()" value = "評價">
-                                    </td>
-                                    <td>
-                                        <input  class = "cancel" type = "button" value = "取消訂單">
-                                    </td>
-                                </tr>
+                            <tbody id = "buylist_t">
+                                <!--Dynamic create -->
                             </tbody>
                         </table>
                     </div>                 
@@ -240,7 +218,7 @@
                                 </tr>
                             </thead>
                             <tbody id = "bidlist">
-                                
+                                <!--Dynamic create -->    
                             </tbody>
                         </table>
                     </div>                 
@@ -375,7 +353,7 @@
                                 </tr>
                             </thead>
                             <tbody id = "productlist">
-                            <!--Dynamic create -->
+                                <!--Dynamic create -->
                             </tbody>
                         </table>
                     </div>                 
@@ -405,13 +383,15 @@
         
         <script type="text/javascript" src="./js/product_manage_c.js"></script>
         
-        <script type="text/javascript" src="./js/bidlist_c.js"></script>
+<!--        <script type="text/javascript" src="./js/bidlist_c.js"></script>-->
         
         <script src="js/personal_tab_c.js"></script>
         
         <script src="js/personal_search_c.js"></script>
         
         <script src="js/product_evalute_c.js"></script>
+        
+        <script src="js/buylist_c.js"></script>
     </body>
 
 </html>

@@ -185,6 +185,166 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
+var firebase= require("./firebase");
+var db = firebase.firestore();
+var storageRef = firebase.storage().ref();
+//get cookies
+var cookies = getCookie('id');
+var User_cookies = 'User' + cookies;
+var User = User_cookies + '/';
+
+var url_origun = location.href;
+var url = decodeURI(url_origun);
+var max_page = 0;
+var search_input = '';
+var search_itemfilter = '';
+var item_per_page = 10;
+
+NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
+    var ignore = 0;
+    var show = document.getElementById('buylist_t');
+    show.innerHTML = ''
+    console.log("Dynamic_HTML");
+    console.log(snapshot);
+    //snapshot.size
+    max_page = Math.floor(snapshot.size / item_per_page) + 1;
+    var page_start = 0;
+    var recent_page_item = 0;
+    if(item == ''){
+        page_start = (Number(page) - 1) * item_per_page;
+        recent_page_item = item_per_page * page;
+    }
+    else{
+        for(var i = 0; i < snapshot.size; i++){
+            if(ignore == (page - 1) * item_per_page){
+                if(page > 1){
+                    ignore++;
+                }
+                page_start = ignore;
+                recent_page_item = item_per_page * page;
+                ignore = 0;
+                console.log("ignore" +　ignore);
+                console.log(page_start);
+                console.log(recent_page_item);
+                console.log("find search page start");
+                break;
+            }
+            if(snapshot.docs[i].data()['product_title'].indexOf(item) != -1){
+                ignore++;
+                console.log(ignore);
+            }
+        }
+    }
+    
+    for(var i = page_start; i < recent_page_item;){
+        var next = false;
+        console.log(i + ignore);
+        if(item == ''){
+            console.log("next i++");
+            next = true;
+        }
+        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) != -1){
+            next = true;
+        }
+        else if((i + ignore) == snapshot.size - 1){
+            ignore = ignore + i;
+            break;
+        }
+        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) == -1){
+            ignore++;
+            continue;
+        }
+        
+        console.log(snapshot.docs[i + ignore].data());
+        var product_data = snapshot.docs[i + ignore].data();
+        //console.log(product_data);
+        if(product_data['is_Order'] == false){
+            var product_state;
+            //console.log(product_data);
+            if(product_data['state'] == 0){
+                product_state = '處理中';
+            }
+            else if(product_data['state'] == 1){
+                product_state = '取消申請中';
+            }
+            else if(product_data['state'] == 2){
+                product_state = '已完成';
+            }
+            else if(product_data['state'] == 3){
+                product_state = '競標進行中';
+            }
+            var date = product_data['build_time'].toDate();
+            //console.log(date);
+            show.innerHTML = '<tr>' +
+                                '<td>' +
+                                    '<span class = "selfdefine">2019/5/9</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<a class = "listID" href = "">123456</a>' +
+                                '</td>' +
+                                '<td class="price">' +
+                                    '<span class = "selfdefine">150$</span>' +
+                                '</td>' +
+                                '<td class="">' +
+                                    '<a class = "seller" href = "">Admin</a>' +
+                                '</td>' +
+                                '<td class = "">' +
+                                    '<span class = "selfdefine">運送中</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<input class = "criticize" type = "button" onclick = "product_eval()" value = "評價">' +
+                                '</td>' +
+                                '<td>' +
+                                    '<input  class = "cancel" type = "button" value = "取消訂單">' +
+                                '</td>' + 
+                            '</tr>' + show.innerHTML
+        }
+        if(next){
+            i++;
+        }
+    }
+}
+
+NPloadproduct = function (page, item = ''){
+    var number = 0;
+    var user_prod_data = 0;
+    //alert("loading");
+    //alert(User_cookies);
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc');
+    user_prod_data.get().then(snapshot=>{
+        NP_Dynamic_HTML(page, snapshot, item);
+    });
+    //alert(user_prod_data);
+}
+
+NPchangePage = function(page){
+    var show = document.getElementById("NPpagination");
+    NPloadproduct(page, search_input);
+    if(page >= 2){
+        show.innerHTML = ''
+
+        for(var i = Number(page) - 1; i < page + 3; i++){
+            if(i == Number(page)){
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="NPchangePage(' + i + ')">0' + i + '.</a></li>'
+            }
+            else{
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="NPchangePage(' + i + ')">0' + i + '.</a></li>'
+            }
+        }
+    }
+    else{
+        show.innerHTML = ''
+        for(var i = Number(page); i < page + 4; i++){
+            if(i == Number(page)){
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="NPchangePage(' + i + ')">0' + i + '.</a></li>'
+            }
+            else{
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="NPchangePage(' + i + ')">0' + i + '.</a></li>'
+            }
+        }
+    }
+}
+},{"./firebase":3}],3:[function(require,module,exports){
 var firebase = require("firebase");
 var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
@@ -198,7 +358,7 @@ var config = {
 firebase.initializeApp(config);
 module.exports = firebase
 
-},{"firebase":15}],3:[function(require,module,exports){
+},{"firebase":16}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -695,7 +855,7 @@ exports.default = firebase;
 exports.firebase = firebase;
 
 
-},{"@firebase/logger":9,"@firebase/util":13,"tslib":17}],4:[function(require,module,exports){
+},{"@firebase/logger":10,"@firebase/util":14,"tslib":18}],5:[function(require,module,exports){
 (function (global){
 (function() {var firebase = require('@firebase/app').default;var k,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},ba="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ca(a,b){if(b){var c=ba;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];e in c||(c[e]={});c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&aa(c,a,{configurable:!0,writable:!0,value:b})}}
 function da(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function ea(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):{next:da(a)}}
@@ -1062,7 +1222,7 @@ Y(Dg.prototype,{w:{name:"toJSON",j:[V(null,!0)]}});Y(M.prototype,{toJSON:{name:"
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@firebase/app":3}],5:[function(require,module,exports){
+},{"@firebase/app":4}],6:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -16488,7 +16648,7 @@ exports.registerDatabase = registerDatabase;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":3,"@firebase/logger":9,"@firebase/util":13,"_process":1,"tslib":17}],6:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/logger":10,"@firebase/util":14,"_process":1,"tslib":18}],7:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38249,7 +38409,7 @@ exports.registerFirestore = registerFirestore;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":3,"@firebase/logger":9,"@firebase/util":13,"@firebase/webchannel-wrapper":14,"_process":1,"tslib":17}],7:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/logger":10,"@firebase/util":14,"@firebase/webchannel-wrapper":15,"_process":1,"tslib":18}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -38840,7 +39000,7 @@ registerFunctions(firebase);
 exports.registerFunctions = registerFunctions;
 
 
-},{"@firebase/app":3,"tslib":17}],8:[function(require,module,exports){
+},{"@firebase/app":4,"tslib":18}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40109,7 +40269,7 @@ registerInstallations(firebase);
 exports.registerInstallations = registerInstallations;
 
 
-},{"@firebase/app":3,"@firebase/util":13,"idb":16}],9:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/util":14,"idb":17}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40300,7 +40460,7 @@ exports.Logger = Logger;
 exports.setLogLevel = setLogLevel;
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -42454,7 +42614,7 @@ exports.isSupported = isSupported;
 exports.registerMessaging = registerMessaging;
 
 
-},{"@firebase/app":3,"@firebase/util":13,"tslib":17}],11:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/util":14,"tslib":18}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -43657,7 +43817,7 @@ else {
 exports.registerPerformance = registerPerformance;
 
 
-},{"@firebase/app":3,"@firebase/installations":8,"@firebase/logger":9,"@firebase/util":13,"tslib":17}],12:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/installations":9,"@firebase/logger":10,"@firebase/util":14,"tslib":18}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -47141,7 +47301,7 @@ registerStorage(firebase);
 exports.registerStorage = registerStorage;
 
 
-},{"@firebase/app":3}],13:[function(require,module,exports){
+},{"@firebase/app":4}],14:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -48895,7 +49055,7 @@ exports.validateNamespace = validateNamespace;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"tslib":17}],14:[function(require,module,exports){
+},{"tslib":18}],15:[function(require,module,exports){
 (function (global){
 (function() {'use strict';var g,goog=goog||{},k=this;function m(a){return"string"==typeof a}function aa(a){return"number"==typeof a}function n(a,b){a=a.split(".");b=b||k;for(var c=0;c<a.length;c++)if(b=b[a[c]],null==b)return null;return b}function ba(){}
 function p(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
@@ -48988,7 +49148,7 @@ X.prototype.getResponseJson=X.prototype.Va;X.prototype.getResponseText=X.prototy
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -49141,7 +49301,7 @@ console.warn("\nIt looks like you're using the development build of the Firebase
 module.exports = firebase;
 
 
-},{"@firebase/app":3,"@firebase/auth":4,"@firebase/database":5,"@firebase/firestore":6,"@firebase/functions":7,"@firebase/messaging":10,"@firebase/performance":11,"@firebase/storage":12}],16:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/auth":5,"@firebase/database":6,"@firebase/firestore":7,"@firebase/functions":8,"@firebase/messaging":11,"@firebase/performance":12,"@firebase/storage":13}],17:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -49459,7 +49619,7 @@ module.exports = firebase;
 
 }));
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -49706,200 +49866,4 @@ var __importDefault;
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
-var firebase= require("./firebase");
-var db = firebase.firestore();
-//get cookies
-var cookies = getCookie('id');
-var User_cookies = 'User' + cookies;
-var User = User_cookies + '/';
-
-var url_origun = location.href;
-var url = decodeURI(url_origun);
-var max_page = 0;
-var search_input = '';
-var search_itemfilter = '';
-var item_per_page = 10;
-
-
-PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
-    console.log(itemfilter);
-    var ignore = 0;
-    var show = document.getElementById('productlist');
-    show.innerHTML = ''
-    //console.log("Dynamic_HTML");
-    //console.log(snapshot);
-    //snapshot.size
-    max_page = Math.floor(snapshot.size / item_per_page) + 1;
-    var page_start = 0;
-    var recent_page_item = 0;
-    if(item == ''){
-        page_start = (Number(page) - 1) * item_per_page;
-        recent_page_item = item_per_page * page;
-    }
-    else{
-        for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * item_per_page){
-                if(page > 1){
-                    ignore++;
-                }
-                page_start = ignore;
-                recent_page_item = item_per_page * page;
-                ignore = 0;
-                //console.log("ignore" +　ignore);
-                //console.log(page_start);
-                //console.log(recent_page_item);
-                //console.log("find search page start");
-                break;
-            }
-            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
-                ignore++;
-                //console.log(ignore);
-            }
-        }
-    }
-    
-    for(var i = page_start; i < recent_page_item;){
-        console.log(snapshot.docs[i + ignore].data()[itemfilter]);
-        var next = false;
-        //console.log(i + ignore);
-        if(item == ''){
-            //console.log("next i++");
-            next = true;
-        }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) != -1){
-            next = true;
-        }
-        else if((i + ignore) == snapshot.size - 1){
-            ignore = ignore + i;
-            break;
-        }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) == -1){
-            ignore++;
-            continue;
-        }
-        
-        //console.log(snapshot.docs[i + ignore].data());
-        var product_data = snapshot.docs[i + ignore].data();
-        //console.log(product_data);
-        if(product_data['is_Order'] == 0){
-            var product_state;
-            //console.log(product_data);
-            if(product_data['state'] == 0){
-                product_state = '販售中';
-            }
-            else if(product_data['state'] == 5){
-                product_state = '刪除';
-            }
-            else{
-                product_state = '下架';
-            }
-            var date = product_data['build_time'].toDate();
-            //console.log(date);
-            show.innerHTML = '<tr>' +
-                                '<td>' + 
-                                    '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<a class = "listID" href = "./product-details.html?id=' + product_data['product_id'] +'">' + product_data['product_title'] + '</a>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "bid">' + product_data['is_Bid'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "price">' + product_data['price'] + '$</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "quantity">' + product_data['product_quantity'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "d_price">' + product_data['delivery_fee'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "status">' + product_state + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<form action = "./modify_Product.html" method = "GET">' +
-                                        '<input type = "hidden" name = "product_id" value = "' + product_data['product_id'] + '">' +
-                                        '<input type = "submit" class = "modify" value = "修改商品">' +
-                                    '</form>' + 
-                                    //'<input class = "modify" type = "button" value = "修改商品">' +
-                                '</td>' +
-                                '<td>' +
-                                    '<input class = "delete" type = "button" onclick = \'delete_product(' + product_data['product_id'] +');\' value = "刪除">' +
-                                '</td>' +
-                            '</tr>' + show.innerHTML
-        }
-        if(next){
-            i++;
-        }
-    }
-}
-
-PMloadproduct = function (page, item = '', itemfilter = ''){
-    var number = 0;
-    var user_prod_data = 0;
-    //alert("loading");
-    //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc');
-    user_prod_data.get().then(snapshot=>{
-        PM_Dynamic_HTML(page, snapshot, item, itemfilter);
-    });
-    
-    //alert(user_prod_data);
-    
-}
-
-delete_product = function(product_id){
-    //console.log("delete");
-    var product_title = "";
-    var user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').where('product_id', '==', product_id).get().then(snapshop =>{
-        snapshop.forEach(product => {
-            //console.log(snapshop[0]);
-            product_title = product.data()['product_title'];
-            db.collection('User23').doc(User_cookies).collection('iamSeller').doc(product['id']).update({
-                state : 5
-            });
-            db.collection('Product').where('product_title', '==', product_title).get().then(snapshop =>{
-                snapshop.forEach(product => {
-                    //console.log(snapshop[0]);
-                    console.log(product['id']);
-                    db.collection('Product').doc(product['id']).update({
-                        state : 5
-                    });
-                //console.log(product['id']);
-                });
-            });
-            //console.log(product['id']);
-        });
-    });
-}
-
-PMchangePage = function(page){
-    var show = document.getElementById("PMpagination");
-    PMloadproduct(page, search_input);
-    if(page >= 2){
-        show.innerHTML = ''
-
-        for(var i = Number(page) - 1; i < page + 3; i++){
-            if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="PMchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-            else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="PMchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-        }
-    }
-    else{
-        show.innerHTML = ''
-        for(var i = Number(page); i < page + 4; i++){
-            if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="PMchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-            else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="PMchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-        }
-    }
-}
-},{"./firebase":2}]},{},[18]);
+},{}]},{},[2]);
