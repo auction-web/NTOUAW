@@ -88,7 +88,8 @@ const $ = require('jQuery')(window);
                 //--> get seller's path on databasae (ref = User23/User~)
                 var sellerRef = (doc.ref.path).split('/')[1]; //get User~
                 sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');
-
+                // how many order already there?
+                sellerOrderRef.where('is_Order','==',true)
             });
         })
         .catch(err => {
@@ -125,6 +126,7 @@ const $ = require('jQuery')(window);
             buyer_account: buyerID,
             //oder info
             is_Order: true,
+            is_bid : false,
             order_state: processing,
             build_time: date,
             cancel_reason: "",
