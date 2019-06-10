@@ -52948,11 +52948,11 @@ up=function(){
    else{
 	   check=true;
    }
-   
+   var increase=Number(price)*0.05;
    var data={build_time:date,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
-   delivery_fee:[Number(price1),Number(price2),0],finish_time:enddate,increase_price:0,is_Bid:check,payment:[false,false,false],
+   delivery_fee:[Number(price1),Number(price2),0],finish_time:enddate,increase_price:increase,is_Bid:check,payment:[false,false,false],
    price:Number(price),product_evaluation:0,product_id:0,product_kind:Number(category),product_quantity:Number(qty),product_title:product
-   ,reserve_price:0,seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
+   ,reserve_price:Number(price),seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
    };
    back=function(){
 	  window.location = "./personal.html";
