@@ -136,6 +136,7 @@ const $ = require('jQuery')(window);
             seller_account: sellerName,
             //buyer info
             buyer_account: buyerID,
+            buyer_evaluation: 0,
             //oder info
             is_Order: true,
             is_bid: false,
@@ -150,6 +151,7 @@ const $ = require('jQuery')(window);
             product_title: productName,
             product_price: productPrice_num,
             product_quantity: Number(quantity),
+            product_evaluation: 0,
             delivery: delievery_final_method,
             delivery_fee: delievery_final_fee,
             remark: productRemark,
