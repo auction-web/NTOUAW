@@ -89,16 +89,16 @@ const $ = require('jQuery')(window);
     var getSellerRef = userRef.where('user_name', '==', sellerName).get().then(snapshot => { //get data successfully 
             snapshot.forEach(doc => {
                 console.log("ref = ", doc.ref.path);
-                
+
                 //--> get seller's path on databasae (ref = User23/User~)
                 var sellerRef = (doc.ref.path).split('/')[1]; //get User~
-                sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');              
+                sellerOrderRef = userRef.doc(sellerRef).collection('iamSeller');
             });
         })
         .catch(err => {
             console.log('Error getting document', err);
         });
-    
+
     //find buyer's ref 
     var getBuyerRef = userRef.where('user_id', '==', buyerID).get().then(snapshot => {
         snapshot.forEach(doc => {
@@ -110,14 +110,14 @@ const $ = require('jQuery')(window);
 
             // how many buyer order already there?
             sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
-                buyerOrderNum = snap.size+1;
+                buyerOrderNum = snap.size + 1;
                 buyerOrderName = 'Order' + buyerOrderNum;
                 console.log('buyer order:', buyerOrderName);
             });
         });
     }).catch(err => {
         console.log('Error getting document', err);
-    }) //<--　get seller's and buyer's order ref
+    }); //<--　get seller's and buyer's order ref
 
 
     //--> click "checkout confirm" button.
@@ -140,7 +140,10 @@ const $ = require('jQuery')(window);
             //oder info
             is_Order: true,
             is_bid: false,
+            is_buyer_evaluated: false,
+            is_seller_evaluated: false,
             order_state: processing,
+            order_id: 0,
             build_time: date,
             cancel_reason: "",
             total_price: sum,
@@ -160,10 +163,11 @@ const $ = require('jQuery')(window);
         //--> write seller's order to firebase
         // how many seller's order already there?
         sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
-            sellerOrderNum = snap.size+1;
+            sellerOrderNum = snap.size + 1;
             sellerOrderName = 'Order' + sellerOrderNum;
             console.log('seller order:', sellerOrderName);
-         
+            OrderDetail.order_id = sellerOrderNum;
+
             //write into firebase
             var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);
             var setSellerOrderProducts = sellerOrderRef.doc(sellerOrderName).collection('Products').doc('Product1').set(ProductDetail);
@@ -171,15 +175,34 @@ const $ = require('jQuery')(window);
         });
 
         //--> write buyer's order to firebase
+        OrderDetail.order_id = buyerOrderNum;
         var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
         var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
+        //--> update product's amount in database.
+//        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
+//            snapshot.forEach(doc => {
+//                var product = doc.data();
+//                var productAmount = product.product_quantity;
+//                productAmount -= Number(quantity);
+//                console.log('product num: ', productAmount);
+//                
+//                var productRef = (doc.ref.path).split('/')[1];
+//                console.log('path: ',productRef);
+//              
+//                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
+//            });
+//        }).catch(err => {
+//            console.log('Error getting document', err);
+//        });
+
+
         //--> wait firebase for few seconds
-        alert("交易中，請稍後");
-        alert("訂單交易成功! 稍後將自動跳轉至首頁");
+        alert("交易中，請稍後......");
         setTimeout(function () {
+            alert("訂單交易成功! 按下確認將自動跳轉至首頁");
             location.href = "./home.html";
-        }, 2000);
+        }, 2100);
 
     }); //<-- "checkout button" handler
 
