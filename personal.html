@@ -18,7 +18,8 @@
         <link rel="stylesheet" href="css/core-style.css">
         <link rel="stylesheet" href="css/personal.css">
         <link rel="stylesheet" href="css/cart.css">
-
+        <link rel="stylesheet" href="css/evaluation_window.css">
+        
     </head>
 
     <body>
@@ -62,13 +63,43 @@
                 </div>
             </div>
             <!-- Toolbar end -->
+            <!-- evaluation windows -->
+            <div class = "eval_model" id = "bidlist_eval" style="display:none">
+                <div class = "eval_model_content">
+                    <div class = "eval_model_head">
+                        <span class="close" onclick = "bidlist_eval_close()">&times;</span>
+                        <h2 class = "eval_title">競標商品評價</h2>
+                    </div>
+
+                    <div class = "eval_model_body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>商品名稱</th>
+                                    <th>商品評價</th>
+                                </tr>
+                            </thead>
+                            <tbody id = "evallist">
+                                <!-- Dynamic HTML -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class = "eval_model_foot">
+                        <div class = "eval_model_foot_content">
+                            <input class = "list_button" type = "button" value = "確認">
+                            <input class = "list_button" type = "button" onclick = "bidlist_eval_close()" value = "取消">
+                        </div>
+                    </div>
+                </div>
+            </div>
             
             <!-- Tab menu start-->
             <div class = "tab">
                 <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
                 <button class = "tablinks NP" onclick="personalpage(event, 'buylist');NPloadproduct(1)">個人購物清單</button>
                 <button class = "tablinks BP" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
-                <button class = "tablinks" onclick="personalpage(event, 'selllist')">賣家訂單清單</button>
+                <button class = "tablinks SL" onclick="personalpage(event, 'selllist');SLloadproduct(1)">賣家訂單清單</button>
                 <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMloadproduct(1)">賣家商品管理</button>
             </div>
             <!-- Tab menu end-->
@@ -128,13 +159,11 @@
                 <div class="container-fluid">
                     <!-- Search -->
                     <div class = "search_base">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <form action="#NP" method="get">
+                            <input type="search" name="search" id="NPsearch" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
                             <select name = "itemfilter">
-                                <option value = "listID">訂單編號</option>
-                                <option value = "seller">訂單狀態</option>
-                                <option value = "status">賣家</option>
+                                <option value = "seller_account">賣家</option>
                             </select>
                         </form>
                         
@@ -156,12 +185,13 @@
                             <thead>
                                 <tr>
                                     <th>日期</th>
-                                    <th>訂單編號</th>
                                     <th>價格</th>
                                     <th>賣家</th>
                                     <th>訂單狀態</th>
-                                    <th>評價</th>
+                                    <th>訂單詳情</th>
                                     <th>取消訂單</th>
+                                    <th>確認取貨</th>
+                                    <th>評價</th>
                                 </tr>
                             </thead>
                             <tbody id = "buylist_t">
@@ -246,11 +276,11 @@
                         <div class = "page">
                             <!-- Pagination -->
                             <nav aria-label="navigation">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item active"><a class="page-link" href="javascript:{changepage(1);}">01.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(2);}">02.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(3);}">03.</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:{changepage(4);}">04.</a></li>
+                                <ul class="pagination justify-content-end" id = "SLpagination">
+                                    <li class="page-item active"><a class="page-link" onclick="SLchangePage(1)">01.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="SLchangePage(2)">02.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="SLchangePage(3)">03.</a></li>
+                                    <li class="page-item"><a class="page-link" onclick="SLchangePage(4)">04.</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -264,43 +294,15 @@
                                     <th>訂單編號</th>
                                     <th>買家評價</th>
                                     <th>價格</th>
-                                    <th>數量</th>
                                     <th>運費</th>
                                     <th>買家</th>
                                     <th>訂單狀態</th>
                                     <th>評價</th>
+                                    <th>訂單取消</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class = "selfdefine">2019/5/9</span>
-                                    </td>
-                                    <td>
-                                        <a class = "listID" href = "">123456</a>
-                                    </td>
-                                    <td>
-                                        <span class = "criticize">5</span>
-                                    </td>
-                                    <td>
-                                        <span class = "price">150$</span>
-                                    </td>
-                                    <td>
-                                        <span class = "quantity">5</span>
-                                    </td>
-                                    <td>
-                                        <span class = "d_price">60$</span>
-                                    </td>
-                                    <td>
-                                        <a class = "buyer" href = "">Admin</a>
-                                    </td>
-                                    <td>
-                                        <span class = "selfdefine">運送中</span>
-                                    </td>
-                                    <td>
-                                        <input class = "criticize" type = "button" value = "評價">
-                                    </td>
-                                </tr>
+                            <tbody id = "sellerlist_t">
+                                <!--Dynamic create -->
                             </tbody>
                         </table>
                     </div>                 
@@ -333,7 +335,7 @@
                                     <li class="page-item"><a class="page-link" onclick="PMchangePage(4)">04.</a></li>
                                 </ul>
                             </nav>
-                            <input class = "upload" type = "button" value = "上傳商品" onclick="javascript:location.href='./upload_Product.html'">
+                            <input class = "list_button" type = "button" value = "上傳商品" onclick="javascript:location.href='./upload_Product.html'">
                         </div>
                     </div>
 
@@ -381,17 +383,19 @@
         
         <script src="js/personal1.js"></script>
         
-        <script type="text/javascript" src="./js/product_manage_c.js"></script>
+        <script src="./js/product_manage_c.js"></script>
         
 <!--        <script type="text/javascript" src="./js/bidlist_c.js"></script>-->
         
         <script src="js/personal_tab_c.js"></script>
         
+        <script src="js/buylist_c.js"></script>
+        
         <script src="js/personal_search_c.js"></script>
         
-        <script src="js/product_evalute_c.js"></script>
+        <script src="js/product_evaluate_c.js"></script>
         
-        <script src="js/buylist_c.js"></script>
+        <script src="js/sellerlist_c.js"></script>
     </body>
 
 </html>

@@ -19,8 +19,9 @@ if(url.indexOf('?')!= -1){
        search_input = data.split('&')[0].split('=')[1];
        tab = data.split('#')[1];
        search_itemfilter = data.split('&')[1].split('=')[1].split('#')[0];
-       //console.log(search_input);
-       //console.log(search_itemfilter);
+//       console.log(search_input);
+//       console.log(tab);
+//       console.log(search_itemfilter);
        tabcontent = document.getElementsByClassName("tabcontent");
        for (i = 0; i < tabcontent.length; i++) {
            tabcontent[i].style.display = "none";
@@ -31,10 +32,18 @@ if(url.indexOf('?')!= -1){
        }
        if(tab == 'PM'){
            tab_id = 'productmanage'
+           document.getElementById(tab_id).style.display = "block";
+           target_tab = document.getElementsByClassName(tab);
+           target_tab[0].className += " active";
+           PMloadproduct(1, search_input, search_itemfilter);
        }
-       document.getElementById(tab_id).style.display = "block";
-       target_tab = document.getElementsByClassName('PM');
-       target_tab[0].className += " active";
-       PMloadproduct(1, search_input, search_itemfilter);
+       else if(tab == 'NP'){
+           console.log("In NP");
+           tab_id = 'buylist'
+           document.getElementById(tab_id).style.display = "block";
+           target_tab = document.getElementsByClassName(tab);
+           target_tab[0].className += " active";
+           NPloadproduct(1, search_input, search_itemfilter);
+       }
     }
 }

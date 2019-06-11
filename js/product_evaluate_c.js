@@ -49709,51 +49709,64 @@ var __importDefault;
 },{}],18:[function(require,module,exports){
 var firebase= require("./firebase");
 var db = firebase.firestore();
-//get cookies
+
 var cookies = getCookie('id');
 var User_cookies = 'User' + cookies;
 var User = User_cookies + '/';
 
-var url_origun = location.href;
-var url = decodeURI(url_origun);
-var max_page = 0;
-var search_input = '';
-var search_itemfilter = '';
-
-if(url.indexOf('?')!= -1){
-   if(url.indexOf('search') != -1){
-       console.log('search');
-       var data = url.split('?')[1];
-       var tab_id = '';
-       search_input = data.split('&')[0].split('=')[1];
-       tab = data.split('#')[1];
-       search_itemfilter = data.split('&')[1].split('=')[1].split('#')[0];
-//       console.log(search_input);
-//       console.log(tab);
-//       console.log(search_itemfilter);
-       tabcontent = document.getElementsByClassName("tabcontent");
-       for (i = 0; i < tabcontent.length; i++) {
-           tabcontent[i].style.display = "none";
-       }
-       tablinks = document.getElementsByClassName("tablinks");
-       for (i = 0; i < tablinks.length; i++) {
-           tablinks[i].className = tablinks[i].className.replace(" active", "");
-       }
-       if(tab == 'PM'){
-           tab_id = 'productmanage'
-           document.getElementById(tab_id).style.display = "block";
-           target_tab = document.getElementsByClassName(tab);
-           target_tab[0].className += " active";
-           PMloadproduct(1, search_input, search_itemfilter);
-       }
-       else if(tab == 'NP'){
-           console.log("In NP");
-           tab_id = 'buylist'
-           document.getElementById(tab_id).style.display = "block";
-           target_tab = document.getElementsByClassName(tab);
-           target_tab[0].className += " active";
-           NPloadproduct(1, search_input, search_itemfilter);
-       }
+product_eval = function(tab, order_id){
+    var bidlist_eval = document.getElementById('bidlist_eval');
+    bidlist_eval.style.display = "block";
+    if(tab == 'NP'){
+        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc("Order" + order_id).collection("Products").get().then(snapshot =>{
+            Evaluation_Dynamic_HTML(snapshot);
+        });
     }
+    
+    //bidlist_eval.innerHTML = '<div class = "eval_content">Test function</div>';
+}
+
+bidlist_eval_close = function(){
+    var bidlist_eval = document.getElementById('bidlist_eval');
+    bidlist_eval.style.display = "none";
+}
+
+Evaluation_Dynamic_HTML = function(snapshot){
+    console.log(snapshot);
+    console.log(snapshot.size);
+    var eval_list = document.getElementById('evallist');
+    eval_list.innerHTML = ''
+    snapshot.forEach(product => {
+        var product_data = product.data()
+        console.log(product_data);
+        eval_list.innerHTML = '<tr>' +
+                                  '<td>' + product_data['product_title'] + '</td>' +
+                                  '<td class = \'d-flex\'>' +
+                                      '<div class="quantity">' +
+                                          '<span class="qty-minus" onclick="minus_point()"><i class="fa fa-minus" aria-hidden="true"></i></span>' +
+                                          '<input type="number" class="qty-text" id="point" step="1" min="1" max="300" name="quantity" value="1" disabled>' +
+                                          '<span class="qty-plus" onclick="add_point()"><i class="fa fa-plus" aria-hidden="true"></i></span>' + 
+                                     '</div>' +
+                                  '</td>' +
+                              '</tr>' + eval_list.innerHTML
+    });
+}
+
+add_point = function(){
+    var effect = document.getElementById('point');
+    var qty = effect.value;
+    if( !isNaN( qty ) && qty < 5){
+        effect.value++;
+        return false;
+    } 
+}
+
+minus_point = function(){
+    var effect = document.getElementById('point');
+    var qty = effect.value;
+    if( !isNaN( qty ) && qty > 1 ){
+        effect.value--;
+        return false;
+    } 
 }
 },{"./firebase":2}]},{},[18]);
