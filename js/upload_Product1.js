@@ -52556,8 +52556,8 @@ if(typeof FileReader==='undefined'){
 	input3.addEventListener('change',readFile3,false);
 	input4.addEventListener('change',readFile4,false);
 }
-//var User='User77/';
-//var User1='User77';
+//var User='User7/';
+//var User1='User7';
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
@@ -52940,17 +52940,26 @@ up=function(){
    var Counter = db.collection('Counter').doc('Product');
    var quid;
    var date=new Date();
+   var check;
+   var enddate=new Date(date.getFullYear(), date.getMonth(),(date.getDate()+7),date.getHours(),date.getMinutes(),date.getSeconds());
+   if(bidorUnbid==0){
+	   check=false;
+   }
+   else{
+	   check=true;
+   }
+   var increase=Number(price)*0.05;
    var data={build_time:date,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
-   delivery_fee:[Number(price1),Number(price2),0],finish_time:0,increase_price:0,is_Bid:false,payment:[false,false,false],
+   delivery_fee:[Number(price1),Number(price2),0],finish_time:enddate,increase_price:increase,is_Bid:check,payment:[false,false,false],
    price:Number(price),product_evaluation:0,product_id:0,product_kind:Number(category),product_quantity:Number(qty),product_title:product
-   ,reserve_price:0,seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
+   ,reserve_price:Number(price),seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
    };
    back=function(){
 	  window.location = "./personal.html";
    }
    seller=function(id){
 	   var Counter = db.collection('User23').doc(User1);
-	   data['is_Order']=0;
+	   data['is_Order']=false;
 	   citiesRef1 = db.collection('User23').doc(User1).collection('iamSeller');
 	   var getDoc = Counter.get()
 			.then(doc => {

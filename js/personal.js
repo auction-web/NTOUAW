@@ -9,8 +9,8 @@ if(typeof FileReader==='undefined'){
 }else{ 
 	input.addEventListener('change',readFile,false);
 }
-//var User='User77/';
-//var User1='User77';
+/*var User='User7/';
+var User1='User7';*/
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
@@ -77,7 +77,7 @@ citiesRef = db.collection('User23').doc(User1);
 						Email_element.value=doc.data()['user_email'];
 						Address_element.value=doc.data()['address'];
 						var date=(doc.data()['birth']).toDate();
-						Birth_element.value=date;
+						Birth_element.value=date.getFullYear()+'/'+ date.getMonth()+'/'+date.getDate();
 						//console.log(data);		
 						//alert("aaaaasas");									
 			})
