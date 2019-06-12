@@ -129,7 +129,7 @@ const $ = require('jQuery')(window);
         var date = new Date();
         //set order's state = processing
         const processing = 0;
-
+        var recent_order_num = db.collection('Counter').doc('Order_count').data()['count'];
         //create order data
         var OrderDetail = {
             //seller info
@@ -143,7 +143,7 @@ const $ = require('jQuery')(window);
             is_buyer_evaluated: false,
             is_seller_evaluated: false,
             order_state: processing,
-            order_id: 0,
+            order_id: recent_order_num,
             build_time: date,
             cancel_reason: "",
             total_price: sum,
@@ -159,14 +159,17 @@ const $ = require('jQuery')(window);
             delivery_fee: delievery_final_fee,
             remark: productRemark,
         }
-
+        recent_order_num = recent_order_num + 1;
+        db.collection('Counter').doc('Order_count').update({
+            count: recent_order_num
+        });
         //--> write seller's order to firebase
         // how many seller's order already there?
         sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
             sellerOrderNum = snap.size + 1;
             sellerOrderName = 'Order' + sellerOrderNum;
             console.log('seller order:', sellerOrderName);
-            OrderDetail.order_id = sellerOrderNum;
+            OrderDetail.order_id = recent_order_num;
 
             //write into firebase
             var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);

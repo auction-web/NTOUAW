@@ -269,6 +269,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         if(buylist_data['is_Order'] == true){
             var buylist_state;
             //console.log(product_data);
+            var button_state = 'disabled'
             if(buylist_data['order_state'] == 0){
                 buylist_state = '交易處理中';
             }
@@ -277,6 +278,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             }
             else if(buylist_data['order_state'] == 2){
                 buylist_state = '已完成';
+                button_state = ''
             }
             else if(buylist_data['order_state'] == 3){
                 buylist_state = '競標進行中';
@@ -309,7 +311,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                     '<input class = "list_button" type = "button" onclick = "" value = "確認">' +
                                 '</td>' + 
                                 '<td>' +
-                                    '<input class = "list_button" type = "button" onclick = "product_eval(\'NP\', ' + buylist_data['order_id'] + ');" value = "評價">' +
+                                    '<input class = "list_button" type = "button" onclick = "product_eval(\'NP\', ' + buylist_data['order_id'] + ');" value = "評價" ' + button_state + '>' +
                                 '</td>' +
                             '</tr>' + show.innerHTML
         }

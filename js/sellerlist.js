@@ -73,6 +73,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         //console.log(product_data);
         var sellerlist_state;
         var button_state = 'disabled';
+        var eval_button_state = 'disabled';
         //console.log(product_data);
         if(sellerlist_data['order_state'] == 0){
             sellerlist_state = '交易處理中';
@@ -83,6 +84,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         else if(sellerlist_data['order_state'] == 2){
             sellerlist_state = '已完成';
+            eval_button_state = '';
         }
         else if(sellerlist_data['order_state'] == 3){
             sellerlist_state = '競標進行中';
@@ -112,7 +114,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<span class = "selfdefine">' + sellerlist_state + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<input class = "list_button" type = "button" value = "評價">' +
+                                '<input class = "list_button" type = "button"  onclick = "product_eval(\'SL\', ' + sellerlist_data['order_id'] + ');" value = "評價" ' + eval_button_state + '>' +
                             '</td>' +
                             '<td>' +
                                 '<input class = "list_button" type = "button" value = "同意"' + button_state + '>' +

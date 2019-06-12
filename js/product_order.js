@@ -1,8 +1,9 @@
 product_order = function(id, storage, snapshot, page){//div_id
 
+    var pagination = require("./pagination");
+    var rating = require("./rating");
 
-
-
+    snapshot.size
 
 
 	//id for create html tags
@@ -18,20 +19,22 @@ product_order = function(id, storage, snapshot, page){//div_id
         var storageRef = storage.ref();
         var productsRef = storageRef.child('Products');
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
-        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
+
             var show_img = document.getElementById('product_img1');
             show_img.src = url;
+
         }).catch(function(){
-            console.log("error get img!!");
+            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
         });
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
-        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
+        
             var show_img = document.getElementById('product_img2');
             show_img.src = url;
+
         }).catch(function(){
-            console.log("error get img!!");
+            console.log('Products ' + temp['product_id'].toString() + " error get img2!!");
         });
 
 
@@ -68,13 +71,13 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '</div>' +
                     '<!-- Ratings & Cart -->' +
                     '<div class="ratings-cart text-right" id = "right_text">' +
-                        '<div class="ratings"><!-- product_evaluation -->' +
-                        	temp['product_evaluation'] + 
+                        '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
+                        	/*temp['product_evaluation'] + 
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
+                            '<i class="fa fa-star" aria-hidden="true"></i>' +*/
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
                             '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
@@ -98,32 +101,38 @@ product_order = function(id, storage, snapshot, page){//div_id
 			show_1.insertBefore(div_1, show_1.children[1]);
                       
         }
+        //console.log(temp['product_evaluation']);
+        rating(i, temp['product_evaluation']);
 
 
  		
-	 	if((i + 1) % 8 == 0){
-	 		var show_1 = document.getElementById('Products');
-	 		var div_1 = document.createElement("div");
-	 		div_1.className = "pageNumber_down col-12 ";
-	 		div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
-	                '<!-- Pagination -->' + 
-	                '<nav aria-label="navigation">' + 
-	                    '<ul class="pagination justify-content-end mt-15">' + 
-	                        '<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + 
-	                    '</ul>' + 
-	                '</nav>' + 
-	            '</div>';
-            show_1.appendChild(div_1);
-    	}
 
         var show_2 = document.getElementById('total_products');
         if(Number(page)*8 >= snapshot.size)
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
         else
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';
+
+        if(((i + 1) % 8 == 0) || (i == snapshot.size - 1)){
+            var show_1 = document.getElementById('Products');
+            var div_1 = document.createElement("div");
+            div_1.className = "pageNumber_down col-12 ";
+            div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
+                    '<!-- Pagination -->' + 
+                    '<nav aria-label="navigation">' + 
+                        '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
+                            /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+                        '</ul>' + 
+                    '</nav>' + 
+                '</div>';
+            show_1.appendChild(div_1);
+
+            pagination(Number(page));
+            break;
+        }
 	}
     
 }

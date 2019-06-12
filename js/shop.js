@@ -12,6 +12,7 @@
 	var getKindPoducts = require("./getKindPoducts");//
 	var search = require("./search");//
 	var cant_find= require("./cant_find");
+	//var pagination = require("./pagination");
 	//var sendSearch = require("./sendSearch.js");//
 
 	var db = firebase.firestore();
@@ -84,20 +85,23 @@
 	}
 	else{
 		//alert('in kind');
+
 		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
 		console.log(products_all);
+		
 
 		//if(promise)
 	}
 
+	document.getElementById("catagories").children[Number(kind)].className = "active";
 
 	//alert('itemfilter: '+itemfilter);
 	//alert("is_Search: " + is_Search)
 	//alert("kind: " + kind);
 	//alert("page: " + page);
 	//alert("input: " + input);
-
+	//pagination(Number(page));
 
 
 	

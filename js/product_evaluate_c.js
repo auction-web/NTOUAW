@@ -49722,6 +49722,11 @@ product_eval = function(tab, order_id){
             Evaluation_Dynamic_HTML(snapshot);
         });
     }
+    else if(tab == 'SL'){
+        db.collection('User23').doc(User_cookies).collection('iamSeller').doc("Order" + order_id).collection("Products").get().then(snapshot =>{
+            Evaluation_Dynamic_HTML(snapshot);
+        });
+    }
     
     //bidlist_eval.innerHTML = '<div class = "eval_content">Test function</div>';
 }

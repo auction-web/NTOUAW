@@ -299,13 +299,13 @@ upload =function() {
 	storageRef.child('Products/'+'Products'+product_id.toString()+'/0').getDownloadURL().then(function(url) {
 	  //// `url` is the download URL for 'images/stars.jpg'
 	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
+//	  var xhr = new XMLHttpRequest();
+//	  xhr.responseType = 'blob';
+//	  xhr.onload = function(event) {
+//		var blob = xhr.response;
+//	  };
+//	  xhr.open('GET', url);
+//	  xhr.send();
 
 	  // Or inserted into an <img> element:
 	  var img = document.getElementById('myDiv');
@@ -316,13 +316,13 @@ upload =function() {
 	storageRef.child('Products/'+'Products'+product_id.toString()+'/1').getDownloadURL().then(function(url) {
 	  //// `url` is the download URL for 'images/stars.jpg'
 	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
+//	  var xhr = new XMLHttpRequest();
+//	  xhr.responseType = 'blob';
+//	  xhr.onload = function(event) {
+//		var blob = xhr.response;
+//	  };
+//	  xhr.open('GET', url);
+//	  xhr.send();
 
 	  // Or inserted into an <img> element:
 	  var img = document.getElementById('myDiv1');
@@ -333,13 +333,13 @@ upload =function() {
 	storageRef.child('Products/'+'Products'+product_id.toString()+'/2').getDownloadURL().then(function(url) {
 	  //// `url` is the download URL for 'images/stars.jpg'
 	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
+//	  var xhr = new XMLHttpRequest();
+//	  xhr.responseType = 'blob';
+//	  xhr.onload = function(event) {
+//		var blob = xhr.response;
+//	  };
+//	  xhr.open('GET', url);
+//	  xhr.send();
 
 	  // Or inserted into an <img> element:
 	  var img = document.getElementById('myDiv2');
@@ -350,13 +350,13 @@ upload =function() {
 	storageRef.child('Products/'+'Products'+product_id.toString()+'/3').getDownloadURL().then(function(url) {
 	  //// `url` is the download URL for 'images/stars.jpg'
 	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
+//	  var xhr = new XMLHttpRequest();
+//	  xhr.responseType = 'blob';
+//	  xhr.onload = function(event) {
+//		var blob = xhr.response;
+//	  };
+//	  xhr.open('GET', url);
+//	  xhr.send();
 
 	  // Or inserted into an <img> element:
 	  var img = document.getElementById('myDiv3');
@@ -367,13 +367,13 @@ upload =function() {
 	storageRef.child('Products/'+'Products'+product_id.toString()+'/4').getDownloadURL().then(function(url) {
 	  //// `url` is the download URL for 'images/stars.jpg'
 	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
+//	  var xhr = new XMLHttpRequest();
+//	  xhr.responseType = 'blob';
+//	  xhr.onload = function(event) {
+//		var blob = xhr.response;
+//	  };
+//	  xhr.open('GET', url);
+//	  xhr.send();
 
 	  // Or inserted into an <img> element:
 	  var img = document.getElementById('myDiv4');
@@ -450,7 +450,6 @@ up=function(){
    }
    seller=function(callback){
 	   var Counter = db.collection('User23').doc(User1);
-	   data['is_Order']=0;
 	   citiesRef1 = db.collection('User23').doc(User1).collection('iamSeller');
 	   citiesRef.doc('Product'+product_id.toString()).update(data);
 		var allCities = citiesRef1.where('product_id', '==',product_id ).get()
@@ -466,9 +465,6 @@ up=function(){
 			.catch(err => {
 				console.log('Error getting documents', err);
 			});	   
-	   
    }
    seller(back);
-	
-
 }

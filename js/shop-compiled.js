@@ -185,7 +185,9 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
-cant_find = function(){
+cant_find = function(page){
+    var pagination = require("./pagination");
+
 	if(!document.getElementById('single_product')){
  		var temp = document.getElementById('Products');
 		temp.innerHTML = "<p>Can't Find</p>";
@@ -198,19 +200,21 @@ cant_find = function(){
 		'<div class="pageNumber_down col-12 ">' + 
         '<!-- Pagination -->' + 
         '<nav aria-label="navigation">' + 
-            '<ul class="pagination justify-content-end mt-15">' + 
-                '<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
+            '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
+                /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
                 '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
                 '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + 
+                '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
             '</ul>' + 
         '</nav>' + 
     '</div>';
     show_1.appendChild(div_1);
+
+    pagination(Number(page));
 }
 
 module.exports = cant_find;
-},{}],3:[function(require,module,exports){
+},{"./pagination":20}],3:[function(require,module,exports){
 var firebase = require("firebase");
 var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
@@ -228,36 +232,47 @@ module.exports = firebase
 getKindPoducts = function(db, storage, kind, page){
 	//var product_order= require("./product_order");
 	//var cant_find= require("./cant_find");
-
-
+  //var firebase = require("./firebase");
+  //var ss;// = new db.QuerySnapshot();
+  //var last
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().//order by sold
 			then(snapshot => {
-
+        //last = snapshot.docs[snapshot.docs.length - 1];
 				product_order('Products', storage, snapshot, page);//product_order(div_id, snapshot, page);
 
-      			/*snapshot.forEach(doc => {
-      				console.log(doc.id, '=>', doc.data());
-     	 		});*/
+         /*snapshot.forEach(doc => {
+          console.log(doc.id, '=>', doc.data());
+          ss = Object.assign({}, doc.data());
+          console.log(ss);
+         });*/
 
-     	 		
-
-     	 	
+          //console.log(ss);
+        //out = snapshot.docs;
+        //console.log(snapshot)
+        var docs = snapshot.docs;
+        console.log(docs);
     		})
     		.catch(err => {
       				console.log('Error getting documents', err);
 
-     
-      				cant_find();
-
-			       
+      				cant_find(page);
 
       				//????
     		});//query of "kind_product = kind"
-    return productQueryRef;
+    //console.log(ss);
+    //ss = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
+    //console.log(productQueryRef);
+    //console.log(ss);
+    var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
+    console.log(p1);
+    var p2 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().then();
+    console.log(p2);
+    //console.log(last);
 
-}
 
+} 
+  
 module.exports = getKindPoducts;
 
 },{}],5:[function(require,module,exports){
@@ -49769,11 +49784,51 @@ var __importDefault;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],20:[function(require,module,exports){
+pagination = function(page){
+    var show = document.getElementById("pagination");
+    var show_2 = document.getElementById("pagination_bottom");
+
+    var i = 0;
+    if(page >= 2){
+        show.innerHTML = ''
+        show_2.innerHTML = ''
+
+        for(i = Number(page) - 1; i < page + 3; i++){
+            if(i == Number(page)){
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+            }
+            else{
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+            }
+        }
+    }
+    else{
+        show.innerHTML = ''
+        show_2.innerHTML = ''
+
+        for(i = Number(page); i < page + 4; i++){
+            if(i == Number(page)){
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+            }
+            else{
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+            }
+        }
+    }
+}
+
+module.exports = pagination;
+},{}],21:[function(require,module,exports){
 product_order = function(id, storage, snapshot, page){//div_id
 
+    var pagination = require("./pagination");
+    var rating = require("./rating");
 
-
-
+    snapshot.size
 
 
 	//id for create html tags
@@ -49789,20 +49844,22 @@ product_order = function(id, storage, snapshot, page){//div_id
         var storageRef = storage.ref();
         var productsRef = storageRef.child('Products');
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
-        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
+        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
+
             var show_img = document.getElementById('product_img1');
             show_img.src = url;
+
         }).catch(function(){
-            console.log("error get img!!");
+            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
         });
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
-        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
+        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
+        
             var show_img = document.getElementById('product_img2');
             show_img.src = url;
+
         }).catch(function(){
-            console.log("error get img!!");
+            console.log('Products ' + temp['product_id'].toString() + " error get img2!!");
         });
 
 
@@ -49839,13 +49896,13 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '</div>' +
                     '<!-- Ratings & Cart -->' +
                     '<div class="ratings-cart text-right" id = "right_text">' +
-                        '<div class="ratings"><!-- product_evaluation -->' +
-                        	temp['product_evaluation'] + 
+                        '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
+                        	/*temp['product_evaluation'] + 
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
                             '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
+                            '<i class="fa fa-star" aria-hidden="true"></i>' +*/
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
                             '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
@@ -49869,86 +49926,109 @@ product_order = function(id, storage, snapshot, page){//div_id
 			show_1.insertBefore(div_1, show_1.children[1]);
                       
         }
+        //console.log(temp['product_evaluation']);
+        rating(i, temp['product_evaluation']);
 
 
  		
-	 	if((i + 1) % 8 == 0){
-	 		var show_1 = document.getElementById('Products');
-	 		var div_1 = document.createElement("div");
-	 		div_1.className = "pageNumber_down col-12 ";
-	 		div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
-	                '<!-- Pagination -->' + 
-	                '<nav aria-label="navigation">' + 
-	                    '<ul class="pagination justify-content-end mt-15">' + 
-	                        '<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + 
-	                    '</ul>' + 
-	                '</nav>' + 
-	            '</div>';
-            show_1.appendChild(div_1);
-    	}
 
         var show_2 = document.getElementById('total_products');
         if(Number(page)*8 >= snapshot.size)
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
         else
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';
+
+        if(((i + 1) % 8 == 0) || (i == snapshot.size - 1)){
+            var show_1 = document.getElementById('Products');
+            var div_1 = document.createElement("div");
+            div_1.className = "pageNumber_down col-12 ";
+            div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
+                    '<!-- Pagination -->' + 
+                    '<nav aria-label="navigation">' + 
+                        '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
+                            /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
+                            '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+                        '</ul>' + 
+                    '</nav>' + 
+                '</div>';
+            show_1.appendChild(div_1);
+
+            pagination(Number(page));
+            break;
+        }
 	}
     
 }
 
 module.exports = product_order;
-},{}],21:[function(require,module,exports){
+},{"./pagination":20,"./rating":22}],22:[function(require,module,exports){
+rating = function(index, rate){
+    var show = document.getElementById("rating_" + index.toString());
+
+    star = parseInt(rate, 10)
+    show.innerHTML = rate;
+    if(star <= 1)
+        show.innerHTML = show.innerHTML + '<i class="fa fa-star" aria-hidden="true"></i>';
+    else
+        for(var i = 0; i < star; i++)
+            show.innerHTML = show.innerHTML + '<i class="fa fa-star" aria-hidden="true"></i>';
+}
+
+module.exports = rating;
+},{}],23:[function(require,module,exports){
 search = function(db, storage, input, itemfilter, page){
 	//var product_order = require("./product_order");
 	//var cant_find= require("./cant_find");
 
 	//var itemfilter = ???????????
+	var pagination = require("./pagination");
 	var productQueryRef;
+
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	if(itemfilter == 'seller'){
-		productQueryRef = productsRef.where('seller_account', '==', input).get()
+		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
 		.then(snapshot => {
 				product_order('Products', storage, snapshot, page);
     		})
     		.catch(err => {
   				console.log('Error getting documents', err);
-  				cant_find();
+  				cant_find(page);
     		});
 	}
 	else{
-	productQueryRef = productsRef.get().then(snapshot => {
+		productQueryRef = productsRef.get().then(snapshot => {
 
-				var i = 0;
+			var i = 0;
 
-				//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
-				//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
+			//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
+			//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
 
-      			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
-      				///console.log(doc.id, '=>', doc.data());
-      				var temp = doc.data();
-      				//console.log(temp);
-      				if(temp['product_title'].indexOf(input) != -1){
-      					var storageRef = storage.ref();
+  			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
+  				///console.log(doc.id, '=>', doc.data());
+  				var temp = doc.data();
+  				//console.log(temp);
+  				if(temp['product_title'].indexOf(input) != -1){
+  					if( i >=(Number(page)-1)*8 && i <= (Number(page)*8)-1 ){
+	  					var storageRef = storage.ref();
 				        var productsRef = storageRef.child('Products');
 
-				        productsRef.child('Products' + temp['product_id'].toString() + '/0.jpg').getDownloadURL().then(function(url) {
+				        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
 				        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
 				            var show_img = document.getElementById('product_img1');
 				            show_img.src = url;
 				        }).catch(function(){
-				            console.log("error get img!!");
+				            console.log("error get img1!!");
 				        });
 
-				        productsRef.child('Products' + temp['product_id'].toString() + '/1.jpg').getDownloadURL().then(function(url) {
+				        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
 				        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
 				            var show_img = document.getElementById('product_img2');
 				            show_img.src = url;
 				        }).catch(function(){
-				            console.log("error get img!!");
+				            console.log("error get img2!!");
 				        });
 
 
@@ -49999,62 +50079,63 @@ search = function(db, storage, input, itemfilter, page){
 				            '</div>' +
 				        '</div>';
 				        show.appendChild(div);
+				    }
+					i = i + 1;
 
-						i = i + 1;
 
+				}
+				//if(i >= 8)
+				//	return true; //can break from forEach
+				
 
-					}
-					//if(i >= 8)
-					//	return true; //can break from forEach
-					
+ 	 		});
 
-     	 		});
+ 	 		var show_1 = document.getElementById('Products');
+	 		var div_1 = document.createElement("div");
+	 		div_1.className = "pageNumber_down col-12 ";
+	 		div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
+	                '<!-- Pagination -->' + 
+	                '<nav aria-label="navigation">' + 
+	                    '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
+	                        /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
+	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
+	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
+	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+	                    '</ul>' + 
+	                '</nav>' + 
+	            '</div>';
+            show_1.appendChild(div_1);
 
-     	 		var show_1 = document.getElementById('Products');
-		 		var div_1 = document.createElement("div");
-		 		div_1.className = "pageNumber_down col-12 ";
-		 		div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
-		                '<!-- Pagination -->' + 
-		                '<nav aria-label="navigation">' + 
-		                    '<ul class="pagination justify-content-end mt-15">' + 
-		                        '<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-		                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-		                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-		                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + 
-		                    '</ul>' + 
-		                '</nav>' + 
-		            '</div>';
-	            show_1.appendChild(div_1);
+            /*var show_2 = document.getElementById('total_products');
+	        if(Number(page)*8 >= snapshot.size)
+	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
+	        else
+	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
 
-	            /*var show_2 = document.getElementById('total_products');
-		        if(Number(page)*8 >= snapshot.size)
-		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
-		        else
-		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
+	        var show_2 = document.getElementById('total_products');
+	     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
+	    
 
-		        var show_2 = document.getElementById('total_products');
-		     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
-		    
+ 	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
 
-     	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
+ 	 		
+ 	 		console.log(i); //how many products we get in search
+ 	 		
+ 	 		pagination(Number(page));
+		})
+		.catch(err => {
 
-     	 		
-     	 		console.log(i); //how many products we get in search
-     	 	
-    		})
-    		.catch(err => {
+				console.log('Error getting documents', err);
+				cant_find(page);
 
-  				console.log('Error getting documents', err);
-  				cant_find();
-
-    		});//query of "kind_product = kind"
+		});//query of "kind_product = kind"
     
 	}
 	return productQueryRef;
 }
 
 module.exports = search;
-},{}],22:[function(require,module,exports){
+},{"./pagination":20}],24:[function(require,module,exports){
 
 	//var firebase= require("./firebase");
 	window.addEventListener('hashchange', function(e) {
@@ -50069,6 +50150,7 @@ module.exports = search;
 	var getKindPoducts = require("./getKindPoducts");//
 	var search = require("./search");//
 	var cant_find= require("./cant_find");
+	//var pagination = require("./pagination");
 	//var sendSearch = require("./sendSearch.js");//
 
 	var db = firebase.firestore();
@@ -50141,20 +50223,23 @@ module.exports = search;
 	}
 	else{
 		//alert('in kind');
+
 		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
 		console.log(products_all);
+		
 
 		//if(promise)
 	}
 
+	document.getElementById("catagories").children[Number(kind)].className = "active";
 
 	//alert('itemfilter: '+itemfilter);
 	//alert("is_Search: " + is_Search)
 	//alert("kind: " + kind);
 	//alert("page: " + page);
 	//alert("input: " + input);
-
+	//pagination(Number(page));
 
 
 	
@@ -50172,4 +50257,4 @@ module.exports = search;
 
 
 
-},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./product_order":20,"./search":21}]},{},[22]);
+},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./product_order":21,"./search":23}]},{},[24]);
