@@ -17,8 +17,8 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var ignore = 0;
     var show = document.getElementById('buylist_t');
     show.innerHTML = ''
-    console.log("Dynamic_HTML");
-    console.log(snapshot);
+    //console.log("Dynamic_HTML");
+    //console.log(snapshot);
     //snapshot.size
     max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
@@ -36,80 +36,94 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                 page_start = ignore;
                 recent_page_item = item_per_page * page;
                 ignore = 0;
-                console.log("ignore" +　ignore);
-                console.log(page_start);
-                console.log(recent_page_item);
-                console.log("find search page start");
+//                console.log("ignore" +　ignore);
+//                console.log(page_start);
+//                console.log(recent_page_item);
+//                console.log("find search page start");
                 break;
             }
-            if(snapshot.docs[i].data()['product_title'].indexOf(item) != -1){
+            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
                 ignore++;
-                console.log(ignore);
+                //console.log(ignore);
             }
         }
     }
     
     for(var i = page_start; i < recent_page_item;){
+        console.log(snapshot.docs[i + ignore].data());
         var next = false;
-        console.log(i + ignore);
-        if(item == ''){
-            console.log("next i++");
+        //console.log(i + ignore);
+        if(item == '' && (i + ignore) != snapshot.size){
+            ////console.log("next i++");
             next = true;
         }
-        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) != -1){
-            next = true;
-        }
-        else if((i + ignore) == snapshot.size - 1){
+        else if((i + ignore) == snapshot.size){
             ignore = ignore + i;
             break;
         }
-        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) == -1){
+        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) != -1){
+            next = true;
+        }
+        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) == -1){
             ignore++;
             continue;
         }
         
-        console.log(snapshot.docs[i + ignore].data());
-        var product_data = snapshot.docs[i + ignore].data();
+        //console.log(snapshot.docs[i + ignore].data());
+        var buylist_data = snapshot.docs[i + ignore].data();
         //console.log(product_data);
-        if(product_data['is_Order'] == false){
-            var product_state;
+//        var sellerdata = db.collection('User23').doc('User' + buylist_data['buyer_account']).get().then(sldata =>{
+//            console.log(sldata.data());
+//            
+//        });
+        //console.log()
+        //console.log('buylist');
+        
+        if(buylist_data['is_Order'] == true){
+            var buylist_state;
             //console.log(product_data);
-            if(product_data['state'] == 0){
-                product_state = '處理中';
+            if(buylist_data['order_state'] == 0){
+                buylist_state = '交易處理中';
             }
-            else if(product_data['state'] == 1){
-                product_state = '取消申請中';
+            else if(buylist_data['order_state'] == 1){
+                buylist_state = '取消申請中';
             }
-            else if(product_data['state'] == 2){
-                product_state = '已完成';
+            else if(buylist_data['order_state'] == 2){
+                buylist_state = '已完成';
             }
-            else if(product_data['state'] == 3){
-                product_state = '競標進行中';
+            else if(buylist_data['order_state'] == 3){
+                buylist_state = '競標進行中';
             }
-            var date = product_data['build_time'].toDate();
+            var date = buylist_data['build_time'].toDate();
             //console.log(date);
             show.innerHTML = '<tr>' +
                                 '<td>' +
-                                    '<span class = "selfdefine">2019/5/9</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<a class = "listID" href = "">123456</a>' +
+                                    '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
                                 '</td>' +
                                 '<td class="price">' +
-                                    '<span class = "selfdefine">150$</span>' +
+                                    '<span class = "selfdefine">$' + buylist_data['total_price'] + '</span>' +
                                 '</td>' +
                                 '<td class="">' +
-                                    '<a class = "seller" href = "">Admin</a>' +
+                                    '<a class = "seller" href = "">' + buylist_data['seller_account'] + '</a>' +
                                 '</td>' +
                                 '<td class = "">' +
-                                    '<span class = "selfdefine">運送中</span>' +
+                                    '<span class = "selfdefine">' + buylist_state + '</span>' +
                                 '</td>' +
                                 '<td>' +
-                                    '<input class = "criticize" type = "button" onclick = "product_eval()" value = "評價">' +
+                                    '<form action = "./listdetail.html" method = "GET">' +
+                                        '<input type = "hidden" name = "product_id" value = "' + buylist_data['order_id'] + '">' +
+                                        '<input type = "submit" class = "list_button" value = "訂單詳情">' +
+                                    '</form>' + 
                                 '</td>' +
                                 '<td>' +
-                                    '<input  class = "cancel" type = "button" value = "取消訂單">' +
+                                    '<input class = "list_button" type = "button" onclick = "cancel()" value = "取消訂單">' +
                                 '</td>' + 
+                                '<td>' +
+                                    '<input class = "list_button" type = "button" onclick = "" value = "確認">' +
+                                '</td>' + 
+                                '<td>' +
+                                    '<input class = "list_button" type = "button" onclick = "product_eval(\'NP\', ' + buylist_data['order_id'] + ');" value = "評價">' +
+                                '</td>' +
                             '</tr>' + show.innerHTML
         }
         if(next){
@@ -118,14 +132,14 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
 }
 
-NPloadproduct = function (page, item = ''){
+NPloadproduct = function(page, item = '', itemfilter = ''){
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc');
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').orderBy('build_time', 'asc').where('is_bid', '==', false);
     user_prod_data.get().then(snapshot=>{
-        NP_Dynamic_HTML(page, snapshot, item);
+        NP_Dynamic_HTML(page, snapshot, item, itemfilter);
     });
     //alert(user_prod_data);
 }
@@ -156,4 +170,16 @@ NPchangePage = function(page){
             }
         }
     }
+}
+
+cancel = function(){
+    var user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').where('product_id', '==', product_id).get().then(snapshop =>{
+        snapshop.forEach(product => {
+            //console.log(snapshop[0]);
+            product_title = product.data()['product_title'];
+            db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
+                state : 5
+            });
+        });
+    });
 }

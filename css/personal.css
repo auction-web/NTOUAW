@@ -195,11 +195,7 @@ div.search_base form button {
 .main-content-wrapper .buylist-table-area table thead,
 .main-content-wrapper .bidlist-table-area table thead,
 .main-content-wrapper .selllist-table-area table thead,
-.main-content-wrapper .productmanage-table-area table thead{
-    width: 100%;
-    display: block;
-}
-
+.main-content-wrapper .productmanage-table-area table thead,
 .main-content-wrapper .buylist-table-area table tbody,
 .main-content-wrapper .bidlist-table-area table tbody,
 .main-content-wrapper .selllist-table-area table tbody,
@@ -240,14 +236,15 @@ div.search_base form button {
     border-top: none;
     border-bottom: none;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 14%;
-    flex: 0 0 14%;
-    width: 14%;
+    -ms-flex: 0 0 12%;
+    flex: 0 0 12%;
+    width: 12%;
     font-size: 19px;
-    max-width: 14%;
+    max-width: 12%;
     color: #242424;
     text-transform: capitalize;
 }
+
 .main-content-wrapper .bidlist-table-area table thead tr th,
 .main-content-wrapper .bidlist-table-area table tbody tr td,
 .main-content-wrapper .selllist-table-area table thead tr th,
@@ -312,81 +309,61 @@ span.date{
     font-size: 15px;
 }
 
-input.delete{
-    height: 35px;
-    width: 50px;
-    font-size: 18px;
-    color: black;
-    background-color: #fbb710;
-    border-radius:15px;
-}
-
-input.delete:hover{
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #131212;
-}
-
-.cancel,
-input.criticize,
-input.modify,
-input.upload{
+input.list_button{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    border: 2px solid #fbb710;
     height: 35px;
     width: 100px;
     font-size: 16px;
     color: black;
-    background-color: #fbb710;
+    background-color: white;
     border-radius:15px;
 }
-.cancel:hover,
-input.criticize:hover,
-input.modify:hover,
-input.upload:hover{
-    font-size: 18px;
-    color: #ffffff;
-    background-color: #131212;
+
+input.list_button:hover{
+    font-size: 16px;
+    color: dimgrey;
+    background-color: #fbb710;
 }
+
+input.list_button:disabled,
+input.list_button:disabled:hover{
+    background-color: white;
+    border: 2px solid darkgray;
+    
+}
+
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .cancel,
-    input.criticize,
-    input.modify,
-    input.delete{
+    input.list_button{
         height: 35px;
         width: 100px;
         font-size: 16px;
-        color: black;
-        background-color: #fbb710;
-        border-radius:15px;
-        display: block;
+    }
+    input.list_button:hover{
+        font-size: 16px;
     }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .cancel,
-    input.criticize,
-    input.modify,
-    input.delete{
+    input.list_button{
         height: 35px;
         width: 65px;
         font-size: 15px;
-        color: black;
-        background-color: #fbb710;
-        border-radius:15px;
-        display: block;
+    }
+    input.list_button:hover{
+        font-size: 15px;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .cancel,
-    input.criticize,
-    input.modify{
+    input.list_button{
         height: 35px;
         width: 70px;
         font-size: 12px;
-        color: black;
-        background-color: #fbb710;
-        border-radius:15px;
-        display: block;
+    }
+    input.list_button:hover{
+        font-size: 12px;
     }
 }
 /* buylist, bidlist detail end*/

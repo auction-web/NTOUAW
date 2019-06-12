@@ -173,5 +173,4 @@ write_firbase=function() {
 		});
 	}
 	qu(md);
-} 
-
+}
