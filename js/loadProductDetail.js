@@ -11,10 +11,23 @@ const $ = require('jQuery')(window);
 
 //get product id
 var ID;
-var url = location.href; // product-detail.html
-ID = (url.split('?')[1]).split('=')[1];
+var page_url = location.href; // product-detail.html
+ID = (page_url.split('?')[1]).split('=')[1];
 var id = "Product" + ID;
 console.log('product id = ', id);
+
+//--> 如何讓同一商品不被重複記錄?
+var is_sameAsLastOne;
+
+var readIndex = readCookie('queue_index');
+var index = Number(readIndex);
+
+//是否跟上次瀏覽的為同一筆商品?
+var historyQueueHref = "queue_href_" + index;
+var historyHref = readCookie(historyQueueHref);
+if (page_url == historyHref) {
+    is_sameAsLastOne = true;
+}
 
 //get and set data in the product-detail page
 (function ($) {
@@ -37,6 +50,93 @@ console.log('product id = ', id);
     var chooseNumMax;
     var choosedQuantity;
     var sellerName;
+
+    //--> 商品瀏覽紀錄cookie處理 
+    //variables to store info
+    var ckQueueName;
+    var ckQueueUrl;
+    var ckQueueHref;
+    var historyProductNum; // 瀏覽紀錄中的商品數量(不包含這次)
+    var is_historyQueueFull; //是否QUEUE已滿(放滿5個商品)
+
+    // get queue index and product's num from cookie
+    if (!is_sameAsLastOne) {
+        if (readIndex == null) {
+            console.log("no index.");
+
+            index = 1;
+            historyProductNum = 0;
+            is_historyQueueFull = false;
+
+            createCookie('queue_index', index);
+            ckQueueName = "queue_name_" + index;
+            ckQueueUrl = "queue_url_" + index;
+            ckQueueHref = "queue_href_" + index;
+        } else if (index == 5) {
+            index = 1;
+            historyProductNum = 5;
+            is_historyQueueFull = true;
+
+            createCookie('queue_index', index);
+            ckQueueName = "queue_name_" + index;
+            ckQueueUrl = "queue_url_" + index;
+            ckQueueHref = "queue_href_" + index;
+        } else {
+            if (is_historyQueueFull) {
+                historyProductNum = 5;
+            } else {
+                historyProductNum = index;
+            }
+            index++;
+
+            createCookie('queue_index', index);
+            ckQueueName = "queue_name_" + index;
+            ckQueueUrl = "queue_url_" + index;
+            ckQueueHref = "queue_href_" + index;
+        }
+    }
+
+    //--> read and set 商品瀏覽紀錄 from cookie
+    var htmlCount = 1; // html element's count
+    var historyCount = (index - 1); // last product's index
+
+    while (historyProductNum > 0) {
+        //從上一個商品開始抓cookie資料
+        if (historyCount == 0) { //(若count變0，上一商品index=5)
+            historyCount = 5;
+        }
+
+        //set cookie's reading key
+        var historyQueueUrl = "queue_url_" + historyCount;
+        var historyQueueName = "queue_name_" + historyCount;
+        var historyQueueHref = "queue_href_" + historyCount;
+
+
+        //set html element's id
+        var htmlImage = "#historyImage_" + htmlCount;
+        var htmlName = "#historyName_" + htmlCount;
+        var htmlHref = "#historyHref_" + htmlCount;
+
+
+        //read name and url from cookie
+        var historyUrl = readCookie(historyQueueUrl);
+        var historyName = readCookie(historyQueueName);
+        var historyHref = readCookie(historyQueueHref);
+
+
+
+        //set name and url into html element
+        $(htmlImage).attr("src", historyUrl);
+        //        $(htmlName).html(historyName);
+        $(htmlHref).attr("href", historyHref);
+
+        //update index
+        htmlCount++;
+        historyCount--;
+
+        historyProductNum--;
+    }
+
 
     //-->　load Product's page info
     var productRef = db.collection("Product").doc(id).get()
@@ -62,7 +162,13 @@ console.log('product id = ', id);
             chooseNumMax = productDetail.product_quantity;
             choosedQuantity = 1; //選擇數量預設為1
             sellerName = productDetail.seller_account;
-            console.log('seller id = ', sellerName);
+            console.log('seller name = ', sellerName);
+
+            //--> write product's name&id into cookie(用於商品瀏覽紀錄) 
+            if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
+                createCookie(ckQueueName, productName);
+                createCookie(ckQueueHref, page_url);
+            }
 
             //--> get seller's info by sellerName 
             var sellerRef = db.collection("User23");
@@ -94,7 +200,6 @@ console.log('product id = ', id);
                 .catch(err => {
                     console.log('Error getting document', err);
                 });
-
 
 
             // set product's info in webpage. (using jQuery) 
@@ -135,16 +240,23 @@ console.log('product id = ', id);
             imagNum = (url.split('?')[0]).split('F')[2];
             var imageID = "#image" + imagNum;
             var slideID = "#slide" + imagNum;
-            console.log('slideID id = ', slideID);
+            //            console.log('slideID id = ', slideID);
             var slideImagID = "#slideImag" + imagNum;
-            console.log('slideImagID id = ', slideImagID);
+            //            console.log('slideImagID id = ', slideImagID);
             var imageUrl = "url(\'" + url + "\')";
 
             // insert url into html element:
-            console.log('image id = ', imageID);
+            //            console.log('image id = ', imageID);
             $(imageID).css("background-image", imageUrl);
             $(slideID).attr("href", url);
             $(slideImagID).attr("src", url);
+
+            //--> write productImage[0]'s url into cookie(用於商品瀏覽紀錄)
+            if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
+                if (imagNum == '0') {
+                    createCookie(ckQueueUrl, url);
+                }
+            }
 
         }).catch(function (error) {
             console.log("getting error.");
@@ -166,7 +278,6 @@ console.log('product id = ', id);
         //                    console.log("cookie = {" + document.cookie + "}");
         location.href = "./checkout.html";
     })
-
 
 
 })(jQuery); //end "get and set data in product detail"
