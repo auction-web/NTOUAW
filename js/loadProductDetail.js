@@ -57,7 +57,6 @@ if (page_url == historyHref) {
     var ckQueueUrl;
     var ckQueueHref;
     var historyProductNum; // 瀏覽紀錄中的商品數量(不包含這次)
-    var is_historyQueueFull; //是否QUEUE已滿(放滿5個商品)
 
     // get queue index and product's num from cookie
 
@@ -65,7 +64,7 @@ if (page_url == historyHref) {
         console.log("no index.");
 
         historyProductNum = 0;
-        is_historyQueueFull = false;
+        createCookie('queue_is_full', 'false');
 
         if (!is_sameAsLastOne) {
             index = 1;
@@ -78,7 +77,8 @@ if (page_url == historyHref) {
     } else if (index == 5) {
 
         historyProductNum = 5;
-        is_historyQueueFull = true;
+        createCookie('queue_is_full', 'true');
+
 
         if (!is_sameAsLastOne) {
             index = 1;
@@ -90,7 +90,8 @@ if (page_url == historyHref) {
         ckQueueUrl = "queue_url_" + index;
         ckQueueHref = "queue_href_" + index;
     } else {
-        if (is_historyQueueFull) {
+        var is_full = readCookie('queue_is_full');
+        if (is_full == 'true') {
             historyProductNum = 5;
         } else {
             historyProductNum = index;
@@ -116,7 +117,7 @@ if (page_url == historyHref) {
         if (historyCount == 0) { //(若count變0，上一商品index=5)
             historyCount = 5;
         }
-
+        console.log('product', historyProductNum);
         //set cookie's reading key
         var historyQueueUrl = "queue_url_" + historyCount;
         var historyQueueName = "queue_name_" + historyCount;
