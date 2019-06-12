@@ -133,7 +133,7 @@ const $ = require('jQuery')(window);
         db.collection('Counter').doc('Order_count').get().then(doc => {
             console.log(doc.data()['count']);
             recent_order_num = doc.data()['count'];
-            console.log(recent_order_num);
+            console.log("order id : " + recent_order_num);
             //create order data
             var OrderDetail = {
                 //seller info
@@ -170,11 +170,11 @@ const $ = require('jQuery')(window);
             //--> write seller's order to firebase
             // how many seller's order already there?
             console.log(sellerOrderRef);
+            OrderDetail.order_id = recent_order_num;
             sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
                 sellerOrderNum = snap.size + 1;
                 sellerOrderName = 'Order' + sellerOrderNum;
                 console.log('seller order:', sellerOrderName);
-                OrderDetail.order_id = recent_order_num;
 
                 //write into firebase
                 var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);
@@ -183,7 +183,6 @@ const $ = require('jQuery')(window);
             });
 
             //--> write buyer's order to firebase
-            OrderDetail.order_id = buyerOrderNum;
             var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
             var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
