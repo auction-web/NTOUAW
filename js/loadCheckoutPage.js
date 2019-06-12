@@ -129,85 +129,90 @@ const $ = require('jQuery')(window);
         var date = new Date();
         //set order's state = processing
         const processing = 0;
-        console.log(db.collection('Counter').doc('Order_count'));
-        var recent_order_num = db.collection('Counter').doc('Order_count');
-        console.log(recent_order_num);
-        //create order data
-        var OrderDetail = {
-            //seller info
-            seller_account: sellerName,
-            //buyer info
-            buyer_account: buyerID,
-            buyer_evaluation: 0,
-            //oder info
-            is_Order: true,
-            is_bid: false,
-            is_buyer_evaluated: false,
-            is_seller_evaluated: false,
-            order_state: processing,
-            order_id: recent_order_num,
-            build_time: date,
-            cancel_reason: "",
-            total_price: sum,
-        };
-        var ProductDetail = {
-            //product info
-            product_id: productID,
-            product_title: productName,
-            product_price: productPrice_num,
-            product_quantity: Number(quantity),
-            product_evaluation: 0,
-            delivery: delievery_final_method,
-            delivery_fee: delievery_final_fee,
-            remark: productRemark,
-        }
-        recent_order_num = recent_order_num + 1;
-        db.collection('Counter').doc('Order_count').update({
-            count: recent_order_num
+        var recent_order_num = 0;
+        db.collection('Counter').doc('Order_count').get().then(doc => {
+            console.log(doc.data()['count']);
+            recent_order_num = doc.data()['count'];
+            console.log(recent_order_num);
+            //create order data
+            var OrderDetail = {
+                //seller info
+                seller_account: sellerName,
+                //buyer info
+                buyer_account: buyerID,
+                buyer_evaluation: 0,
+                //oder info
+                is_Order: true,
+                is_bid: false,
+                is_buyer_evaluated: false,
+                is_seller_evaluated: false,
+                order_state: processing,
+                order_id: recent_order_num,
+                build_time: date,
+                cancel_reason: "",
+                total_price: sum,
+            };
+            var ProductDetail = {
+                //product info
+                product_id: productID,
+                product_title: productName,
+                product_price: productPrice_num,
+                product_quantity: Number(quantity),
+                product_evaluation: 0,
+                delivery: delievery_final_method,
+                delivery_fee: delievery_final_fee,
+                remark: productRemark,
+            }
+            recent_order_num = recent_order_num + 1;
+            db.collection('Counter').doc('Order_count').update({
+                count: recent_order_num
+            });
+            //--> write seller's order to firebase
+            // how many seller's order already there?
+            console.log(sellerOrderRef);
+            sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
+                sellerOrderNum = snap.size + 1;
+                sellerOrderName = 'Order' + sellerOrderNum;
+                console.log('seller order:', sellerOrderName);
+                OrderDetail.order_id = recent_order_num;
+
+                //write into firebase
+                var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);
+                var setSellerOrderProducts = sellerOrderRef.doc(sellerOrderName).collection('Products').doc('Product1').set(ProductDetail);
+
+            });
+
+            //--> write buyer's order to firebase
+            OrderDetail.order_id = buyerOrderNum;
+            var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
+            var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
+
+            //--> update product's amount in database.
+    //        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
+    //            snapshot.forEach(doc => {
+    //                var product = doc.data();
+    //                var productAmount = product.product_quantity;
+    //                productAmount -= Number(quantity);
+    //                console.log('product num: ', productAmount);
+    //                
+    //                var productRef = (doc.ref.path).split('/')[1];
+    //                console.log('path: ',productRef);
+    //              
+    //                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
+    //            });
+    //        }).catch(err => {
+    //            console.log('Error getting document', err);
+    //        });
+
+
+            //--> wait firebase for few seconds
+            alert("交易中，請稍後......");
+            setTimeout(function () {
+                alert("訂單交易成功! 按下確認將自動跳轉至首頁");
+                location.href = "./home.html";
+            }, 2100);
         });
-        //--> write seller's order to firebase
-        // how many seller's order already there?
-        sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
-            sellerOrderNum = snap.size + 1;
-            sellerOrderName = 'Order' + sellerOrderNum;
-            console.log('seller order:', sellerOrderName);
-            OrderDetail.order_id = recent_order_num;
-
-            //write into firebase
-            var setSellerOrder = sellerOrderRef.doc(sellerOrderName).set(OrderDetail);
-            var setSellerOrderProducts = sellerOrderRef.doc(sellerOrderName).collection('Products').doc('Product1').set(ProductDetail);
-
-        });
-
-        //--> write buyer's order to firebase
-        OrderDetail.order_id = buyerOrderNum;
-        var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
-        var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
-
-        //--> update product's amount in database.
-//        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
-//            snapshot.forEach(doc => {
-//                var product = doc.data();
-//                var productAmount = product.product_quantity;
-//                productAmount -= Number(quantity);
-//                console.log('product num: ', productAmount);
-//                
-//                var productRef = (doc.ref.path).split('/')[1];
-//                console.log('path: ',productRef);
-//              
-//                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
-//            });
-//        }).catch(err => {
-//            console.log('Error getting document', err);
-//        });
-
-
-        //--> wait firebase for few seconds
-        alert("交易中，請稍後......");
-        setTimeout(function () {
-            alert("訂單交易成功! 按下確認將自動跳轉至首頁");
-            location.href = "./home.html";
-        }, 2100);
+        
 
     }); //<-- "checkout button" handler
 
