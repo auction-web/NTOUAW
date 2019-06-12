@@ -129,7 +129,9 @@ const $ = require('jQuery')(window);
         var date = new Date();
         //set order's state = processing
         const processing = 0;
-        var recent_order_num = db.collection('Counter').doc('Order_count').data()['count'];
+        console.log(db.collection('Counter').doc('Order_count'));
+        var recent_order_num = db.collection('Counter').doc('Order_count');
+        console.log(recent_order_num);
         //create order data
         var OrderDetail = {
             //seller info
