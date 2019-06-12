@@ -60,41 +60,52 @@ if (page_url == historyHref) {
     var is_historyQueueFull; //是否QUEUE已滿(放滿5個商品)
 
     // get queue index and product's num from cookie
-    if (!is_sameAsLastOne) {
-        if (readIndex == null) {
-            console.log("no index.");
 
+    if (readIndex == null) {
+        console.log("no index.");
+
+        historyProductNum = 0;
+        is_historyQueueFull = false;
+
+        if (!is_sameAsLastOne) {
             index = 1;
-            historyProductNum = 0;
-            is_historyQueueFull = false;
-
             createCookie('queue_index', index);
-            ckQueueName = "queue_name_" + index;
-            ckQueueUrl = "queue_url_" + index;
-            ckQueueHref = "queue_href_" + index;
-        } else if (index == 5) {
-            index = 1;
-            historyProductNum = 5;
-            is_historyQueueFull = true;
-
-            createCookie('queue_index', index);
-            ckQueueName = "queue_name_" + index;
-            ckQueueUrl = "queue_url_" + index;
-            ckQueueHref = "queue_href_" + index;
-        } else {
-            if (is_historyQueueFull) {
-                historyProductNum = 5;
-            } else {
-                historyProductNum = index;
-            }
-            index++;
-
-            createCookie('queue_index', index);
-            ckQueueName = "queue_name_" + index;
-            ckQueueUrl = "queue_url_" + index;
-            ckQueueHref = "queue_href_" + index;
         }
+
+        ckQueueName = "queue_name_" + index;
+        ckQueueUrl = "queue_url_" + index;
+        ckQueueHref = "queue_href_" + index;
+    } else if (index == 5) {
+
+        historyProductNum = 5;
+        is_historyQueueFull = true;
+
+        if (!is_sameAsLastOne) {
+            index = 1;
+            createCookie('queue_index', index);
+        }
+
+
+        ckQueueName = "queue_name_" + index;
+        ckQueueUrl = "queue_url_" + index;
+        ckQueueHref = "queue_href_" + index;
+    } else {
+        if (is_historyQueueFull) {
+            historyProductNum = 5;
+        } else {
+            historyProductNum = index;
+        }
+
+        if (!is_sameAsLastOne) {
+            index++;
+            createCookie('queue_index', index);
+        }
+
+        ckQueueName = "queue_name_" + index;
+        ckQueueUrl = "queue_url_" + index;
+        ckQueueHref = "queue_href_" + index;
     }
+
 
     //--> read and set 商品瀏覽紀錄 from cookie
     var htmlCount = 1; // html element's count
