@@ -49726,8 +49726,8 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var ignore = 0;
     var show = document.getElementById('sellerlist_t');
     show.innerHTML = ''
-    console.log("Dynamic_HTML");
-    console.log(snapshot);
+    //console.log("Dynamic_HTML");
+    //console.log(snapshot);
     //snapshot.size
     max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
@@ -49753,16 +49753,16 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             }
             if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
                 ignore++;
-                console.log(ignore);
+                //console.log(ignore);
             }
         }
     }
     
     for(var i = page_start; i < recent_page_item;){
         var next = false;
-        console.log(i + ignore);
+        //console.log(i + ignore);
         if(item == '' && (i + ignore) != snapshot.size){
-            console.log("next i++");
+            //console.log("next i++");
             next = true;
         }
         else if((i + ignore) == snapshot.size){
@@ -49777,7 +49777,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             continue;
         }
         
-        console.log(snapshot.docs[i + ignore].data());
+        //console.log(snapshot.docs[i + ignore].data());
         var sellerlist_data = snapshot.docs[i + ignore].data();
         //console.log(product_data);
         var sellerlist_state;
@@ -49800,12 +49800,12 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         var date = sellerlist_data['build_time'].toDate();
         //console.log(date);
-        show.innerHTML = '<tr>' + 
+        show.innerHTML = show.innerHTML + '<tr>' + 
                             '<td>' +
-                                '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
+                                '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<a class = "listID" href = "">123456</a>' +
+                                '<a class = "listID" href = "././listdetail.html?order_id=' + sellerlist_data['order_id'] + '&isbuyer=0">' + sellerlist_data['order_id'] + '</a>' +
                             '</td>' +
                             '<td>' +
                                 '<span class = "criticize">' + sellerlist_data['buyer_evaluation'] + '</span>' +
@@ -49829,7 +49829,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<input class = "list_button" type = "button" value = "同意"' + button_state + '>' +
                                 '<input class = "list_button" type = "button" value = "不同意"' + button_state + '>' +
                             '</td>' +
-                        '</tr>' + show.innerHTML;
+                        '</tr>';
         if(next){
             i++;
         }
@@ -49841,7 +49841,7 @@ SLloadproduct = function (page, item = ''){
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc').where('is_Order', '==', true);
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_Order', '==', true);
     user_prod_data.get().then(snapshot=>{
         SL_Dynamic_HTML(page, snapshot, item);
     });
