@@ -64,10 +64,10 @@
             </div>
             <!-- Toolbar end -->
             <!-- evaluation windows -->
-            <div class = "eval_model" id = "bidlist_eval" style="display:none">
+            <div class = "eval_model" id = "eval_model" style="display:none">
                 <div class = "eval_model_content">
                     <div class = "eval_model_head">
-                        <span class="close" onclick = "bidlist_eval_close()">&times;</span>
+                        <span class="close" onclick = "eval_model_close()">&times;</span>
                         <h2 class = "eval_title" id = "eval_title">競標商品評價</h2>
                     </div>
 
@@ -166,6 +166,7 @@
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
                             <select name = "itemfilter">
                                 <option value = "seller_account">賣家</option>
+                                <option value = "order_id">訂單編號</option>
                             </select>
                         </form>
                         

@@ -196,8 +196,8 @@ var User = User_cookies + '/';
 var url_origun = location.href;
 var url = decodeURI(url_origun);
 var max_page = 0;
-var search_input = '';
 var search_itemfilter = '';
+var search_input = '';
 var item_per_page = 10;
 
 NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
@@ -237,6 +237,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
     
     for(var i = page_start; i < recent_page_item;){
+        var target = snapshot.docs[i + ignore].data()[itemfilter];
         //console.log(snapshot.docs[i + ignore].data());
         var next = false;
         //console.log(i + ignore);
@@ -248,10 +249,10 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             //ignore = ignore + i;
             //break;
         }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) != -1){
+        else if(String(target).indexOf(item) != -1){
             next = true;
         }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) == -1){
+        else if(String(target).indexOf(item) == -1){
             ignore++;
             continue;
         }
@@ -290,6 +291,10 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                 
                 cancel_state = 'disabled';
             }
+            else if(buylist_data['order_state'] == 4){
+                buylist_state = '訂單取消';
+                cancel_state = 'disabled';
+            }
             var date = buylist_data['build_time'].toDate();
             show.innerHTML =  show.innerHTML + '<tr>' +
                                 '<td>' +
@@ -305,17 +310,17 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                     '<a class = "seller" href = "">' + buylist_data['seller_account'] + '</a>' +
                                 '</td>' +
                                 '<td class = "">' +
-                                    '<span id = "order_state' + buylist_data['order_id'] + '">' + buylist_state + '</span>' +
+                                    '<span id = "NP_order_state' + buylist_data['order_id'] + '">' + buylist_state + '</span>' +
                                 '</td>' +
                                 
                                 '<td>' +
                                     '<input class = "list_button" id = "cancel' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 1);" value = "取消訂單" ' + cancel_state + '>' +
                                 '</td>' + 
                                 '<td>' +
-                                    '<input class = "list_button" id = "confirm' + buylist_data['order_id'] + '" type = "button" onclick = "confirm(' + buylist_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
+                                    '<input class = "list_button" id = "NP_check' + buylist_data['order_id'] + '" type = "button" onclick = "confirm(' + buylist_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
                                 '</td>' + 
                                 '<td>' +
-                                    '<input class = "list_button" id="eval' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 0);" value = "評價" ' + evaluate_state + '>' +
+                                    '<input class = "list_button" id="NP_eval' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 0);" value = "評價" ' + evaluate_state + '>' +
                                 '</td>' +
                             '</tr>'
         }
@@ -326,6 +331,8 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
 }
 
 NPloadproduct = function(page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
@@ -339,7 +346,7 @@ NPloadproduct = function(page, item = '', itemfilter = ''){
 
 NPchangePage = function(page){
     var show = document.getElementById("NPpagination");
-    NPloadproduct(page, search_input);
+    NPloadproduct(page, search_input, search_itemfilter);
     if(page >= 2){
         show.innerHTML = ''
 
@@ -365,26 +372,49 @@ NPchangePage = function(page){
     }
 }
 
-cancel = function(order_id){
+cancel = function(tab, order_id, state){
+    var order_state;
+    var check;
+    if(tab == 'NP'){
+        order_state = document.getElementById('NP_order_state' + order_id);
+        check = document.getElementById('NP_check' + order_id);
+    }
+    else if(tab == 'SL'){
+        console.log("SL");
+        order_state = document.getElementById('SL_order_state' + order_id);
+        check = document.getElementById('SL_check' + order_id);
+    }
+    if(state == 0){
+        console.log('in 0');
+        order_state.innerHTML = '交易處理中';
+        check.disabled = true;
+    }
+    else if(state == 1){
+        order_state.innerHTML = '取消申請中';
+        check.disabled = true;
+    }
+    else if(state == 4){
+        order_state.innerHTML = '訂單取消';
+        check.disabled = true;
+    }
+    console.log(order_state);
+    console.log(check);
     db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
             //console.log(product['id']);
             order_id = product.data()['order_id'];
             seller_account = product.data()['seller_account'];
             db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
-                order_state : 1
+                order_state : state
             });
-            var order_state = document.getElementById('order_state' + order_id);
-            order_state.innerHTML = '取消申請中';
-            var confirm = document.getElementById('confirm' + order_id);
-            confirm.disabled = true;
+            
             db.collection('User23').where('user_name', '==', seller_account).get().then(user => {
                 //console.log(user.docs[0]);
                 var user_id = user.docs[0]['id'];
                 //console.log(user_id);
                 db.collection('User23').doc(user_id).collection('iamSeller').where('order_id', '==', order_id).get().then(order => {
                     db.collection('User23').doc(user_id).collection('iamSeller').doc(order.docs[0]['id']).update({
-                        order_state : 1
+                        order_state : state
                     });
                 });
             });
@@ -397,15 +427,18 @@ confirm = function(order_id){
         snapshop.forEach(product => {
             //change order state
             //console.log(product['id']);
-            var confirm_button = document.getElementById('confirm' + order_id);
+            var confirm_button = document.getElementById('check' + order_id);
             confirm_button.disabled = true;
+            var cancel = document.getElementById('cancel' + order_id);
+            cancel.disabled = true;
+            var order_state = document.getElementById('order_state' + order_id);
+            order_state = "已完成";
             order_id = product.data()['order_id'];
             seller_account = product.data()['seller_account'];
             db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
                 order_state : 2
             });
-            var cancel = document.getElementById('cancel' + order_id);
-            cancel.disabled = true;
+            
             db.collection('User23').where('user_name', '==', seller_account).get().then(user => {
                 var user_id = user.docs[0]['id'];
                 db.collection('User23').doc(user_id).collection('iamSeller').where('order_id', '==', order_id).get().then(order => {

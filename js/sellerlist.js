@@ -86,8 +86,8 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             sellerlist_state = '已完成';
             eval_button_state = '';
         }
-        else if(sellerlist_data['order_state'] == 3){
-            sellerlist_state = '競標進行中';
+        else if(sellerlist_data['order_state'] == 4){
+            sellerlist_state = '訂單取消';
         }
         var date = sellerlist_data['build_time'].toDate();
         //console.log(date);
@@ -111,14 +111,13 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<span class = "selfdefine">' + sellerlist_data['seller_account'] + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<span class = "selfdefine">' + sellerlist_state + '</span>' +
+                                '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<input class = "list_button" type = "button"  onclick = "product_eval(\'SL\', ' + sellerlist_data['order_id'] + ');" value = "評價" ' + eval_button_state + '>' +
+                                '<input class = "list_button" id="SL_eval" type = "button"  onclick = "product_eval(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
                             '</td>' +
                             '<td>' +
-                                '<input class = "list_button" type = "button" value = "同意"' + button_state + '>' +
-                                '<input class = "list_button" type = "button" value = "不同意"' + button_state + '>' +
+                                    '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
                             '</td>' +
                         '</tr>';
         if(next){
@@ -127,7 +126,9 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
 }
 
-SLloadproduct = function (page, item = ''){
+SLloadproduct = function (page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
@@ -141,7 +142,7 @@ SLloadproduct = function (page, item = ''){
 
 SLchangePage = function(page){
     var show = document.getElementById("SLpagination");
-    SLloadproduct(page, search_input);
+    SLloadproduct(page, search_input, itemfilter);
     if(page >= 2){
         show.innerHTML = ''
 

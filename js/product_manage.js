@@ -127,6 +127,8 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
 }
 
 PMloadproduct = function (page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
@@ -168,7 +170,7 @@ delete_product = function(product_id){
 
 PMchangePage = function(page){
     var show = document.getElementById("PMpagination");
-    PMloadproduct(page, search_input);
+    PMloadproduct(page, search_input, search_itemfilter);
     if(page >= 2){
         show.innerHTML = ''
 
