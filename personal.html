@@ -68,10 +68,10 @@
                 <div class = "eval_model_content">
                     <div class = "eval_model_head">
                         <span class="close" onclick = "bidlist_eval_close()">&times;</span>
-                        <h2 class = "eval_title">競標商品評價</h2>
+                        <h2 class = "eval_title" id = "eval_title">競標商品評價</h2>
                     </div>
 
-                    <div class = "eval_model_body">
+                    <div class = "eval_model_body" id = "eval_model_body">
                         <table>
                             <thead>
                                 <tr>
@@ -86,9 +86,11 @@
                     </div>
 
                     <div class = "eval_model_foot">
-                        <div class = "eval_model_foot_content">
+                        <div class = "eval_model_foot_content" id = 'eval_model_foot_content'>
+<!--
                             <input class = "list_button" type = "button" value = "確認">
                             <input class = "list_button" type = "button" onclick = "bidlist_eval_close()" value = "取消">
+-->
                         </div>
                     </div>
                 </div>
@@ -185,10 +187,10 @@
                             <thead>
                                 <tr>
                                     <th>日期</th>
+                                    <th>訂單詳情</th>
                                     <th>價格</th>
                                     <th>賣家</th>
                                     <th>訂單狀態</th>
-                                    <th>訂單詳情</th>
                                     <th>取消訂單</th>
                                     <th>確認取貨</th>
                                     <th>評價</th>
