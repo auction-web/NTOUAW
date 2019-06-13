@@ -89,12 +89,22 @@
 
     .single-product-area .row .uppic .one{
         position: relative;
-        left: 0px;
+        left: 0%;
+        top: 300px;
+        border-style: outset;
+        width: 85px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -ms-grid-row-align: center;
+        align-items: center;
     }
     .single-product-area .row .uppic .two{
         position: relative;
-        right: 0%;
-        top: 175px;
+        right: -48%;
+        top: -15px;
         border-style: outset;
         width: 85px;
         display: -webkit-box;
@@ -108,8 +118,8 @@
     }
     .single-product-area .row .uppic .three{
         position: relative;
-        left: 24%;
-        top: -19px;
+        left: 0%;
+        top: 24px;
         border-style: outset;
         width: 85px;
         display: -webkit-box;
@@ -124,7 +134,7 @@
     .single-product-area .row .uppic .four{
         position: relative;
         left: 48%;
-        top: -214px;
+        top: -290px;
         border-style: outset;
         width: 85px;
         display: -webkit-box;
@@ -135,6 +145,7 @@
         -ms-grid-row-align: center;
         align-items: center;
     }
+/*
     .single-product-area .row .uppic .five{
         position: relative;
         left: 72%;
@@ -149,23 +160,30 @@
         -ms-grid-row-align: center;
         align-items: center;
     }
-
+*/
 .single-product-area .row .uppic .img1{
-        position: relative;
-        left: 0px;
-        top: 0px;
-        border-style:groove;
-        height: 470px;
-        width: 510px;
-}
-
-.single-product-area .row .uppic .img2{
         position: relative;
         right: 0%;
         top: -25px;
         border-style:groove;
-        height: 160px;
-        width: 113px;
+        height: 280px;
+        width: 225px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -ms-grid-row-align: center;
+        align-items: center;
+}
+
+.single-product-area .row .uppic .img2{
+        position: relative;
+        right: -48%;
+        top: -340px;
+        border-style:groove;
+        height: 280px;
+        width: 225px;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -177,11 +195,11 @@
 
 .single-product-area .row .uppic .img3{
         position: relative;
-        left: 24%;
-        top: -220px;
+        left: 0%;
+        top: -300px;
         border-style:groove;
-        height: 160px;
-        width: 113px;
+        height: 280px;
+        width: 225px;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -194,10 +212,10 @@
 .single-product-area .row .uppic .img4{
         position: relative;
         left: 48%;
-        top:-413px;
+        top:-614px;
         border-style:groove;
-        height: 160px;
-        width: 113px;
+        height: 280px;
+        width: 225px;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -207,6 +225,7 @@
         align-items: left;
 }
 
+/*
 .single-product-area .row .uppic .img5{
         position: relative;
         left: 72%;
@@ -222,7 +241,7 @@
         -ms-grid-row-align: center;
         align-items: center;
 }
-
+*/
 .amado-btn3 {
   display: inline-block;
   min-width: 160px;

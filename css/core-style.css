@@ -1271,19 +1271,22 @@ img {
     height: 200px;
     padding: 0 10px;
 }
-.his_prod_nm a{
+.his_prod_nm  p{
     position: relative;
-    right: -20px;
-    height: 20px;
-    width: 250px;
+    right: -15px;
+    /*height: 20px;*/
+    width: 200px;
     font-size: 20px;
-    padding: 0 75px;
-    margin: auto;
-    text-align: center;
-    /*display: inline-block;*/
+    padding: 10px;
+    display: inline-block;
     color:black;
 }
 
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 /* :: 9.0 Product Sidebar Area CSS */
 .widget {
