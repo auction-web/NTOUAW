@@ -201,7 +201,7 @@ var search_itemfilter = '';
 
 BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var ignore = 0;
-    var show = document.getElementById('bidlist');
+    var show = document.getElementById('bidlist_t');
     show.innerHTML = ''
     console.log("Dynamic_HTML");
     console.log(snapshot);
@@ -236,89 +236,83 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
     
     for(var i = page_start; i < recent_page_item;){
+        var target = snapshot.docs[i + ignore].data()[itemfilter];
         var next = false;
-        console.log(i + ignore);
-        if(item == ''){
-            console.log("next i++");
+        if(item == '' && (i + ignore) != snapshot.size){
             next = true;
         }
-        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) != -1){
-            next = true;
-        }
-        else if((i + ignore) == snapshot.size - 1){
-            ignore = ignore + i;
+        else if((i + ignore) == snapshot.size){
+            //ignore = ignore + i;
             break;
         }
-        else if(snapshot.docs[i + ignore].data()['product_title'].indexOf(item) == -1){
+        else if(String(target).indexOf(item) != -1){
+            next = true;
+        }
+        else if(String(target).indexOf(item) == -1){
             ignore++;
             continue;
         }
         
-        console.log(snapshot.docs[i + ignore].data());
         var product_data = snapshot.docs[i + ignore].data();
         //console.log(product_data);
-        if(product_data['is_Order'] == false){
-            var product_state;
-            //console.log(product_data);
-            if(product_data['state'] == 0){
-                product_state = '處理中';
-            }
-            else if(product_data['state'] == 1){
-                product_state = '取消申請中';
-            }
-            else if(product_data['state'] == 2){
-                product_state = '已完成';
-            }
-            else if(product_data['state'] == 3){
-                product_state = '競標進行中';
-            }
-            var date = product_data['build_time'].toDate();
-            //console.log(date);
-            show.innerHTML = '<tr>' +
-                                '<td>' +
-                                    '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<a class = "listID" href = "">123456</a>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<a class = "listID" href = "./product-details.html?id=' + product_data['product_id'] +'">' + product_data['product_title'] + '</a>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "selfdefine">' + product_data['your_price'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "quantity">' + product_data['bid_product_quantity'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "selfdefine">' + product_data['total_price'] + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<a class = "seller" href = "">' + product_data['seller_account'] + '</a>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class = "selfdefine">' + product_state + '</span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<input class = "criticize" type = "button" value = "評價">' +
-                                '</td>' +
-                            '</tr>' + show.innerHTML
+        var product_state;
+        //console.log(product_data);
+        if(product_data['order_state'] == 0){
+            product_state = '處理中';
         }
+        else if(product_data['order_state'] == 2){
+            product_state = '已完成';
+        }
+        else if(product_data['order_state'] == 3){
+            product_state = '競標進行中';
+        }
+        var date = product_data['build_time'].toDate();
+        //console.log(date);
+        show.innerHTML = '<tr>' +
+                            '<td>' +
+                                '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<a class = "listID" href = "./listdetail.html?order_id=' + product_data['order_id'] + '&isbuyer=1">' + product_data['order_id'] + '</a>' +
+                            '</td>' +
+                            '<td>' +
+                                '<a class = "listID" href = "./product-details.html?id=' + product_data['product_id'] +'">' + product_data['product_title'] + '</a>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span class = "selfdefine">' + product_data['your_price'] + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span class = "quantity">' + product_data['bid_product_quantity'] + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span class = "selfdefine">' + product_data['total_price'] + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<a class = "seller" href = "">' + product_data['seller_account'] + '</a>' +
+                            '</td>' +
+                            '<td>' +
+                                '<span class = "selfdefine">' + product_state + '</span>' +
+                            '</td>' +
+                            '<td>' +
+                                '<input class = "list_button" id = "BP_eval' + product_data['order_id'] + '" type = "button" onclick="product_eval_reason(\'BP\', ' + product_data['order_id'] + ', 0);" value = "評價">' +
+                            '</td>' +
+                        '</tr>' + show.innerHTML
         if(next){
             i++;
         }
     }
 }
 
-BPloadproduct = function (page, item = ''){
-    
+BPloadproduct = function (page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc');
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_bid', '==', true);
     user_prod_data.get().then(snapshot=>{
-        BP_Dynamic_HTML(page, snapshot, item);
+        BP_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
     });
     
     //alert(user_prod_data);
@@ -327,10 +321,9 @@ BPloadproduct = function (page, item = ''){
 
 BPchangePage = function(page){
     var show = document.getElementById("BPpagination");
-    PMloadproduct(page, search_input);
+    BPloadproduct(page, search_input, search_itemfilter);
     if(page >= 2){
-        show.innerHTML = ''
-
+        show.innerHTML = '';
         for(var i = Number(page) - 1; i < page + 3; i++){
             if(i == Number(page)){
                 show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="BPchangePage(' + i + ')">0' + i + '.</a></li>'

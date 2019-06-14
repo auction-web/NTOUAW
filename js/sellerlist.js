@@ -126,7 +126,7 @@ SLloadproduct = function (page, item = '', itemfilter = ''){
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_Order', '==', true);
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_bid', '==', false);
     user_prod_data.get().then(snapshot=>{
         SL_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
     });

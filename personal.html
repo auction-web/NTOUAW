@@ -100,7 +100,7 @@
             <div class = "tab">
                 <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
                 <button class = "tablinks NP" onclick="personalpage(event, 'buylist');NPchangePage(1)">個人購物清單</button>
-                <button class = "tablinks BP" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
+                <button class = "tablinks BP" onclick="personalpage(event, 'bidlist');BPchangePage(1)">個人競標清單</button>
                 <button class = "tablinks SL" onclick="personalpage(event, 'selllist');SLchangePage(1)">賣家訂單清單</button>
                 <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMchangePage(1)">賣家商品管理</button>
             </div>
@@ -217,8 +217,8 @@
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
                             <select name = "itemfilter">
-                                <option value = "listID">訂單編號</option>
-                                <option value = "seller">賣家</option>
+                                <option value = "seller_account">賣家</option>
+                                <option value = "order_id">訂單編號</option>
                             </select>
                         </form>
                         
@@ -250,7 +250,7 @@
                                     <th>評價</th>
                                 </tr>
                             </thead>
-                            <tbody id = "bidlist">
+                            <tbody id = "bidlist_t">
                                 <!--Dynamic create -->    
                             </tbody>
                         </table>
@@ -270,7 +270,7 @@
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
                             <select name = "itemfilter">
-                                <option value = "seller">買家</option>
+                                <option value = "seller_account">買家</option>
                                 <option value = "order_id">訂單編號</option>
                             </select>
                         </form>
@@ -387,7 +387,7 @@
         
         <script src="./js/product_manage_c.js"></script>
         
-<!--        <script type="text/javascript" src="./js/bidlist_c.js"></script>-->
+        <script src="./js/bidlist_c.js"></script>
         
         <script src="js/personal_tab_c.js"></script>
         

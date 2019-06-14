@@ -55,7 +55,17 @@ product_eval_reason = function(tab, order_id, mode){
         }
         
     }
-    
+    else if(tab == 'BP'){
+//        db.collection('User23').doc(User_cookies).collection('iamSeller').where('order_id', '==', order_id).get().then(snapshot =>{
+//            db.collection('User23').where('user_id', '==', snapshot.docs[0].data()['buyer_account']).get().then(buyer => {
+//                Evaluation_Dynamic_HTML('SL', buyer);
+//            });
+//        });
+        var eval_model_foot = document.getElementById('eval_model_foot_content');
+        eval_model_foot.innerHTML =
+            '<input class = "list_button" type = "button" onclick = "eval_confirm(\'BP\', 0,' + order_id + ')" value = "確認">' + 
+            '<input class = "list_button" type = "button" onclick = "eval_model_close()" value = "取消">';
+    }
     //eval_model.innerHTML = '<div class = "eval_content">Test function</div>';
 }
 
