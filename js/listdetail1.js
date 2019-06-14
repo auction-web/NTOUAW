@@ -52562,13 +52562,12 @@ if(input==0){
 else{
 	check='iamBuyer';
 }
-//
 show.innerHTML = '';
 var user_prod_data = db.collection('User23').doc(User1).collection(check)
 	.where('order_id', '==',order).get().then(snapshop =>{
 	snapshop.forEach(product => {
 			console.log(product['id']);
-			db.collection('User23').doc('User5').collection(check).doc(product['id']).collection('Products')
+			db.collection('User23').doc(User1).collection(check).doc(product['id']).collection('Products')
 			.get().then(snapshop=>{
 				snapshop.forEach(doc=>{
 						show.innerHTML=show.innerHTML+'<tr>'+'<td class="cart_product_img">'+
