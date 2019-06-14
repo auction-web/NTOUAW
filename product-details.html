@@ -38,35 +38,35 @@
         </div>
 
         <!-- Toolbar start -->
-            <div class = "toolbarbase row">
-                <!-- Logo -->
-                <a class = "icon_link" href = "./home.html">
-                    <img class = "icon_img" src = "img/core-img/logo (3).png" alt = "">
-                </a>
-                
-                <div class = "toolbar">
-                    <div class = "personal">
-                        <input type = "button" onclick = "signout()" value = "登出">
-                        <input type = "button" onclick = "javascript:location.href = './cart.html'" value = "購物車">
-						<input type = "button" onclick = "javascript:location.href = './personal.html'" value = "個人資料">
-                    </div>
-                    <!-- Search -->
-                    <div class = "search_base">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
-                            <select name = "itemfilter">
-                                <option value = "productname">商品名稱</option>
-                                <option value = "seller">賣家</option>
-                            </select>
-                        </form>
-                        
-                    </div>
+        <div class="toolbarbase row">
+            <!-- Logo -->
+            <a class="icon_link" href="./home.html">
+                <img class="icon_img" src="img/core-img/logo (3).png" alt="">
+            </a>
+
+            <div class="toolbar">
+                <div class="personal">
+                    <input type="button" onclick="signout()" value="登出">
+                    <input type="button" onclick="javascript:location.href = './cart.html'" value="購物車">
+                    <input type="button" onclick="javascript:location.href = './personal.html'" value="個人資料">
+                </div>
+                <!-- Search -->
+                <div class="search_base">
+                    <form action="#" method="get">
+                        <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <button class="searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        <select name="itemfilter">
+                            <option value="productname">商品名稱</option>
+                            <option value="seller">賣家</option>
+                        </select>
+                    </form>
+
                 </div>
             </div>
-            <!-- Toolbar end -->
-        
-        
+        </div>
+        <!-- Toolbar end -->
+
+
         <!-- Header Area Start -->
         <header class="header-area clearfix">
             <!-- Close Icon -->
@@ -78,7 +78,7 @@
                 <a href="personal.html"><img id="sellerImage" src="img/core-img/personal.png" alt=""></a>
             </div>
             <!-- Amado Nav -->
-            
+
             <nav class="amado-nav">
                 <ul>
                     <li id="sellerName"></li>
@@ -156,7 +156,7 @@
                                 </a>
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
-                                    <div class= "criticize">
+                                    <div class="criticize">
                                         <p id="critize"></p>
                                     </div>
                                 </div>
@@ -167,20 +167,20 @@
                             </div>
                             <div class="delivery_price">
                                 <div>
-                                <p style="display:inline">超商店到店 </p>
-                                <p style="display:inline" id="delivery1"></p> 
-                                </div>
-                                             
-                                <div>
-                                <p style="display:inline">宅急便 </p>
-                                <p style="display:inline" id="delivery2"></p>
+                                    <p style="display:inline">超商店到店 </p>
+                                    <p style="display:inline" id="delivery1"></p>
                                 </div>
 
                                 <div>
-                                <p style="display:inline" >面交 </p>
-                                <p style="display:inline" id="delivery3"></p>
-                                </div>   
-                                                                       
+                                    <p style="display:inline">宅急便 </p>
+                                    <p style="display:inline" id="delivery2"></p>
+                                </div>
+
+                                <div>
+                                    <p style="display:inline">面交 </p>
+                                    <p style="display:inline" id="delivery3"></p>
+                                </div>
+
                             </div>
                             <div class="store">
                                 <p id="productRemain"></p>
@@ -188,11 +188,11 @@
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post">
                                 <div class="cart-btn d-flex mb-50">
-                                <p>數量</p>
+                                    <p>數量</p>
                                     <div class="quantity">
                                         <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                                        <span class="qty-plus" ><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                                        <span class="qty-plus"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
                                 <button type="submit" name="addtocart" value="5" class="btn amado-btn">購物車</button>
@@ -209,17 +209,32 @@
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer_area_self clearfix">
-        <div class="viewhistory">
-            <p>瀏覽紀錄 :</p>
+            <p class="footer_area_name">瀏覽紀錄</p>
+            <div class="history_product">
+                <div class="histroy_product_info">
+                    <a id="historyHref_1" href=""><img id="historyImage_1" src="" alt=""></a>
+                    <span class="history_name" id="historyName_1">1</span>
+                </div>
+                <div class="histroy_product_info">
+                    <a id="historyHref_2" href=""><img id="historyImage_2" src="" alt=""></a>
+                    <span class="history_name" id="historyName_2">2</span>
+                </div>
+                <div class="histroy_product_info">
+                    <a id="historyHref_3" href=""><img id="historyImage_3" src="" alt=""></a>
+                    <span class="history_name" id="historyName_3">3</span>
+                </div>
+                <div class="histroy_product_info">
+                    <a id="historyHref_4" href=""><img id="historyImage_4" src="" alt=""></a>
+                    <span class="history_name" id="historyName_4">4</span>
+                </div>
+                <div class="histroy_product_info">
+                    <a id="historyHref_5" href=""><img id="historyImage_5" src="" alt=""></a>
+                    <span class="history_name" id="historyName_5">5</span>
+                </div>
+
         </div>
-        <div class="history_product">
-            <a id="historyHref_1" href=""><img id="historyImage_1" src="" alt=""></a>
-            <a id="historyHref_2" href=""><img id="historyImage_2" src="" alt=""></a>
-            <a id="historyHref_3" href=""><img id="historyImage_3" src="" alt=""></a>
-            <a id="historyHref_4" href=""><img id="historyImage_4" src="" alt=""></a>
-            <a id="historyHref_5" href=""><img id="historyImage_5" src="" alt=""></a>
-        </div>
-<!--
+
+        <!--
         <div class="his_prod_nm">
             <a href=""><span id="historyName_1"></span></a>
             <a href=""><span id="historyName_2"></span></a>
@@ -245,7 +260,7 @@
     <!-- loadProductDetail_run js -->
     <script src="js/loadProductDetail_run.js"></script>
     <!-- Cookies js -->
-	<script src="js/cookies.js"></script>
+    <script src="js/cookies.js"></script>
 
 </body>
 

@@ -11,25 +11,27 @@ const $ = require('jQuery')(window);
 
 //get product id
 var ID;
-var page_url = location.href; // product-detail.html
+var page_url = location.href; //本次商品瀏覽的url
 ID = (page_url.split('?')[1]).split('=')[1];
 var id = "Product" + ID;
 console.log('product id = ', id);
 
-//--> 如何讓同一商品不被重複記錄?
-var is_sameAsLastOne;
-
+//--> 讀取商品瀏覽紀錄的 queue index
 var readIndex = readCookie('queue_index');
 var index = Number(readIndex);
 
-//是否跟上次瀏覽的為同一筆商品?
+//--> 是否跟上次瀏覽的為同一筆商品?
+var is_sameAsLastOne;
 var historyQueueHref = "queue_href_" + index;
-var historyHref = readCookie(historyQueueHref);
+var historyHref = readCookie(historyQueueHref); //上次商品瀏覽的url
+
 if (page_url == historyHref) {
-    is_sameAsLastOne = true;
+    is_sameAsLastOne = true; //跟上次瀏覽的是同商品
+} else {
+    is_sameAsLastOne = false; //跟上次瀏覽的不同商品
 }
 
-//get and set data in the product-detail page
+//--> get and set data in the product-detail page
 (function ($) {
 
     //initialize firebase
@@ -37,7 +39,7 @@ if (page_url == historyHref) {
     var db = firebase.firestore();
     var storage = firebase.storage();
 
-    //variables to store info
+    //variables to store page info
     var productDetail = new Object();
     var sellerDetail = new Object();
     var productID;
@@ -52,52 +54,49 @@ if (page_url == historyHref) {
     var sellerName;
 
     //--> 商品瀏覽紀錄cookie處理 
-    //variables to store info
+    //variables to store history cookie's info
     var ckQueueName;
     var ckQueueUrl;
     var ckQueueHref;
     var historyProductNum; // 瀏覽紀錄中的商品數量(不包含這次)
 
-    // get queue index and product's num from cookie
-
-    if (readIndex == null) {
+    // 根據queue index讀取的狀況 對本次商品的index跟cookie名稱做設定 
+    if (readIndex == null) { //[情況1]queue還沒放東西
         console.log("no index.");
-
         historyProductNum = 0;
         createCookie('queue_is_full', 'false');
 
-        if (!is_sameAsLastOne) {
-            index = 1;
-            createCookie('queue_index', index);
-        }
+        index = 1;
+        createCookie('queue_index', index);
 
         ckQueueName = "queue_name_" + index;
         ckQueueUrl = "queue_url_" + index;
         ckQueueHref = "queue_href_" + index;
-    } else if (index == 5) {
 
-        historyProductNum = 5;
-        createCookie('queue_is_full', 'true');
+    } else if (index == 5) { //[情況2]queue index指到5  
+        if (!is_sameAsLastOne) { //不同於上筆商品
+            historyProductNum = 5;
+            createCookie('queue_is_full', 'true');
 
+            if (!is_sameAsLastOne) { //不同於上筆商品時才更新index
+                index = 1;
+                createCookie('queue_index', index);
+            }
 
-        if (!is_sameAsLastOne) {
-            index = 1;
-            createCookie('queue_index', index);
+            ckQueueName = "queue_name_" + index;
+            ckQueueUrl = "queue_url_" + index;
+            ckQueueHref = "queue_href_" + index;
         }
+    } else { //[情況3]queue index指到1~4
 
-
-        ckQueueName = "queue_name_" + index;
-        ckQueueUrl = "queue_url_" + index;
-        ckQueueHref = "queue_href_" + index;
-    } else {
-        var is_full = readCookie('queue_is_full');
+        var is_full = readCookie('queue_is_full'); //先判斷queue是否已滿?
         if (is_full == 'true') {
             historyProductNum = 5;
         } else {
             historyProductNum = index;
         }
 
-        if (!is_sameAsLastOne) {
+        if (!is_sameAsLastOne) { //不同於上筆商品時才更新index
             index++;
             createCookie('queue_index', index);
         }
@@ -105,6 +104,7 @@ if (page_url == historyHref) {
         ckQueueName = "queue_name_" + index;
         ckQueueUrl = "queue_url_" + index;
         ckQueueHref = "queue_href_" + index;
+
     }
 
 
@@ -112,6 +112,7 @@ if (page_url == historyHref) {
     var htmlCount = 1; // html element's count
     var historyCount = (index - 1); // last product's index
 
+    console.log('product num: ', historyProductNum);
     while (historyProductNum > 0) {
         //從上一個商品開始抓cookie資料
         if (historyCount == 0) { //(若count變0，上一商品index=5)
@@ -134,12 +135,12 @@ if (page_url == historyHref) {
         var historyUrl = readCookie(historyQueueUrl);
         var historyName = readCookie(historyQueueName);
         var historyHref = readCookie(historyQueueHref);
-
+        console.log('historyName', historyName);
 
 
         //set name and url into html element
         $(htmlImage).attr("src", historyUrl);
-        //        $(htmlName).html(historyName);
+        $(htmlName).html(historyName);
         $(htmlHref).attr("href", historyHref);
 
         //update index
@@ -147,7 +148,7 @@ if (page_url == historyHref) {
         historyCount--;
 
         historyProductNum--;
-    }
+    } //<-- end 商品瀏覽紀錄cookie處理 
 
 
     //-->　load Product's page info
@@ -176,7 +177,7 @@ if (page_url == historyHref) {
             sellerName = productDetail.seller_account;
             console.log('seller name = ', sellerName);
 
-            //--> write product's name&id into cookie(用於商品瀏覽紀錄) 
+            //--> write product's name & url link into cookie(用於商品瀏覽紀錄) 
             if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
                 createCookie(ckQueueName, productName);
                 createCookie(ckQueueHref, page_url);
@@ -245,33 +246,48 @@ if (page_url == historyHref) {
 
     //--> load Product's imag.
     var productDoc = "Products" + ID + '/';
+    var noImageUrl = "img/product-img/no-product-image.jpg";
     for (productImagNum = 0; productImagNum < 4; productImagNum++) {
+        //先預設沒有圖片時之預設圖片
+        //        console.log("productImagNum: ", productImagNum);
+        var imageID = "#image" + productImagNum;
+        var slideID = "#slide" + productImagNum;
+        var slideImagID = "#slideImag" + productImagNum;
+        $(imageID).css("background-image", 'url(' + noImageUrl + ')');
+        $(slideID).attr("href", noImageUrl);
+        $(slideImagID).attr("src", noImageUrl);
+        if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
+            createCookie(ckQueueUrl, noImageUrl);
+        }
+        //讀取firebase中的圖片寫入
         var productImagRef = storage.ref().child('Products/' + productDoc + productImagNum).getDownloadURL().then(function (url) {
             // `url` is the download URL for 'images/stars.jpg'
-
             imagNum = (url.split('?')[0]).split('F')[2];
             var imageID = "#image" + imagNum;
             var slideID = "#slide" + imagNum;
-            //            console.log('slideID id = ', slideID);
             var slideImagID = "#slideImag" + imagNum;
-            //            console.log('slideImagID id = ', slideImagID);
             var imageUrl = "url(\'" + url + "\')";
 
             // insert url into html element:
-            //            console.log('image id = ', imageID);
             $(imageID).css("background-image", imageUrl);
             $(slideID).attr("href", url);
             $(slideImagID).attr("src", url);
 
             //--> write productImage[0]'s url into cookie(用於商品瀏覽紀錄)
-            if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
-                if (imagNum == '0') {
+            if (imagNum == '0') {
+                if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
                     createCookie(ckQueueUrl, url);
                 }
             }
 
-        }).catch(function (error) {
+        }).catch(function (error) { //沒有讀到商品圖片時
             console.log("getting error.");
+            //
+            //            //--> 將預設"沒有圖片顯示" 之url寫進cookie
+            //            if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
+            //                createCookie(ckQueueUrl, noImageUrl);
+            //                console.log("set no-image.");
+            //            }
         });
     } //<-- end load Product's imag.
 

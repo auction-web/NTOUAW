@@ -52545,7 +52545,6 @@ var input = document.getElementById("file_input");
 var input1 = document.getElementById("file_input1"); 
 var input2 = document.getElementById("file_input2"); 
 var input3 = document.getElementById("file_input3"); 
-var input4 = document.getElementById("file_input4"); 
 if(typeof FileReader==='undefined'){ 
 	result.innerHTML = "Sorry, 瀏覽器不支持 FileReader"; 
 	input.setAttribute('disabled','disabled'); 
@@ -52554,10 +52553,9 @@ if(typeof FileReader==='undefined'){
 	input1.addEventListener('change',readFile1,false);
 	input2.addEventListener('change',readFile2,false);
 	input3.addEventListener('change',readFile3,false);
-	input4.addEventListener('change',readFile4,false);
 }
-//var User='User7/';
-//var User1='User7';
+/*var User='User7/';
+var User1='User7';*/
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
@@ -52582,7 +52580,6 @@ if(cook==""){
 					var desertRef1 = storageRef.child('Products/'+'Products'+quid.toString()+'/1');
 					var desertRef2 = storageRef.child('Products/'+'Products'+quid.toString()+'/2');
 					var desertRef3 = storageRef.child('Products/'+'Products'+quid.toString()+'/3');
-					var desertRef4 = storageRef.child('Products/'+'Products'+quid.toString()+'/4');
 						desertRef.delete().then(function() {
 							console.log('Products/'+'Products'+quid.toString()+'/0'+"delete successful");
 						}).catch(function(error) {	
@@ -52603,11 +52600,6 @@ if(cook==""){
 						}).catch(function(error) {	
 						console.log('Products/'+'Products'+quid.toString()+'/3'+"delete fail");
 					});
-						desertRef4.delete().then(function() {
-							console.log('Products/'+'Products'+quid.toString()+'/4'+"delete successful");
-						}).catch(function(error) {	
-						console.log('Products/'+'Products'+quid.toString()+'/4'+"delete fail");
-					});
 			})
 			.catch(err => {
 			console.log('Error getting document', err);
@@ -52616,7 +52608,8 @@ if(cook==""){
 //var today=new Date();
 //alert(today);
 del();
-
+ //获得dom对象
+var ch=0;
 function readFile(){	
 	var file = this.files[0]; 
 //	alert(this.files.length);
@@ -52627,9 +52620,10 @@ function readFile(){
 		//result.innerHTML = '<img src="'+this.result+'" alt="" height="100" />' ;
 		//var bigImg = document.createElement("img");
 		//bigImg.src=this.result;
-		var myDiv = document.getElementById('myDiv'); //获得dom对象
+		var myDiv = document.getElementById('myDiv');
 		//myDiv.appendChild(bigImg);
 		myDiv.src=this.result;
+		ch=ch+1;
 		//console.log(file);
 	} 
 	var Counter = db.collection('Counter').doc('Product');
@@ -52827,60 +52821,7 @@ function readFile3(){
 	  // Handle any errors
 	});*/
 }
-function readFile4(){	
-	var file = this.files[0]; 
-	//alert(this.files.length);
-	var reader = new FileReader(); 
-	//var bigImg = document.createElement("img");
-	reader.readAsDataURL(file); 
-	reader.onload = function(e){ 
-		//result.innerHTML = '<img src="'+this.result+'" alt="" height="100" />' ;
-		//var bigImg = document.createElement("img");
-		//bigImg.src=this.result;
-		var myDiv4 = document.getElementById('myDiv4'); //获得dom对象
-		//myDiv.appendChild(bigImg);
-		myDiv4.src=this.result;
-		//console.log(file);
-	} 
-		//var firebase= require("./firebase");
-		//var db = firebase.firestore();
-		//var storageRef = firebase.storage().ref();
-		var Counter = db.collection('Counter').doc('Product');
-		var getDoc = Counter.get()
-				.then(doc => {
-				if (!doc.exists) {
-					console.log('No such document!');
-				} else {
-					console.log('Document data:', doc.data());
-				}
-						var quid=doc.data()['id'];
-					var uploadTask = storageRef.child('Products/'+'Products'+quid.toString()+'/4').put(file);				
-				})
-				.catch(err => {
-				console.log('Error getting document', err);
-		});
-	
-	/*storageRef.child('images/55').getDownloadURL().then(function(url) {
-	  // `url` is the download URL for 'images/stars.jpg'
-	  console.log(url);
-	  // This can be downloaded directly:
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function(event) {
-		var blob = xhr.response;
-	  };
-	  xhr.open('GET', url);
-	  xhr.send();
-	  var myDiv = document.getElementById('myDiv'); //获得dom对象
-	  
-	  // Or inserted into an <img> element:
-	  var img = document.createElement('img');
-	  img.src = url;
-	  myDiv.appendChild(img);
-	}).catch(function(error) {
-	  // Handle any errors
-	});*/
-}
+
 up=function(){
 	
 	var category_element= document.getElementById("category");
@@ -52907,6 +52848,10 @@ up=function(){
 	var obj=document.getElementById("delivery1");
 	var len = obj.length;
 	var checked = false;
+	if(ch==0){
+		alert("左上第一張圖片請先上圖片");
+		return;
+	}
 	if(price.length==0 || product.length==0 || introduction.length==0 || qty.length==0){
 		alert("資料尚未完全");
 		return;

@@ -2,9 +2,8 @@ product_order = function(id, storage, snapshot, page){//div_id
 
     var pagination = require("./pagination");
     var rating = require("./rating");
-
-    snapshot.size
-
+    var fuck = require("./fuck");
+    //snapshot.size
 
 	//id for create html tags
 	for (var i = (Number(page)-1)*8; i < Number(page)*8; i++){
@@ -15,27 +14,26 @@ product_order = function(id, storage, snapshot, page){//div_id
 		console.log(temp_id);
 		console.log(temp);
  		//show products....
+/*
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(temp['product_id']);   
+            var show_img = document.getElementById('product' + temp['product_id'] + '_img1');
+            show_img.src = url;
 
-        var storageRef = storage.ref();
-        var productsRef = storageRef.child('Products');
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
-
-            var show_img = document.getElementById('product_img1');
+        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
+            console.log(temp['product_id']);
+            var show_img = document.getElementById('product' + temp['product_id'] + '_img2');
             show_img.src = url;
 
         }).catch(function(){
             console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
         });
-
-        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
-        
-            var show_img = document.getElementById('product_img2');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img2!!");
-        });
+*/
+        fuck(storage, temp['product_id']);
 
 
 
@@ -50,9 +48,9 @@ product_order = function(id, storage, snapshot, page){//div_id
 
                     '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
 
-                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  //img/product-img/product1.jpg 
+                   '<img src="img/product-img/product1.jpg"  id="product' + temp['product_id'] + '_img1">' +  
                     '<!-- Hover Thumb -->' +
-                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+                    '<img class="hover-img" src="img/product-img/product2.jpg"  id="product' + temp['product_id'] + '_img2">' +  
 
                     '</a>' + 
 
@@ -72,12 +70,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Ratings & Cart -->' +
                     '<div class="ratings-cart text-right" id = "right_text">' +
                         '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
-                        	/*temp['product_evaluation'] + 
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +*/
+                       
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
                             '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
@@ -121,10 +114,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Pagination -->' + 
                     '<nav aria-label="navigation">' + 
                         '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-                            /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+                           
                         '</ul>' + 
                     '</nav>' + 
                 '</div>';
@@ -133,8 +123,68 @@ product_order = function(id, storage, snapshot, page){//div_id
             pagination(Number(page));
             break;
         }
+
+    
+
 	}
     
+
+/*   for (var a = (Number(page)-1)*8; a < Number(page)*8; a++){
+
+        var temp = snapshot.docs[a].data();
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(a);   
+            var show_img = document.getElementById('product' + a + '_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
+            console.log(i);
+            var show_img = document.getElementById('product' + i + '_img2');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
+        });
+    }
+*/
+
+/*
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product0_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product1_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product2_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        }); 
+*/
+
+
+
+
 }
 
 module.exports = product_order;

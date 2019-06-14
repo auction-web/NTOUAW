@@ -14,10 +14,7 @@ cant_find = function(page){
         '<!-- Pagination -->' + 
         '<nav aria-label="navigation">' + 
             '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-                /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+          
             '</ul>' + 
         '</nav>' + 
     '</div>';
