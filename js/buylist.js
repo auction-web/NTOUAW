@@ -127,7 +127,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '</td>' +
                                 
                                 '<td>' +
-                                    '<input class = "list_button" id = "cancel' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 1);" value = "取消訂單" ' + cancel_state + '>' +
+                                    '<input class = "list_button" id = "NP_cancel' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 1);" value = "取消訂單" ' + cancel_state + '>' +
                                 '</td>' + 
                                 '<td>' +
                                     '<input class = "list_button" id = "NP_check' + buylist_data['order_id'] + '" type = "button" onclick = "confirm(' + buylist_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
@@ -240,12 +240,15 @@ confirm = function(order_id){
         snapshop.forEach(product => {
             //change order state
             //console.log(product['id']);
-            var confirm_button = document.getElementById('check' + order_id);
+            var confirm_button = document.getElementById('NP_check' + order_id);
             confirm_button.disabled = true;
-            var cancel = document.getElementById('cancel' + order_id);
+            var cancel = document.getElementById('NP_cancel' + order_id);
             cancel.disabled = true;
-            var order_state = document.getElementById('order_state' + order_id);
+            var order_state = document.getElementById('NP_order_state' + order_id);
             order_state = "已完成";
+            var eval_state = document.getElementById('NP_eval' + order_id);
+            eval_state.disabled = false;
+            
             order_id = product.data()['order_id'];
             seller_account = product.data()['seller_account'];
             db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({

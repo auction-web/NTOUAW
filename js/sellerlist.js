@@ -84,7 +84,12 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         else if(sellerlist_data['order_state'] == 2){
             sellerlist_state = '已完成';
-            eval_button_state = '';
+            if(sellerlist_data['is_seller_evaluated']){
+                eval_button_state = 'disabled';
+            }
+            else{
+                eval_button_state = '';
+            }
         }
         else if(sellerlist_data['order_state'] == 4){
             sellerlist_state = '訂單取消';
@@ -114,7 +119,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<input class = "list_button" id="SL_eval" type = "button"  onclick = "product_eval(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
+                                '<input class = "list_button" id="SL_eval' + sellerlist_data['order_id'] + '" type = "button"  onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
                             '</td>' +
                             '<td>' +
                                     '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
