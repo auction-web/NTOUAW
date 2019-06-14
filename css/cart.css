@@ -1,14 +1,15 @@
-.icon_img{
+.icon_img {
     height: auto;
     width: inherit;
 }
 
-.icon_link{
+.icon_link {
     height: inherit;
-    width: 200px;;
+    width: 200px;
+    ;
 }
 
-.toolbarbase{
+.toolbarbase {
     margin-top: 10px;
     margin-left: 10px;
     height: 125px;
@@ -17,18 +18,18 @@
     /*background: linear-gradient(#ffffffff, #fbb710);*/
 }
 
-.search_base{
+.search_base {
     margin-left: 10px;
     width: 80%;
 }
 
-input.checkbox{
+input.checkbox {
     height: 15px;
     width: 15px;
     padding-left: 10px;
 }
 
-div.toolbar{
+div.toolbar {
     padding-top: 10px;
     padding-left: 10px;
     -webkit-box-flex: 0;
@@ -40,12 +41,12 @@ div.toolbar{
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-      div.toolbar {
+    div.toolbar {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 calc(100% - 300px);
         flex: 0 0 calc(100% - 300px);
         width: calc(100% - 300px);
-        max-width: calc(100% - 300px); 
+        max-width: calc(100% - 300px);
     }
 }
 
@@ -69,7 +70,7 @@ div.toolbar{
     }
 }
 
-.searchbutton{
+.searchbutton {
     position: absolute;
     top: 0;
     left: 0;
@@ -89,7 +90,7 @@ div.toolbar form {
     position: relative;
     margin-right: 100px;
     z-index: 1;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.075); 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.075);
 }
 
 div.toolbar form input {
@@ -99,7 +100,7 @@ div.toolbar form input {
     padding-left: 40px;
     margin-right: 10px;
     font-size: 14px;
-    color: #6b6b6b; 
+    color: #6b6b6b;
 }
 
 div.toolbar form button {
@@ -112,16 +113,16 @@ div.toolbar form button {
     z-index: 10;
     cursor: pointer;
     background-color: transparent;
-    text-align: center; 
+    text-align: center;
 }
 
-div.personal{
+div.personal {
     text-align: right;
     width: auto;
     height: inherit;
 }
 
-div.personal input{
+div.personal input {
     display: inline-block;
     min-width: 60px;
     height: 30px;
@@ -132,7 +133,7 @@ div.personal input{
     background-color: #fbb710;
 }
 
-div.personal input:hover{
+div.personal input:hover {
     color: #ffffff;
     background-color: #131212;
     -webkit-transition: all 500ms ease 0s;
@@ -140,5 +141,39 @@ div.personal input:hover{
     text-decoration: none;
     outline: 0 solid transparent;
     font-weight: 400;
-    font-size: 14px; 
+    font-size: 14px;
+}
+
+footer.footer_area_self {
+    padding: 0px 0;
+}
+
+p.footer_area_name {
+    color: black;
+    background-color: aliceblue;
+    width: 80px;
+    padding-left: 5px;
+    border-style: solid;
+    border-color: inherit;
+    margin-top: 12px;
+    margin-left: 14px;
+    margin-bottom: 0px;
+
+}
+
+div.history_product {
+    display: flex;
+}
+
+div.histroy_product_info {
+    -webkit-flex: none;
+    flex: none;
+    width: 200px;
+    display: grid;
+    margin: 20px;
+}
+
+span.history_name {
+    padding-top: 5px;
+    text-align: center;
 }

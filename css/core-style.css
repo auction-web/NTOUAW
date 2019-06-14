@@ -1266,10 +1266,10 @@ img {
       padding-right: 0; }
 .history_product img{
     position: relative;
-    right: -12px;
+    right: 0px;
     width: 200px;
     height: 200px;
-    padding: 0 10px;
+    padding: 0 0px;
 }
 .his_prod_nm a{
     position: relative;
