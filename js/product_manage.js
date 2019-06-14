@@ -87,7 +87,7 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         var date = product_data['build_time'].toDate();
         //console.log(date);
-        show.innerHTML = '<tr>' +
+        show.innerHTML = show.innerHTML + '<tr>' +
                             '<td>' + 
                                 '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
                             '</td>' +
@@ -119,7 +119,7 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                             '<td>' +
                                 '<input class = "list_button" type = "button" onclick = \'delete_product(' + product_data['product_id'] +');\' value = "刪除">' +
                             '</td>' +
-                        '</tr>' + show.innerHTML
+                        '</tr>'
         if(next){
             i++;
         }
@@ -127,11 +127,13 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
 }
 
 PMloadproduct = function (page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'asc').where('is_Order', '==', false);
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_Order', '==', false);
     user_prod_data.get().then(snapshot=>{
         //console.log(snapshot);
         PM_Dynamic_HTML(page, snapshot, item, itemfilter);
@@ -168,7 +170,7 @@ delete_product = function(product_id){
 
 PMchangePage = function(page){
     var show = document.getElementById("PMpagination");
-    PMloadproduct(page, search_input);
+    PMloadproduct(page, search_input, search_itemfilter);
     if(page >= 2){
         show.innerHTML = ''
 

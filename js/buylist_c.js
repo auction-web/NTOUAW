@@ -196,8 +196,8 @@ var User = User_cookies + '/';
 var url_origun = location.href;
 var url = decodeURI(url_origun);
 var max_page = 0;
-var search_input = '';
 var search_itemfilter = '';
+var search_input = '';
 var item_per_page = 10;
 
 NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
@@ -237,7 +237,8 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
     
     for(var i = page_start; i < recent_page_item;){
-        console.log(snapshot.docs[i + ignore].data());
+        var target = snapshot.docs[i + ignore].data()[itemfilter];
+        //console.log(snapshot.docs[i + ignore].data());
         var next = false;
         //console.log(i + ignore);
         if(item == '' && (i + ignore) != snapshot.size){
@@ -245,13 +246,13 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             next = true;
         }
         else if((i + ignore) == snapshot.size){
-            ignore = ignore + i;
-            break;
+            //ignore = ignore + i;
+            //break;
         }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) != -1){
+        else if(String(target).indexOf(item) != -1){
             next = true;
         }
-        else if(snapshot.docs[i + ignore].data()[itemfilter].indexOf(item) == -1){
+        else if(String(target).indexOf(item) == -1){
             ignore++;
             continue;
         }
@@ -269,25 +270,38 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         if(buylist_data['is_Order'] == true){
             var buylist_state;
             //console.log(product_data);
-            var button_state = 'disabled'
+            var evaluate_state = 'disabled';
+            var confirm_state = 'disabled';
+            var cancel_state = '';
             if(buylist_data['order_state'] == 0){
                 buylist_state = '交易處理中';
+                confirm_state = '';
             }
             else if(buylist_data['order_state'] == 1){
                 buylist_state = '取消申請中';
             }
             else if(buylist_data['order_state'] == 2){
                 buylist_state = '已完成';
-                button_state = ''
+                if(buylist_data['is_buyer_evaluated']){
+                    evaluate_state = 'disabled';
+                }
+                else{
+                    evaluate_state = '';
+                }
+                
+                cancel_state = 'disabled';
             }
-            else if(buylist_data['order_state'] == 3){
-                buylist_state = '競標進行中';
+            else if(buylist_data['order_state'] == 4){
+                buylist_state = '訂單取消';
+                cancel_state = 'disabled';
             }
             var date = buylist_data['build_time'].toDate();
-            //console.log(date);
-            show.innerHTML = '<tr>' +
+            show.innerHTML =  show.innerHTML + '<tr>' +
                                 '<td>' +
-                                    '<span class = "date">' + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + '</span>' +
+                                    '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<a class = "seller" href = "./listdetail.html?order_id=' + buylist_data['order_id'] + '&isbuyer=1">' + buylist_data['order_id'] + '</a>' +
                                 '</td>' +
                                 '<td class="price">' +
                                     '<span class = "selfdefine">$' + buylist_data['total_price'] + '</span>' +
@@ -296,24 +310,19 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                     '<a class = "seller" href = "">' + buylist_data['seller_account'] + '</a>' +
                                 '</td>' +
                                 '<td class = "">' +
-                                    '<span class = "selfdefine">' + buylist_state + '</span>' +
+                                    '<span id = "NP_order_state' + buylist_data['order_id'] + '">' + buylist_state + '</span>' +
                                 '</td>' +
+                                
                                 '<td>' +
-                                    '<form action = "./listdetail.html" method = "GET">' +
-                                        '<input type = "hidden" name = "product_id" value = "' + buylist_data['order_id'] + '">' +
-                                        '<input type = "submit" class = "list_button" value = "訂單詳情">' +
-                                    '</form>' + 
-                                '</td>' +
-                                '<td>' +
-                                    '<input class = "list_button" type = "button" onclick = "cancel()" value = "取消訂單">' +
+                                    '<input class = "list_button" id = "cancel' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 1);" value = "取消訂單" ' + cancel_state + '>' +
                                 '</td>' + 
                                 '<td>' +
-                                    '<input class = "list_button" type = "button" onclick = "" value = "確認">' +
+                                    '<input class = "list_button" id = "NP_check' + buylist_data['order_id'] + '" type = "button" onclick = "confirm(' + buylist_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
                                 '</td>' + 
                                 '<td>' +
-                                    '<input class = "list_button" type = "button" onclick = "product_eval(\'NP\', ' + buylist_data['order_id'] + ');" value = "評價" ' + button_state + '>' +
+                                    '<input class = "list_button" id="NP_eval' + buylist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'NP\', ' + buylist_data['order_id'] + ', 0);" value = "評價" ' + evaluate_state + '>' +
                                 '</td>' +
-                            '</tr>' + show.innerHTML
+                            '</tr>'
         }
         if(next){
             i++;
@@ -322,11 +331,13 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
 }
 
 NPloadproduct = function(page, item = '', itemfilter = ''){
+    search_input = item;
+    search_itemfilter = itemfilter;
     var number = 0;
     var user_prod_data = 0;
     //alert("loading");
     //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').orderBy('build_time', 'asc').where('is_bid', '==', false);
+    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').orderBy('build_time', 'desc').where('is_bid', '==', false);
     user_prod_data.get().then(snapshot=>{
         NP_Dynamic_HTML(page, snapshot, item, itemfilter);
     });
@@ -335,7 +346,7 @@ NPloadproduct = function(page, item = '', itemfilter = ''){
 
 NPchangePage = function(page){
     var show = document.getElementById("NPpagination");
-    NPloadproduct(page, search_input);
+    NPloadproduct(page, search_input, search_itemfilter);
     if(page >= 2){
         show.innerHTML = ''
 
@@ -361,13 +372,114 @@ NPchangePage = function(page){
     }
 }
 
-cancel = function(){
-    var user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').where('product_id', '==', product_id).get().then(snapshop =>{
+cancel = function(tab, order_id, state){
+    var order_state;
+    var check;
+    if(tab == 'NP'){
+        order_state = document.getElementById('NP_order_state' + order_id);
+        check = document.getElementById('NP_check' + order_id);
+    }
+    else if(tab == 'SL'){
+        console.log("SL");
+        order_state = document.getElementById('SL_order_state' + order_id);
+        check = document.getElementById('SL_check' + order_id);
+    }
+    if(state == 0){
+        console.log('in 0');
+        order_state.innerHTML = '交易處理中';
+        check.disabled = true;
+    }
+    else if(state == 1){
+        order_state.innerHTML = '取消申請中';
+        check.disabled = true;
+    }
+    else if(state == 4){
+        order_state.innerHTML = '訂單取消';
+        check.disabled = true;
+    }
+    console.log(order_state);
+    console.log(check);
+    db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
-            //console.log(snapshop[0]);
-            product_title = product.data()['product_title'];
+            //console.log(product['id']);
+            order_id = product.data()['order_id'];
+            seller_account = product.data()['seller_account'];
             db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
-                state : 5
+                order_state : state
+            });
+            
+            db.collection('User23').where('user_name', '==', seller_account).get().then(user => {
+                //console.log(user.docs[0]);
+                var user_id = user.docs[0]['id'];
+                //console.log(user_id);
+                db.collection('User23').doc(user_id).collection('iamSeller').where('order_id', '==', order_id).get().then(order => {
+                    db.collection('User23').doc(user_id).collection('iamSeller').doc(order.docs[0]['id']).update({
+                        order_state : state
+                    });
+                });
+            });
+        });
+    });
+}
+
+confirm = function(order_id){
+    db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
+        snapshop.forEach(product => {
+            //change order state
+            //console.log(product['id']);
+            var confirm_button = document.getElementById('check' + order_id);
+            confirm_button.disabled = true;
+            var cancel = document.getElementById('cancel' + order_id);
+            cancel.disabled = true;
+            var order_state = document.getElementById('order_state' + order_id);
+            order_state = "已完成";
+            order_id = product.data()['order_id'];
+            seller_account = product.data()['seller_account'];
+            db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
+                order_state : 2
+            });
+            
+            db.collection('User23').where('user_name', '==', seller_account).get().then(user => {
+                var user_id = user.docs[0]['id'];
+                db.collection('User23').doc(user_id).collection('iamSeller').where('order_id', '==', order_id).get().then(order => {
+                    db.collection('User23').doc(user_id).collection('iamSeller').doc(order.docs[0]['id']).update({
+                        order_state : 2
+                    });
+                    //add sold number
+                    db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
+                        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).collection('Products').get().then(products => {
+                            products.forEach(list_product => {
+                                var list_product_data = list_product.data();
+                                var list_product_data_id = list_product_data['product_id'];
+                                var list_product_data_quy = list_product_data['product_quantity'];
+                                //product
+                                db.collection('Product').where('product_id', '==', list_product_data_id).get().then(shop_product => {
+                                    var sold = shop_product.docs[0].data()['sold'];
+                                    sold = sold + list_product_data_quy;
+                                    console.log(sold);
+                                    db.collection('Product').doc(shop_product.docs[0]['id']).update({
+                                        sold : sold
+                                    });
+                                    //user
+                                    var seller_account = shop_product.docs[0].data()['seller_account']
+                                    db.collection('User23').where('account', '==', seller_account).get().then(seller => {
+                                        console.log(seller.docs[0]['id']);
+                                        db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').where('product_id', '==', list_product_data_id).get().then(user_product => {
+                                            var sold = user_product.docs[0].data()['sold'];
+                                            sold = sold + list_product_data_quy;
+                                            console.log(sold);
+                                            db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
+                                                sold : sold
+                                            });
+                                        });
+                                    });
+                                    
+                                });
+                                //console.log(list_product_data);
+                            });
+                        });
+                    });
+                });
             });
         });
     });
