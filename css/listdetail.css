@@ -78,4 +78,8 @@
 .main-content-wrapper .list-table-area table tbody tr .note textarea{
     width: 100%;
 }
+
+.address{
+    width: 500px;
+}
 /* list detail end*/
