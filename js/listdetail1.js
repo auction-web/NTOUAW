@@ -52542,7 +52542,20 @@ var db = firebase.firestore();
 var show = document.getElementById('table');
 var seller_buyer=1;
 var check;
-input=1;
+var aa;
+var url = location.href; // product-detail.html
+aa = (url.split('?')[1]).split('&');
+var order=Number((aa[0].split('='))[1]);
+var input=Number((aa[1].split('='))[1]);
+var cook=getCookie('id');
+var User1='User'+cook;
+var User=User1+'/';
+console.log(order);
+console.log(input);
+if(cook==""){
+	alert("請先登入，跳轉至登入頁面");
+	location.href = "./index.html";
+}
 if(input==0){
 	check='iamSeller';
 }
@@ -52550,8 +52563,8 @@ else{
 	check='iamBuyer';
 }
 show.innerHTML = '';
-var user_prod_data = db.collection('User23').doc('User5').collection(check)
-	.where('order_id', '==', 10025).get().then(snapshop =>{
+var user_prod_data = db.collection('User23').doc(User1).collection(check)
+	.where('order_id', '==',order).get().then(snapshop =>{
 	snapshop.forEach(product => {
 			console.log(product['id']);
 			db.collection('User23').doc('User5').collection(check).doc(product['id']).collection('Products')
