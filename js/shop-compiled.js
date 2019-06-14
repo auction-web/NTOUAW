@@ -201,10 +201,7 @@ cant_find = function(page){
         '<!-- Pagination -->' + 
         '<nav aria-label="navigation">' + 
             '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-                /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+          
             '</ul>' + 
         '</nav>' + 
     '</div>';
@@ -230,11 +227,7 @@ module.exports = firebase
 
 },{"firebase":17}],4:[function(require,module,exports){
 getKindPoducts = function(db, storage, kind, page){
-	//var product_order= require("./product_order");
-	//var cant_find= require("./cant_find");
-  //var firebase = require("./firebase");
-  //var ss;// = new db.QuerySnapshot();
-  //var last
+
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().//order by sold
 			then(snapshot => {
@@ -247,9 +240,7 @@ getKindPoducts = function(db, storage, kind, page){
           console.log(ss);
          });*/
 
-          //console.log(ss);
-        //out = snapshot.docs;
-        //console.log(snapshot)
+
         var docs = snapshot.docs;
         console.log(docs);
     		})
@@ -259,16 +250,13 @@ getKindPoducts = function(db, storage, kind, page){
       				cant_find(page);
 
       				//????
-    		});//query of "kind_product = kind"
-    //console.log(ss);
-    //ss = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
-    //console.log(productQueryRef);
-    //console.log(ss);
+    });
+
     var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
     console.log(p1);
     var p2 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().then();
     console.log(p2);
-    //console.log(last);
+
 
 
 } 
@@ -49875,7 +49863,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 
                     '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
 
-                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  //img/product-img/product1.jpg 
+                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  
                     '<!-- Hover Thumb -->' +
                     '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
 
@@ -49897,12 +49885,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Ratings & Cart -->' +
                     '<div class="ratings-cart text-right" id = "right_text">' +
                         '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
-                        	/*temp['product_evaluation'] + 
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +*/
+                       
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
                             '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
@@ -49946,10 +49929,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Pagination -->' + 
                     '<nav aria-label="navigation">' + 
                         '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-                            /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+                           
                         '</ul>' + 
                     '</nav>' + 
                 '</div>';
@@ -49979,10 +49959,7 @@ rating = function(index, rate){
 module.exports = rating;
 },{}],23:[function(require,module,exports){
 search = function(db, storage, input, itemfilter, page){
-	//var product_order = require("./product_order");
-	//var cant_find= require("./cant_find");
 
-	//var itemfilter = ???????????
 	var pagination = require("./pagination");
 	var productQueryRef;
 
@@ -50000,16 +49977,9 @@ search = function(db, storage, input, itemfilter, page){
 	}
 	else{
 		productQueryRef = productsRef.get().then(snapshot => {
-
 			var i = 0;
-
-			//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
-			//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
-
-  			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
-  				///console.log(doc.id, '=>', doc.data());
+  			snapshot.forEach(doc => { 	
   				var temp = doc.data();
-  				//console.log(temp);
   				if(temp['product_title'].indexOf(input) != -1){
   					if( i >=(Number(page)-1)*8 && i <= (Number(page)*8)-1 ){
 	  					var storageRef = storage.ref();
@@ -50097,26 +50067,19 @@ search = function(db, storage, input, itemfilter, page){
 	                '<!-- Pagination -->' + 
 	                '<nav aria-label="navigation">' + 
 	                    '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-	                        /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+	               
 	                    '</ul>' + 
 	                '</nav>' + 
 	            '</div>';
             show_1.appendChild(div_1);
 
-            /*var show_2 = document.getElementById('total_products');
-	        if(Number(page)*8 >= snapshot.size)
-	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
-	        else
-	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
+
 
 	        var show_2 = document.getElementById('total_products');
 	     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
 	    
 
- 	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
+
 
  	 		
  	 		console.log(i); //how many products we get in search
@@ -50137,7 +50100,6 @@ search = function(db, storage, input, itemfilter, page){
 module.exports = search;
 },{"./pagination":20}],24:[function(require,module,exports){
 
-	//var firebase= require("./firebase");
 	window.addEventListener('hashchange', function(e) {
 	    console.log(e.oldURL);
 	    console.log(e.newURL);
@@ -50150,8 +50112,7 @@ module.exports = search;
 	var getKindPoducts = require("./getKindPoducts");//
 	var search = require("./search");//
 	var cant_find= require("./cant_find");
-	//var pagination = require("./pagination");
-	//var sendSearch = require("./sendSearch.js");//
+
 
 	var db = firebase.firestore();
 	var storage = firebase.storage();
@@ -50165,22 +50126,11 @@ module.exports = search;
 	var is_Search = false;
 	var itemfilter = '';
 
-	//file:///D:/web/NTOUAW-master/shop.html?search=asd&itemfilter=productname#&page=1
-
-
-	//three kinds of url  1.kind+page 2.search+page    //3.search(home search)
-	
-	
-	//alert(url);
-
-	//if(url.indexOf('kind')==-1)////////////////////////////////////??????????????????????????????????//
-	//	return;
 
 	if(url.indexOf('?') != -1){
-		if(url.indexOf('search') != -1){
+		if(url.indexOf('search') != -1){//has 'search'
 			is_Search = true;
 			input = url.split('?')[1].split('&')[0].split('=')[1];
-			//input = input.substr(0, input.length - 1); //search
 			itemfilter = url.split('?')[1].split('&')[1].split('=')[1];
 			itemfilter = itemfilter.substr(0, itemfilter.length - 1); //itemfilter - #
 			page = url.split('?')[1].split('&')[2].split('=')[1];
@@ -50192,65 +50142,28 @@ module.exports = search;
 	}
 
 	if(is_Search){
-		//alert(kind);//search function=> sendSearch()
-		//alert('in search');
-		/////////////////////////////////////////////////////////////imp in version 2
-		/*var e = document.getElementById("sel");
-		var str = e.options[e.selectedIndex].value;
-		//selectedIndex = 0 or 1 
 
-		if (str == 'productname')
-			alert('choose: productname');
-		else if (str == 'seller')
-			alert('choose: seller');*/
 
-	
-
-		/////////////////////////////////////////////////////////////
-
-		//get by Url or onSubmit????
-
-		//this is on url
-
-		if(input === "")
+		if(input === ""){
 			alert("Please search something!");
+			cant_find(1);
+		}
 		else
 			var search_call = search(db, storage, input, itemfilter, page);
 
-		//search...
-
-		//if(promise)
 	}
 	else{
-		//alert('in kind');
 
 		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
 		console.log(products_all);
 		
-
-		//if(promise)
 	}
 
 	document.getElementById("catagories").children[Number(kind)].className = "active";
 
-	//alert('itemfilter: '+itemfilter);
-	//alert("is_Search: " + is_Search)
-	//alert("kind: " + kind);
-	//alert("page: " + page);
-	//alert("input: " + input);
-	//pagination(Number(page));
 
 
-	
-    
-
-   // product_order(id, snapshot, Number(page)); //id for create html tags//
-
-  	
-//search is another func
-
-//module.exports = shop;
 
 	
 

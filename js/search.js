@@ -1,8 +1,5 @@
 search = function(db, storage, input, itemfilter, page){
-	//var product_order = require("./product_order");
-	//var cant_find= require("./cant_find");
 
-	//var itemfilter = ???????????
 	var pagination = require("./pagination");
 	var productQueryRef;
 
@@ -20,16 +17,9 @@ search = function(db, storage, input, itemfilter, page){
 	}
 	else{
 		productQueryRef = productsRef.get().then(snapshot => {
-
 			var i = 0;
-
-			//if(snapshot.docs[i].data()['product_tile'].indexOf(input) != -1)
-			//product_order('Products', snapshot, page);//product_order(div_id, snapshot, page);
-
-  			snapshot.forEach(doc => { //////////////////////////////////////////////////////////// while?? for?? or use json tree array store and print
-  				///console.log(doc.id, '=>', doc.data());
+  			snapshot.forEach(doc => { 	
   				var temp = doc.data();
-  				//console.log(temp);
   				if(temp['product_title'].indexOf(input) != -1){
   					if( i >=(Number(page)-1)*8 && i <= (Number(page)*8)-1 ){
 	  					var storageRef = storage.ref();
@@ -117,26 +107,19 @@ search = function(db, storage, input, itemfilter, page){
 	                '<!-- Pagination -->' + 
 	                '<nav aria-label="navigation">' + 
 	                    '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-	                        /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-	                        '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+	               
 	                    '</ul>' + 
 	                '</nav>' + 
 	            '</div>';
             show_1.appendChild(div_1);
 
-            /*var show_2 = document.getElementById('total_products');
-	        if(Number(page)*8 >= snapshot.size)
-	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
-	        else
-	            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';*/
+
 
 	        var show_2 = document.getElementById('total_products');
 	     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
 	    
 
- 	 		//product_order('Products', temp_query, page);//product_order(div_id, snapshot, page);
+
 
  	 		
  	 		console.log(i); //how many products we get in search

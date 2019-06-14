@@ -50,7 +50,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 
                     '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
 
-                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  //img/product-img/product1.jpg 
+                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  
                     '<!-- Hover Thumb -->' +
                     '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
 
@@ -72,12 +72,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Ratings & Cart -->' +
                     '<div class="ratings-cart text-right" id = "right_text">' +
                         '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
-                        	/*temp['product_evaluation'] + 
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-                            '<i class="fa fa-star" aria-hidden="true"></i>' +*/
+                       
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
                             '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
@@ -121,10 +116,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<!-- Pagination -->' + 
                     '<nav aria-label="navigation">' + 
                         '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
-                            /*'<li class="page-item active"><a class="page-link" href="javascript:changepage(1);">01.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(2);">02.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(3);">03.</a></li>' + 
-                            '<li class="page-item"><a class="page-link" href="javascript:changepage(4);">04.</a></li>' + */
+                           
                         '</ul>' + 
                     '</nav>' + 
                 '</div>';
