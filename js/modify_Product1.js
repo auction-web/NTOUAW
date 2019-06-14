@@ -52931,6 +52931,7 @@ up=function(){
    ,product_intro:introduction
    };
    back=function(){
+	   alert("修改成功");
 	  window.location = "./personal.html";
    }
    seller=function(callback){
