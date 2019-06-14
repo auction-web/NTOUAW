@@ -52550,8 +52550,8 @@ var input=Number((aa[1].split('='))[1]);
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
-console.log(order);
-console.log(input);
+//console.log(order);
+//console.log(input);
 if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
