@@ -55,7 +55,6 @@
 
 		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
-		console.log(products_all);
 		
 	}
 

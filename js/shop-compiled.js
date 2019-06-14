@@ -211,7 +211,7 @@ cant_find = function(page){
 }
 
 module.exports = cant_find;
-},{"./pagination":20}],3:[function(require,module,exports){
+},{"./pagination":21}],3:[function(require,module,exports){
 var firebase = require("firebase");
 var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
@@ -225,7 +225,33 @@ var config = {
 firebase.initializeApp(config);
 module.exports = firebase
 
-},{"firebase":17}],4:[function(require,module,exports){
+},{"firebase":18}],4:[function(require,module,exports){
+fuck = function(storage, id){
+
+
+        var productsRef_1 = storage.ref().child('Products/Products' + id + '/0').getDownloadURL().then(function(url) {
+            console.log(id);   
+            var show_img = document.getElementById('product' + id + '_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + id + " error get img0!!");
+        });
+
+        var productsRef_2 = storage.ref().child('Products/Products' + id + '/1').getDownloadURL().then(function(url) {
+            console.log(id);
+            var show_img = document.getElementById('product' + id + '_img2');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + id + " error get img1!!");
+        });
+
+} 
+  
+module.exports = fuck;
+
+},{}],5:[function(require,module,exports){
 getKindPoducts = function(db, storage, kind, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
@@ -263,7 +289,7 @@ getKindPoducts = function(db, storage, kind, page){
   
 module.exports = getKindPoducts;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -760,7 +786,7 @@ exports.default = firebase;
 exports.firebase = firebase;
 
 
-},{"@firebase/logger":11,"@firebase/util":15,"tslib":19}],6:[function(require,module,exports){
+},{"@firebase/logger":12,"@firebase/util":16,"tslib":20}],7:[function(require,module,exports){
 (function (global){
 (function() {var firebase = require('@firebase/app').default;var k,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},ba="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ca(a,b){if(b){var c=ba;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];e in c||(c[e]={});c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&aa(c,a,{configurable:!0,writable:!0,value:b})}}
 function da(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function ea(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):{next:da(a)}}
@@ -1127,7 +1153,7 @@ Y(Dg.prototype,{w:{name:"toJSON",j:[V(null,!0)]}});Y(M.prototype,{toJSON:{name:"
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@firebase/app":5}],7:[function(require,module,exports){
+},{"@firebase/app":6}],8:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -16553,7 +16579,7 @@ exports.registerDatabase = registerDatabase;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":5,"@firebase/logger":11,"@firebase/util":15,"_process":1,"tslib":19}],8:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/logger":12,"@firebase/util":16,"_process":1,"tslib":20}],9:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38314,7 +38340,7 @@ exports.registerFirestore = registerFirestore;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":5,"@firebase/logger":11,"@firebase/util":15,"@firebase/webchannel-wrapper":16,"_process":1,"tslib":19}],9:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/logger":12,"@firebase/util":16,"@firebase/webchannel-wrapper":17,"_process":1,"tslib":20}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -38905,7 +38931,7 @@ registerFunctions(firebase);
 exports.registerFunctions = registerFunctions;
 
 
-},{"@firebase/app":5,"tslib":19}],10:[function(require,module,exports){
+},{"@firebase/app":6,"tslib":20}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40174,7 +40200,7 @@ registerInstallations(firebase);
 exports.registerInstallations = registerInstallations;
 
 
-},{"@firebase/app":5,"@firebase/util":15,"idb":18}],11:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/util":16,"idb":19}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40365,7 +40391,7 @@ exports.Logger = Logger;
 exports.setLogLevel = setLogLevel;
 
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -42519,7 +42545,7 @@ exports.isSupported = isSupported;
 exports.registerMessaging = registerMessaging;
 
 
-},{"@firebase/app":5,"@firebase/util":15,"tslib":19}],13:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/util":16,"tslib":20}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -43722,7 +43748,7 @@ else {
 exports.registerPerformance = registerPerformance;
 
 
-},{"@firebase/app":5,"@firebase/installations":10,"@firebase/logger":11,"@firebase/util":15,"tslib":19}],14:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/installations":11,"@firebase/logger":12,"@firebase/util":16,"tslib":20}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -47206,7 +47232,7 @@ registerStorage(firebase);
 exports.registerStorage = registerStorage;
 
 
-},{"@firebase/app":5}],15:[function(require,module,exports){
+},{"@firebase/app":6}],16:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -48960,7 +48986,7 @@ exports.validateNamespace = validateNamespace;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"tslib":19}],16:[function(require,module,exports){
+},{"tslib":20}],17:[function(require,module,exports){
 (function (global){
 (function() {'use strict';var g,goog=goog||{},k=this;function m(a){return"string"==typeof a}function aa(a){return"number"==typeof a}function n(a,b){a=a.split(".");b=b||k;for(var c=0;c<a.length;c++)if(b=b[a[c]],null==b)return null;return b}function ba(){}
 function p(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
@@ -49053,7 +49079,7 @@ X.prototype.getResponseJson=X.prototype.Va;X.prototype.getResponseText=X.prototy
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -49206,7 +49232,7 @@ console.warn("\nIt looks like you're using the development build of the Firebase
 module.exports = firebase;
 
 
-},{"@firebase/app":5,"@firebase/auth":6,"@firebase/database":7,"@firebase/firestore":8,"@firebase/functions":9,"@firebase/messaging":12,"@firebase/performance":13,"@firebase/storage":14}],18:[function(require,module,exports){
+},{"@firebase/app":6,"@firebase/auth":7,"@firebase/database":8,"@firebase/firestore":9,"@firebase/functions":10,"@firebase/messaging":13,"@firebase/performance":14,"@firebase/storage":15}],19:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -49524,7 +49550,7 @@ module.exports = firebase;
 
 }));
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (global){
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -49771,7 +49797,7 @@ var __importDefault;
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 pagination = function(page){
     var show = document.getElementById("pagination");
     var show_2 = document.getElementById("pagination_bottom");
@@ -49810,14 +49836,13 @@ pagination = function(page){
 }
 
 module.exports = pagination;
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 product_order = function(id, storage, snapshot, page){//div_id
 
     var pagination = require("./pagination");
     var rating = require("./rating");
-
-    snapshot.size
-
+    var fuck = require("./fuck");
+    //snapshot.size
 
 	//id for create html tags
 	for (var i = (Number(page)-1)*8; i < Number(page)*8; i++){
@@ -49828,27 +49853,26 @@ product_order = function(id, storage, snapshot, page){//div_id
 		console.log(temp_id);
 		console.log(temp);
  		//show products....
+/*
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(temp['product_id']);   
+            var show_img = document.getElementById('product' + temp['product_id'] + '_img1');
+            show_img.src = url;
 
-        var storageRef = storage.ref();
-        var productsRef = storageRef.child('Products');
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
 
-        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
-
-            var show_img = document.getElementById('product_img1');
+        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
+            console.log(temp['product_id']);
+            var show_img = document.getElementById('product' + temp['product_id'] + '_img2');
             show_img.src = url;
 
         }).catch(function(){
             console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
         });
-
-        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
-        
-            var show_img = document.getElementById('product_img2');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img2!!");
-        });
+*/
+        fuck(storage, temp['product_id']);
 
 
 
@@ -49863,9 +49887,9 @@ product_order = function(id, storage, snapshot, page){//div_id
 
                     '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
 
-                   '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' +  
+                   '<img src="img/product-img/product1.jpg"  id="product' + temp['product_id'] + '_img1">' +  
                     '<!-- Hover Thumb -->' +
-                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+                    '<img class="hover-img" src="img/product-img/product2.jpg"  id="product' + temp['product_id'] + '_img2">' +  
 
                     '</a>' + 
 
@@ -49938,12 +49962,72 @@ product_order = function(id, storage, snapshot, page){//div_id
             pagination(Number(page));
             break;
         }
+
+    
+
 	}
     
+
+/*   for (var a = (Number(page)-1)*8; a < Number(page)*8; a++){
+
+        var temp = snapshot.docs[a].data();
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(a);   
+            var show_img = document.getElementById('product' + a + '_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
+            console.log(i);
+            var show_img = document.getElementById('product' + i + '_img2');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
+        });
+    }
+*/
+
+/*
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product0_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product1_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        });
+
+        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
+            console.log(i);   
+            var show_img = document.getElementById('product2_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
+        }); 
+*/
+
+
+
+
 }
 
 module.exports = product_order;
-},{"./pagination":20,"./rating":22}],22:[function(require,module,exports){
+},{"./fuck":4,"./pagination":21,"./rating":23}],23:[function(require,module,exports){
 rating = function(index, rate){
     var show = document.getElementById("rating_" + index.toString());
 
@@ -49957,12 +50041,12 @@ rating = function(index, rate){
 }
 
 module.exports = rating;
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 search = function(db, storage, input, itemfilter, page){
 
 	var pagination = require("./pagination");
 	var productQueryRef;
-
+	var fuck = require("./fuck");
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	if(itemfilter == 'seller'){
@@ -49982,74 +50066,61 @@ search = function(db, storage, input, itemfilter, page){
   				var temp = doc.data();
   				if(temp['product_title'].indexOf(input) != -1){
   					if( i >=(Number(page)-1)*8 && i <= (Number(page)*8)-1 ){
-	  					var storageRef = storage.ref();
-				        var productsRef = storageRef.child('Products');
-
-				        productsRef.child('Products' + temp['product_id'].toString() + '/0').getDownloadURL().then(function(url) {
-				        //productsRef.child('Products1/0.jpg').getDownloadURL().then(function(url) {
-				            var show_img = document.getElementById('product_img1');
-				            show_img.src = url;
-				        }).catch(function(){
-				            console.log("error get img1!!");
-				        });
-
-				        productsRef.child('Products' + temp['product_id'].toString() + '/1').getDownloadURL().then(function(url) {
-				        //productsRef.child('Products1/1.jpg').getDownloadURL().then(function(url) {
-				            var show_img = document.getElementById('product_img2');
-				            show_img.src = url;
-				        }).catch(function(){
-				            console.log("error get img2!!");
-				        });
-
-
-						console.log(temp);
-
+  					
+  						fuck(storage, temp['product_id']);
+				
+						
 
 						var show = document.getElementById('Products');
-				 		var div = document.createElement("div");
-				 		div.className = "col-12 col-sm-6 col-md-12 col-xl-6";
-				    	div.innerHTML = 
-				    	'<div class="single-product-wrapper" id = "single_product">' +
-				                '<!-- Product Image -->' +
-				                '<div class="product-img">' +
-				                '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+						var div = document.createElement("div");
+						div.className = "col-12 col-sm-6 col-md-12 col-xl-6";
+						div.innerHTML = 
+						'<div class="single-product-wrapper" id = "single_product">' +
 
-				                    '<img src="img/product-img/product1.jpg" alt="" id="product_img1">' + 
-				                    '<!-- Hover Thumb -->' +
-				                    '<img class="hover-img" src="img/product-img/product2.jpg" alt="" id="product_img2">' +
+					            '<!-- Product Image -->' +
+					            '<div class="product-img" >' +
 
-				                '</a>' + 
-				                '</div>' +
+					                '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
 
-				                '<!-- Product Description -->' +
-				                '<div class="product-description d-flex align-items-center justify-content-between">' +
-				                    '<!-- Product Meta Data -->' +
-				                    '<div class="product-meta-data">' +
-				                        '<div class="line"></div>' +
-				                        '<p class="product-price">$' + temp['price'] + '</p><!-- price -->' +
-				                        '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
-				                            '<h6>' + temp['product_title'] + '</h6><!-- product_title -->' +
-				                        '</a>' +
-				                    '</div>' +
-				                    '<!-- Ratings & Cart -->' +
-				                    '<div class="ratings-cart text-right" id = "right_text">' +
-				                        '<div class="ratings"><!-- product_evaluation -->' +
-				                        	temp['product_evaluation'] + 
-				                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-				                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-				                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-				                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-				                            '<i class="fa fa-star" aria-hidden="true"></i>' +
-				                        '</div>' +             	
-				                        '<div class="little-mark cart" >' +
-				                            '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
-				                        '</div>' +
-				                    '</div>' +
-				                '</div>' +
-				            '</div>' +
-				        '</div>';
-				        show.appendChild(div);
+					               '<img src="img/product-img/product1.jpg"  id="product' + temp['product_id'] + '_img1">' +  
+					                '<!-- Hover Thumb -->' +
+					                '<img class="hover-img" src="img/product-img/product2.jpg"  id="product' + temp['product_id'] + '_img2">' +  
+
+					                '</a>' + 
+
+					            '</div>' +
+
+
+					            '<!-- Product Description -->' +
+					            '<div class="product-description d-flex align-items-center justify-content-between">' +
+					                '<!-- Product Meta Data -->' +
+					                '<div class="product-meta-data">' +
+					                    '<div class="line"></div>' +
+					                    '<p class="product-price">$' + temp['price'] + '</p><!-- price -->' +
+					                    '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+					                        '<h6>' + temp['product_title'] + '</h6><!-- product_title -->' +
+					                    '</a>' +
+					                '</div>' +
+					                '<!-- Ratings & Cart -->' +
+					                '<div class="ratings-cart text-right" id = "right_text">' +
+					                    '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
+					                   
+					                    '</div>' +             	
+					                    '<div class="little-mark cart" >' +
+					                        '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
+					                    '</div>' +
+					                '</div>' +
+					            '</div>' +
+					        '</div>' +
+					    '</div>';
+
+
+						show.appendChild(div);
+
+						
+					
 				    }
+
 					i = i + 1;
 
 
@@ -50075,11 +50146,6 @@ search = function(db, storage, input, itemfilter, page){
 
 
 
-	        var show_2 = document.getElementById('total_products');
-	     	show_2.innerHTML = '<p class="howamnypages" >Showing 1 - ' + i + ' of ' + i + '</p>';
-	    
-
-
 
  	 		
  	 		console.log(i); //how many products we get in search
@@ -50098,7 +50164,7 @@ search = function(db, storage, input, itemfilter, page){
 }
 
 module.exports = search;
-},{"./pagination":20}],24:[function(require,module,exports){
+},{"./fuck":4,"./pagination":21}],25:[function(require,module,exports){
 
 	window.addEventListener('hashchange', function(e) {
 	    console.log(e.oldURL);
@@ -50156,7 +50222,6 @@ module.exports = search;
 
 		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
 		console.log('getKindPoducts');
-		console.log(products_all);
 		
 	}
 
@@ -50170,4 +50235,4 @@ module.exports = search;
 
 
 
-},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./product_order":21,"./search":23}]},{},[24]);
+},{"./cant_find":2,"./firebase":3,"./getKindPoducts":5,"./product_order":22,"./search":24}]},{},[25]);
