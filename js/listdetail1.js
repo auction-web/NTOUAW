@@ -52562,6 +52562,7 @@ if(input==0){
 else{
 	check='iamBuyer';
 }
+//
 show.innerHTML = '';
 var user_prod_data = db.collection('User23').doc(User1).collection(check)
 	.where('order_id', '==',order).get().then(snapshop =>{
