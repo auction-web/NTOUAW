@@ -27,5 +27,8 @@ function signout(){
 	DelCookie('productID');
 	DelCookie('sellerID');
 	DelCookie('id');
-	location.href = "./index.html";
+	setTimeout(function () {
+                alert("登出後，跳轉至登出頁面");
+                location.href = "./index.html";
+    }, 2100);
 }
