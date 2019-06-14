@@ -49740,19 +49740,25 @@ if(url.indexOf('?')!= -1){
            tablinks[i].className = tablinks[i].className.replace(" active", "");
        }
        if(tab == 'PM'){
-           tab_id = 'productmanage'
+           tab_id = 'productmanage';
            document.getElementById(tab_id).style.display = "block";
            target_tab = document.getElementsByClassName(tab);
            target_tab[0].className += " active";
            PMloadproduct(1, search_input, search_itemfilter);
        }
        else if(tab == 'NP'){
-           console.log("In NP");
-           tab_id = 'buylist'
+           tab_id = 'buylist';
            document.getElementById(tab_id).style.display = "block";
            target_tab = document.getElementsByClassName(tab);
            target_tab[0].className += " active";
            NPloadproduct(1, search_input, search_itemfilter);
+       }
+       else if(tab == 'SL'){
+           tab_id = 'selllist';
+           document.getElementById(tab_id).style.display = "block";
+           target_tab = document.getElementsByClassName(tab);
+           target_tab[0].className += " active";
+           SLloadproduct(1, search_input, search_itemfilter);
        }
     }
 }

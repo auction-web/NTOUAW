@@ -99,10 +99,10 @@
             <!-- Tab menu start-->
             <div class = "tab">
                 <button class = "tablinks" onclick="personalpage(event, 'personal')">個人資料</button>
-                <button class = "tablinks NP" onclick="personalpage(event, 'buylist');NPloadproduct(1)">個人購物清單</button>
+                <button class = "tablinks NP" onclick="personalpage(event, 'buylist');NPchangePage(1)">個人購物清單</button>
                 <button class = "tablinks BP" onclick="personalpage(event, 'bidlist')">個人競標清單</button>
-                <button class = "tablinks SL" onclick="personalpage(event, 'selllist');SLloadproduct(1)">賣家訂單清單</button>
-                <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMloadproduct(1)">賣家商品管理</button>
+                <button class = "tablinks SL" onclick="personalpage(event, 'selllist');SLchangePage(1)">賣家訂單清單</button>
+                <button class = "tablinks PM" onclick="personalpage(event, 'productmanage');PMchangePage(1)">賣家商品管理</button>
             </div>
             <!-- Tab menu end-->
             
@@ -266,13 +266,12 @@
                 <div class="container-fluid">
                     <!-- Search -->
                     <div class = "search_base">
-                        <form action="#" method="get">
+                        <form action="#SL" method="get">
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button class = "searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button> 
                             <select name = "itemfilter">
-                                <option value = "listID">訂單編號</option>
-                                <option value = "seller">訂單狀態</option>
-                                <option value = "status">買家</option>
+                                <option value = "seller">買家</option>
+                                <option value = "order_id">訂單編號</option>
                             </select>
                         </form>
                         
@@ -394,11 +393,11 @@
         
         <script src="js/buylist_c.js"></script>
         
-        <script src="js/personal_search_c.js"></script>
-        
         <script src="js/product_evaluate_c.js"></script>
         
         <script src="js/sellerlist_c.js"></script>
+        
+        <script src="js/personal_search_c.js"></script>
     </body>
 
 </html>

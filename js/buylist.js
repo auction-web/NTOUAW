@@ -60,7 +60,7 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         else if((i + ignore) == snapshot.size){
             //ignore = ignore + i;
-            //break;
+            break;
         }
         else if(String(target).indexOf(item) != -1){
             next = true;
