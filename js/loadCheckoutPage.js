@@ -13,7 +13,6 @@ const $ = require('jQuery')(window);
 (function ($) {
 
     //--> get info form cookie
-    console.log("cookie = ", document.cookie);
     var sellerName = readCookie('sellerName');
     var buyerID = Number(readCookie('id'));
     var productID = Number(readCookie('productID'));
@@ -125,6 +124,8 @@ const $ = require('jQuery')(window);
 
         //get product's remark
         var productRemark = $('#productRemark').val();
+        var delieveryAddress = $('#delieveryAddress').val();
+        console.log('address = ', delieveryAddress);
         //get order's build time
         var date = new Date();
         //set order's state = processing
@@ -151,6 +152,7 @@ const $ = require('jQuery')(window);
                 build_time: date,
                 cancel_reason: "",
                 total_price: sum,
+                address: delieveryAddress,
             };
             var ProductDetail = {
                 //product info
@@ -187,21 +189,21 @@ const $ = require('jQuery')(window);
             var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
             //--> update product's amount in database.
-    //        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
-    //            snapshot.forEach(doc => {
-    //                var product = doc.data();
-    //                var productAmount = product.product_quantity;
-    //                productAmount -= Number(quantity);
-    //                console.log('product num: ', productAmount);
-    //                
-    //                var productRef = (doc.ref.path).split('/')[1];
-    //                console.log('path: ',productRef);
-    //              
-    //                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
-    //            });
-    //        }).catch(err => {
-    //            console.log('Error getting document', err);
-    //        });
+            //        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
+            //            snapshot.forEach(doc => {
+            //                var product = doc.data();
+            //                var productAmount = product.product_quantity;
+            //                productAmount -= Number(quantity);
+            //                console.log('product num: ', productAmount);
+            //                
+            //                var productRef = (doc.ref.path).split('/')[1];
+            //                console.log('path: ',productRef);
+            //              
+            //                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
+            //            });
+            //        }).catch(err => {
+            //            console.log('Error getting document', err);
+            //        });
 
 
             //--> wait firebase for few seconds
@@ -211,7 +213,7 @@ const $ = require('jQuery')(window);
                 location.href = "./home.html";
             }, 2100);
         });
-        
+
 
     }); //<-- "checkout button" handler
 
