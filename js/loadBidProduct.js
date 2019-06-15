@@ -15,7 +15,8 @@ var sellerDetail = new Object();
 //get product id
 var aa;
 var url = location.href; // product-detail.html
-aa = (url.split('?')[1]).split('=')[1];
+//aa = (url.split('?')[1]).split('=')[1];
+aa=32;
 var id = "Product" + aa;
 console.log('id = ',id);
 
