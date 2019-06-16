@@ -27,7 +27,7 @@ search = function(db, storage, input, itemfilter, page){
   				if(temp['product_title'].indexOf(input) != -1){
   					if( total >=(Number(page)-1)*8 && total <= (Number(page)*8)-1 ){
   					
-  						fuck(storage, temp['product_id']);
+  						loadimg(storage, temp['product_id']);
 				
 
 						var show = document.getElementById('Products');
