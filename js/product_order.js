@@ -5,6 +5,8 @@ product_order = function(id, storage, snapshot, page){//div_id
     var fuck = require("./fuck");
     //snapshot.size
 
+    //i = total searched index
+    
 	//id for create html tags
 	for (var i = (Number(page)-1)*8; i < Number(page)*8; i++){
 
@@ -14,25 +16,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 		console.log(temp_id);
 		console.log(temp);
  		//show products....
-/*
-        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
-            console.log(temp['product_id']);   
-            var show_img = document.getElementById('product' + temp['product_id'] + '_img1');
-            show_img.src = url;
 
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
-        });
-
-        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
-            console.log(temp['product_id']);
-            var show_img = document.getElementById('product' + temp['product_id'] + '_img2');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
-        });
-*/
         fuck(storage, temp['product_id']);
 
 
@@ -46,11 +30,11 @@ product_order = function(id, storage, snapshot, page){//div_id
                 '<!-- Product Image -->' +
                 '<div class="product-img" >' +
 
-                    '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+                    '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + i + '_link1"><!--product_detail.html?product_id=xxx -->' +
 
-                   '<img src="img/product-img/product1.jpg"  id="product' + temp['product_id'] + '_img1">' +  
+                   '<img src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img1">' +  
                     '<!-- Hover Thumb -->' +
-                    '<img class="hover-img" src="img/product-img/product2.jpg"  id="product' + temp['product_id'] + '_img2">' +  
+                    '<img class="hover-img" src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img2">' +  
 
                     '</a>' + 
 
@@ -63,12 +47,12 @@ product_order = function(id, storage, snapshot, page){//div_id
                     '<div class="product-meta-data">' +
                         '<div class="line"></div>' +
                         '<p class="product-price">$' + temp['price'] + '</p><!-- price -->' +
-                        '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+                        '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + i + '_link2"><!--product_detail.html?product_id=xxx -->' +
                             '<h6>' + temp['product_title'] + '</h6><!-- product_title -->' +
                         '</a>' +
                     '</div>' +
                     '<!-- Ratings & Cart -->' +
-                    '<div class="ratings-cart text-right" id = "right_text">' +
+                    '<div class="ratings-cart text-right" id = "right_text_'+ i + '">' +
                         '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
                        
                         '</div>' +             	
@@ -85,13 +69,19 @@ product_order = function(id, storage, snapshot, page){//div_id
  		
  		
         if(temp['is_Bid']){// or do stupid
-        	var show_1 = document.getElementById('right_text');
+        	var show_1 = document.getElementById('right_text_' + i);
         	//var show_1 = document.getElementById('right_text');
  			var div_1 = document.createElement("div");
  			div_1.className = "little-mark cart";
         	div_1.innerHTML = '<a href="" data-toggle="tooltip" data-placement="left" title="Bid Product"><img src="img/core-img/auctionClock.png" alt=""></a>';
         	//show_1.appendChild(div_1);
 			show_1.insertBefore(div_1, show_1.children[1]);
+
+            var show_2 = document.getElementById('product' + i + '_link1');
+            var show_3 = document.getElementById('product' + i + '_link2');
+
+            show_2.href = "product-bid.html?id=" + temp['product_id'];
+            show_3.href = "product-bid.html?id=" + temp['product_id'];
                       
         }
         //console.log(temp['product_evaluation']);
@@ -99,13 +89,14 @@ product_order = function(id, storage, snapshot, page){//div_id
 
 
  		
-
+        //how many product we got
         var show_2 = document.getElementById('total_products');
         if(Number(page)*8 >= snapshot.size)
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + snapshot.size + ' of ' + snapshot.size + '</p>';
         else
             show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + snapshot.size + '</p>';
 
+        //bottom page
         if(((i + 1) % 8 == 0) || (i == snapshot.size - 1)){
             var show_1 = document.getElementById('Products');
             var div_1 = document.createElement("div");
@@ -128,60 +119,6 @@ product_order = function(id, storage, snapshot, page){//div_id
 
 	}
     
-
-/*   for (var a = (Number(page)-1)*8; a < Number(page)*8; a++){
-
-        var temp = snapshot.docs[a].data();
-
-        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
-            console.log(a);   
-            var show_img = document.getElementById('product' + a + '_img1');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
-        });
-
-        var productsRef_2 = storage.ref().child('Products/Products' + temp['product_id'] + '/1').getDownloadURL().then(function(url) {
-            console.log(i);
-            var show_img = document.getElementById('product' + i + '_img2');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img1!!");
-        });
-    }
-*/
-
-/*
-        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
-            console.log(i);   
-            var show_img = document.getElementById('product0_img1');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
-        });
-
-        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
-            console.log(i);   
-            var show_img = document.getElementById('product1_img1');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
-        });
-
-        var productsRef_1 = storage.ref().child('Products/Products' + temp['product_id'] + '/0').getDownloadURL().then(function(url) {
-            console.log(i);   
-            var show_img = document.getElementById('product2_img1');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + temp['product_id'].toString() + " error get img0!!");
-        }); 
-*/
-
 
 
 

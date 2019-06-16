@@ -24,6 +24,13 @@ var strUser = e.options[e.selectedIndex].text;
 
 ---------------------------------------------------------------------
 
+var effect = document.getElementById('qty'); 
+var qty = effect.value; 
+if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) 
+    effect.value--;
+return false;
+--------------------------------------------------------------------
+
 //snapshot.docs.length
 //snapshot.docs[i].id
 
