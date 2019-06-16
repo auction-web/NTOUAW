@@ -286,15 +286,48 @@ for (var i = 1; i <= 5; i++) {
 
         }).catch(function (error) { //沒有讀到商品圖片時
             console.log("getting error.");
-            //
-            //            //--> 將預設"沒有圖片顯示" 之url寫進cookie
-            //            if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
-            //                createCookie(ckQueueUrl, noImageUrl);
-            //                console.log("set no-image.");
-            //            }
         });
     } //<-- end load Product's imag.
 
+    //-->find buyer's  cart ref 
+    var productCartRef;
+    var cartProductName;
+    var buyerID = Number(readCookie('id'));
+    var userRef = db.collection("User23");
+    var getBuyerRef = userRef.where('user_id', '==', buyerID).get().then(snapshot => {
+        snapshot.forEach(doc => {
+            console.log("buyerref = ", doc.ref.path);
+
+            // -->get buyer's path on database
+            var buyerRef = (doc.ref.path).split('/')[1];
+            productCartRef = userRef.doc(buyerRef).collection('myCart');
+
+            // how many products already in cart?
+            productCartRef.where('is_product', '==', true).get().then(snap => {
+                productNum = snap.size + 1;
+                cartProductName = 'Product' + productNum;
+                console.log('buyer order:', cartProductName);
+            });
+        });
+    }).catch(err => {
+        console.log('Error getting document', err);
+    }); //<--　get seller's and buyer's order ref
+
+    //--> click "cart" button
+    $('#cart').click(function () {
+        console.log("click cart.");
+
+        var productID = Number(ID);
+        var productQuantity = Number(choosedQuantity);
+        var cartProduct = {
+            is_product: true,
+            productID: productID,
+            quantity: productQuantity
+        }
+        //--> write buyer's order to firebase
+        var setCart = productCartRef.doc(cartProductName).set(cartProduct);
+        alert('商品已加入購物車!');
+    }); //<-- end click "cart" button
 
     //--> click "立即購買" button
     $('#buyNow').click(function () {
@@ -309,7 +342,7 @@ for (var i = 1; i <= 5; i++) {
         createCookie('delievery_face', deliveryFee[2]);
         //                    console.log("cookie = {" + document.cookie + "}");
         location.href = "./checkout.html";
-    })
+    });
 
 
 })(jQuery); //end "get and set data in product detail"
