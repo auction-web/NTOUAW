@@ -49966,15 +49966,19 @@ product_order = function(id, storage, snapshot, page){//div_id
 module.exports = product_order;
 },{"./fuck":4,"./pagination":21,"./rating":23}],23:[function(require,module,exports){
 rating = function(index, rate){
+
     var show = document.getElementById("rating_" + index.toString());
 
     star = parseInt(rate, 10)
     show.innerHTML = rate;
-    if(star <= 1)
+    if(rate == 0.0)
+    	show.innerHTML = "尚未有評價"
+    else if(star <= 1)
         show.innerHTML = show.innerHTML + '<i class="fa fa-star" aria-hidden="true"></i>';
     else
         for(var i = 0; i < star; i++)
             show.innerHTML = show.innerHTML + '<i class="fa fa-star" aria-hidden="true"></i>';
+
 }
 
 module.exports = rating;
@@ -50010,7 +50014,6 @@ search = function(db, storage, input, itemfilter, page){
   					
   						fuck(storage, temp['product_id']);
 				
-						// if bid icon&link 
 
 						var show = document.getElementById('Products');
 						var div = document.createElement("div");
