@@ -1,8 +1,11 @@
 search = function(db, storage, input, itemfilter, page){
 
-	var pagination = require("./pagination");
-	var productQueryRef;
 	var fuck = require("./fuck");
+	var pagination = require("./pagination");
+	var cant_find = require("./cant_find");
+	var rating = require("./rating");
+	var productQueryRef;
+	
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	if(itemfilter == 'seller'){
@@ -17,15 +20,15 @@ search = function(db, storage, input, itemfilter, page){
 	}
 	else{
 		productQueryRef = productsRef.get().then(snapshot => {
-			var i = 0;
+			var total = 0; //also equal to total searched index
+			var showing = 0;// showing products index
   			snapshot.forEach(doc => { 	
   				var temp = doc.data();
   				if(temp['product_title'].indexOf(input) != -1){
-  					if( i >=(Number(page)-1)*8 && i <= (Number(page)*8)-1 ){
+  					if( total >=(Number(page)-1)*8 && total <= (Number(page)*8)-1 ){
   					
   						fuck(storage, temp['product_id']);
 				
-						
 
 						var show = document.getElementById('Products');
 						var div = document.createElement("div");
@@ -36,11 +39,11 @@ search = function(db, storage, input, itemfilter, page){
 					            '<!-- Product Image -->' +
 					            '<div class="product-img" >' +
 
-					                '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+					                '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + total + '_link1"><!--product_detail.html?product_id=xxx -->' +
 
-					               '<img src="img/product-img/product1.jpg"  id="product' + temp['product_id'] + '_img1">' +  
+					               '<img src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img1">' +  
 					                '<!-- Hover Thumb -->' +
-					                '<img class="hover-img" src="img/product-img/product2.jpg"  id="product' + temp['product_id'] + '_img2">' +  
+					                '<img class="hover-img" src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img2">' +  
 
 					                '</a>' + 
 
@@ -53,13 +56,13 @@ search = function(db, storage, input, itemfilter, page){
 					                '<div class="product-meta-data">' +
 					                    '<div class="line"></div>' +
 					                    '<p class="product-price">$' + temp['price'] + '</p><!-- price -->' +
-					                    '<a href="product-details.html?id=' + temp['product_id'] + '"><!--product_detail.html?product_id=xxx -->' +
+					                    '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + total + '_link2"><!--product_detail.html?product_id=xxx -->' +
 					                        '<h6>' + temp['product_title'] + '</h6><!-- product_title -->' +
 					                    '</a>' +
 					                '</div>' +
 					                '<!-- Ratings & Cart -->' +
-					                '<div class="ratings-cart text-right" id = "right_text">' +
-					                    '<div class="ratings" id = "rating_' + i + '"><!-- product_evaluation -->' +
+					                '<div class="ratings-cart text-right" id = "right_text_'+ total + '">' +
+					                    '<div class="ratings" id = "rating_' + total + '"><!-- product_evaluation -->' +
 					                   
 					                    '</div>' +             	
 					                    '<div class="little-mark cart" >' +
@@ -73,11 +76,30 @@ search = function(db, storage, input, itemfilter, page){
 
 						show.appendChild(div);
 
-						
+						if(temp['is_Bid']){// or do stupid
+				        	var show_1 = document.getElementById('right_text_' + total);
+				        	//var show_1 = document.getElementById('right_text');
+				 			var div_1 = document.createElement("div");
+				 			div_1.className = "little-mark cart";
+				        	div_1.innerHTML = '<a href="" data-toggle="tooltip" data-placement="left" title="Bid Product"><img src="img/core-img/auctionClock.png" alt=""></a>';
+				        	//show_1.appendChild(div_1);
+							show_1.insertBefore(div_1, show_1.children[1]);
+
+				            var show_2 = document.getElementById('product' + total + '_link1');
+				            var show_3 = document.getElementById('product' + total + '_link2');
+
+				            show_2.href = "product-bid.html?id=" + temp['product_id'];
+				            show_3.href = "product-bid.html?id=" + temp['product_id'];
+				                      
+       					}
+
+						rating(total, temp['product_evaluation']);
+
+						showing = showing + 1;
 					
 				    }
 
-					i = i + 1;
+					total = total + 1;
 
 
 				}
@@ -104,9 +126,24 @@ search = function(db, storage, input, itemfilter, page){
 
 
  	 		
- 	 		console.log(i); //how many products we get in search
- 	 		
- 	 		pagination(Number(page));
+ 	 		console.log(total); //how many products we get in search
+
+ 	 		if(showing == 0)
+ 	 			cant_find(page);
+ 	 		else
+ 	 		{
+	 	 		//how many product we got
+		        var show_2 = document.getElementById('total_products');
+		        if(Number(page)*8 >= total)
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + showing + ' of ' + total + '</p>';
+		        else
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + total + '</p>';
+	    	}	
+
+
+	 	 		
+	 	 	pagination(Number(page));
+
 		})
 		.catch(err => {
 

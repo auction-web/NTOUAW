@@ -20,15 +20,18 @@ console.log('product id = ', id);
 var readIndex = readCookie('queue_index');
 var index = Number(readIndex);
 
-//--> 是否跟上次瀏覽的為同一筆商品?
+//--> 是否跟之前瀏覽的有重複商品?
 var is_sameAsLastOne;
-var historyQueueHref = "queue_href_" + index;
-var historyHref = readCookie(historyQueueHref); //上次商品瀏覽的url
-
-if (page_url == historyHref) {
-    is_sameAsLastOne = true; //跟上次瀏覽的是同商品
-} else {
-    is_sameAsLastOne = false; //跟上次瀏覽的不同商品
+for (var i = 1; i <= 5; i++) {
+    var historyQueueHref = "queue_href_" + i;
+    var historyHref = readCookie(historyQueueHref); //上次商品瀏覽的url
+    if (page_url == historyHref) {
+        is_sameAsLastOne = true; //跟上次瀏覽的是同商品
+        console.log('repeat!!!');
+        break;
+    } else {
+        is_sameAsLastOne = false; //跟上次瀏覽的不同商品
+    }
 }
 
 //--> get and set data in the product-detail page
@@ -58,67 +61,68 @@ if (page_url == historyHref) {
     var ckQueueName;
     var ckQueueUrl;
     var ckQueueHref;
-    var historyProductNum; // 瀏覽紀錄中的商品數量(不包含這次)
+    var historyProductNum; // 瀏覽紀錄中的商品數量(不包含這次) 
+    var htmlCount = 1; // html element's count
+    var historyCount; // last product's index
 
     // 根據queue index讀取的狀況 對本次商品的index跟cookie名稱做設定 
-    if (readIndex == null) { //[情況1]queue還沒放東西
+    if (readIndex == null) { //[情況1]queue為空
         console.log("no index.");
         historyProductNum = 0;
         createCookie('queue_is_full', 'false');
 
         index = 1;
-        createCookie('queue_index', index);
 
         ckQueueName = "queue_name_" + index;
         ckQueueUrl = "queue_url_" + index;
         ckQueueHref = "queue_href_" + index;
+        index++;
+        createCookie('queue_index', index);
 
-    } else if (index == 5) { //[情況2]queue index指到5  
-        if (!is_sameAsLastOne) { //不同於上筆商品
-            historyProductNum = 5;
-            createCookie('queue_is_full', 'true');
-
-            if (!is_sameAsLastOne) { //不同於上筆商品時才更新index
-                index = 1;
-                createCookie('queue_index', index);
-            }
-
+    } else { //[情況2]queue不為空
+        if (!is_sameAsLastOne) { //商品不重複
+            historyCount = index - 1; //從上個商品開始讀瀏覽資料
             ckQueueName = "queue_name_" + index;
             ckQueueUrl = "queue_url_" + index;
             ckQueueHref = "queue_href_" + index;
+
+            if (index == 5) {
+                index = 1;
+                createCookie('queue_index', index);
+                historyProductNum = 5;
+                createCookie('queue_is_full', 'true');
+
+            } else {
+                index++;
+                createCookie('queue_index', index);
+                var is_full = readCookie('queue_is_full'); //queue是否已滿?
+                if (is_full == 'true') {
+                    historyProductNum = 5;
+                } else {
+                    historyProductNum = index - 1;
+                }
+            }
+        } else { //商品重複
+            var is_full = readCookie('queue_is_full'); //queue是否已滿?
+            if (is_full == 'true') {
+                historyProductNum = 5;
+            } else {
+                historyProductNum = index - 1;
+            }
+            historyCount = index - 1; //從這次商品開始讀瀏覽資料
         }
-    } else { //[情況3]queue index指到1~4
-
-        var is_full = readCookie('queue_is_full'); //先判斷queue是否已滿?
-        if (is_full == 'true') {
-            historyProductNum = 5;
-        } else {
-            historyProductNum = index;
-        }
-
-        if (!is_sameAsLastOne) { //不同於上筆商品時才更新index
-            index++;
-            createCookie('queue_index', index);
-        }
-
-        ckQueueName = "queue_name_" + index;
-        ckQueueUrl = "queue_url_" + index;
-        ckQueueHref = "queue_href_" + index;
-
     }
 
-
-    //--> read and set 商品瀏覽紀錄 from cookie
-    var htmlCount = 1; // html element's count
-    var historyCount = (index - 1); // last product's index
-
+    //--> 讀出queue中的瀏覽資料並寫入html
     console.log('product num: ', historyProductNum);
     while (historyProductNum > 0) {
         //從上一個商品開始抓cookie資料
         if (historyCount == 0) { //(若count變0，上一商品index=5)
             historyCount = 5;
         }
-        console.log('product', historyProductNum);
+        //console.log('product', historyProductNum);
+        console.log('count', historyCount);
+
         //set cookie's reading key
         var historyQueueUrl = "queue_url_" + historyCount;
         var historyQueueName = "queue_name_" + historyCount;

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>NTOUAW | Product Bid Page</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="css/product Bid.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- ##### Main Content Wrapper Start ##### -->
+    <div class="main-content-wrapper d-flex clearfix">
+
+        <!-- Mobile Nav (max width 767px)-->
+        <div class="mobile-nav">
+            <!-- Navbar Brand -->
+            <div class="amado-navbar-brand">
+                <a href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+            </div>
+            <!-- Navbar Toggler -->
+            <div class="amado-navbar-toggler">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Toolbar start -->
+        <div class="toolbarbase row">
+            <!-- Logo -->
+            <a class="icon_link" href="./home.html">
+                <img class="icon_img" src="img/core-img/logo (3).png" alt="">
+            </a>
+
+            <div class="toolbar">
+                <div class="personal">
+                    <input type="button" onclick="signout()" value="登出">
+                    <input type="button" onclick="javascript:location.href = './cart.html'" value="購物車">
+                    <input type="button" onclick="javascript:location.href = './personal.html'" value="個人資料">
+                </div>
+                <!-- Search -->
+                <div class="search_base">
+                    <form action="#" method="get">
+                        <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                        <button class="searchbutton" type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        <select name="itemfilter">
+                            <option value="productname">商品名稱</option>
+                            <option value="seller">賣家</option>
+                        </select>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!-- Toolbar end -->
+
+        <!-- Header Area Start -->
+        <header class="header-area clearfix">
+            <!-- Close Icon -->
+            <div class="nav-close">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </div>
+            <!-- Logo -->
+            <div class="logo">
+                <a href="personal.html"><img id="sellerImage" src="img/core-img/personal.png" alt=""></a>
+            </div>
+            <!-- Amado Nav -->
+
+            <nav class="amado-nav">
+                <ul>
+                    <li id="sellerName"></li>
+                    <li id="sellerPhone">電話</li>
+                    <li id="sellerCritize">評價</li>
+                    <li><a href="shop.html">賣家商場</a></li>
+                </ul>
+            </nav>
+        </header>
+        <!-- Header Area End -->
+
+        <!-- Product Details Area Start -->
+        <div class="single-product-area section-padding-0-100 clearfix">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mt-50">
+                                <li class="breadcrumb-item"><a href="#">首頁</a></li>
+                                <li class="breadcrumb-item"><a href="#">商店</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">競標商品資訊</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <div class="single_product_thumb">
+                            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li id="image0" class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url();">
+                                    </li>
+                                    <li id="image1" data-target="#product_details_slider" data-slide-to="1" style="background-image: url();">
+                                    </li>
+                                    <li id="image2" data-target="#product_details_slider" data-slide-to="2" style="background-image: url();">
+                                    </li>
+                                    <li id="image3" data-target="#product_details_slider" data-slide-to="3" style="background-image: url();">
+                                    </li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <a id="slide0" class="gallery_img" href="">
+                                            <img id="slideImag0" class="d-block w-100" src="" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a id="slide1" class="gallery_img" href="">
+                                            <img id="slideImag1" class="d-block w-100" src="" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a id="slide2" class="gallery_img" href="">
+                                            <img id="slideImag2" class="d-block w-100" src="" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a id="slide3" class="gallery_img" href="">
+                                            <img id="slideImag3" class="d-block w-100" src="" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="single_product_desc">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <p id="price" class="product-price">目前價格$</p>
+                                <div class="line2"></div>
+                                <p class="product-price2">$</p> <!-- 180+180*50% -->
+                                <p class="userID">目前得標者: </p>
+
+                                <a href="">
+                                    <h6 id="name">name</h6>
+                                </a>
+                                <!-- Ratings & Review -->
+                                <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+
+                                    <div class="criticize">
+                                        <p id="critize"></p>
+                                    </div>
+                                    <div class="timeset">
+                                        <p><time>10:30:20</time></p>
+                                    </div>
+
+
+                                    <!--
+                                    <script language="JavaScript">
+                                    function ShowTime(){
+                                         var NowDate=new Date();
+                                         var h=NowDate.getHours();
+                                         var m=NowDate.getMinutes();
+                                         var s=NowDate.getSeconds();　
+                                         document.getElementById('showbox').innerHTML = h+':'+m+':'+s;
+                                         setTimeout('ShowTime()',1000);
+                                    }
+                                    </script>
+                                    <body onload="ShowTime()">
+                                        <div class="time" id="showbox"></div>
+                                    </body>
+-->
+
+
+                                </div>
+                            </div>
+                            <!-- intro, delievery method... -->
+                            <div class="short_overview my-5">
+                                <p id="intro"></p>
+                            </div>
+                            <div class="delivery_price">
+                                <div>
+                                    <p style="display:inline">超商店到店 </p>
+                                    <p style="display:inline" id="delivery1"></p>
+                                </div>
+
+                                <div>
+                                    <p style="display:inline">宅急便 </p>
+                                    <p style="display:inline" id="delivery2"></p>
+                                </div>
+
+                                <div>
+                                    <p style="display:inline">面交 </p>
+                                    <p style="display:inline" id="delivery3"></p>
+                                </div>
+
+                            </div>
+                            <div class="store">
+                                <p id="productRemain"></p>
+                            </div>
+                            <!-- Add to Cart Form -->
+                            <form class="cart clearfix" method="post">
+                                <div class="cart-btn d-flex mb-50">
+                                    <p>增加%</p>
+                                    <div class="quantity">
+                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <button id="buyNow" type="button" name="buyimmediatly" value="6" class="btn amado-btn2">立即購買</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Details Area End -->
+    </div>
+    <!-- ##### Main Content Wrapper End ##### -->
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer_area_self clearfix">
+        <p class="footer_area_name">瀏覽紀錄</p>
+        <div class="history_product">
+            <div class="histroy_product_info">
+                <a id="historyHref_1" href=""><img id="historyImage_1" src="" alt=""></a>
+                <span class="history_name" id="historyName_1">1</span>
+            </div>
+            <div class="histroy_product_info">
+                <a id="historyHref_2" href=""><img id="historyImage_2" src="" alt=""></a>
+                <span class="history_name" id="historyName_2">2</span>
+            </div>
+            <div class="histroy_product_info">
+                <a id="historyHref_3" href=""><img id="historyImage_3" src="" alt=""></a>
+                <span class="history_name" id="historyName_3">3</span>
+            </div>
+            <div class="histroy_product_info">
+                <a id="historyHref_4" href=""><img id="historyImage_4" src="" alt=""></a>
+                <span class="history_name" id="historyName_4">4</span>
+            </div>
+            <div class="histroy_product_info">
+                <a id="historyHref_5" href=""><img id="historyImage_5" src="" alt=""></a>
+                <span class="history_name" id="historyName_5">5</span>
+            </div>
+
+        </div>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+
+
+    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+    <!-- Cookies js -->
+    <script src="js/cookies.js"></script>
+    <!-- loadProductDetail_run js -->
+    <script src="js/loadBidProduct_run.js"></script>
+
+</body>
+
+</html>
