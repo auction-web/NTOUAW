@@ -218,6 +218,18 @@ for (var i = 1; i <= 5; i++) {
                     console.log('Error getting document', err);
                 });
 
+            //商品無庫存處理
+            if (productDetail.product_quantity <= 0) {
+                $('#productRemain').text("很可惜~本商品目前已售完!");
+                $('#cart').remove();
+                $('#buyNow').remove();
+                $('#qty').remove();
+                $('#qty_title').remove();
+                $('#qty_minus').remove();
+                $('#qty_plus').remove();
+            } else {
+                $('#productRemain').text(productRemain);
+            }
 
             // set product's info in webpage. (using jQuery) 
             $('#price').text(price);
@@ -227,7 +239,6 @@ for (var i = 1; i <= 5; i++) {
             $('#delivery1').text(deliveryFee[0]);
             $('#delivery2').text(deliveryFee[1]);
             $('#delivery3').text(deliveryFee[2]);
-            $('#productRemain').text(productRemain);
             $('.qty-plus').click(function () {
                 //根據商品剩餘數設定可選擇的數量上限
                 var effect = document.getElementById('qty');

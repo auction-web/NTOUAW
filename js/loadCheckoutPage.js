@@ -188,22 +188,24 @@ const $ = require('jQuery')(window);
             var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
             var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
-            //--> update product's amount in database.
-            //        var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
-            //            snapshot.forEach(doc => {
-            //                var product = doc.data();
-            //                var productAmount = product.product_quantity;
-            //                productAmount -= Number(quantity);
-            //                console.log('product num: ', productAmount);
-            //                
-            //                var productRef = (doc.ref.path).split('/')[1];
-            //                console.log('path: ',productRef);
-            //              
-            //                db.collection('Product').doc(productRef).update({product_quantity: productAmount});
-            //            });
-            //        }).catch(err => {
-            //            console.log('Error getting document', err);
-            //        });
+            // --> update product's amount in database.
+            var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
+                snapshot.forEach(doc => {
+                    var product = doc.data();
+                    var productAmount = product.product_quantity;
+                    productAmount -= Number(quantity);
+                    console.log('product num: ', productAmount);
+
+                    var productRef = (doc.ref.path).split('/')[1];
+                    console.log('path: ', productRef);
+
+                    db.collection('Product').doc(productRef).update({
+                        product_quantity: productAmount
+                    });
+                });
+            }).catch(err => {
+                console.log('Error getting document', err);
+            });
 
 
             //--> wait firebase for few seconds
