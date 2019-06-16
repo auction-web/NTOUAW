@@ -401,6 +401,31 @@ cancel = function(tab, order_id, state){
     console.log(check);
     db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
+            //increase the quanatity of the product in product
+            if(tab == "SL" && state == 4){
+                //get products_id in order
+                db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshop.docs[0]['id']).collection('Products').get().then(list_product =>{
+                    list_product.forEach(list_products_data => {
+                        //compare the product_id with product in product
+                        db.collection('Product').where('product_id', '==', list_products_data.data()['product_id']).get().then(pro_product => {
+                            console.log(pro_product.docs[0].data()['product_quantity']);
+                            console.log(list_products_data.data()['product_quantity']);
+                            var product_quy = pro_product.docs[0].data()['product_quantity'] + list_products_data.data()['product_quantity'];
+                            db.collection('Product').doc(pro_product.docs[0]['id']).update({
+                                product_quantity : product_quy
+                            }); 
+                            console.log(pro_product.docs[0].data());
+                            db.collection('User23').where('account', '==', pro_product.docs[0].data()['seller_account']).get().then(seller => {
+                                db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').where('product_id', '==', list_products_data.data()['product_id']).get().then(seller_product => {
+                                    db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(seller_product.docs[0]['id']).update({
+                                        product_quantity : product_quy
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            }
             //console.log(product['id']);
             order_id = product.data()['order_id'];
             seller_account = product.data()['seller_account'];

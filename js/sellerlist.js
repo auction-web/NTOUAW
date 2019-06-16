@@ -101,7 +101,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<span class = "d_price">' + sellerlist_data['total_price'] + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<span class = "selfdefine">' + sellerlist_data['seller_account'] + '</span>' +
+                                '<span class = "selfdefine">' + sellerlist_data['buyer_account'] + '</span>' +
                             '</td>' +
                             '<td>' +
                                 '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
@@ -113,10 +113,18 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                     '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
                             '</td>' +
                         '</tr>';
+            
         if(next){
             i++;
         }
     }
+}
+
+find_buyer_name = function(id){
+    db.collection('User23').where('user_id', '==', id).get().then(buyer => {
+        console.log(buyer.docs[0].data()['user_name']);
+        return buyer.docs[0].data()['user_name'];
+    });
 }
 
 SLloadproduct = function (page, item = '', itemfilter = ''){
