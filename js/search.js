@@ -1,6 +1,6 @@
 search = function(db, storage, input, itemfilter, page){
 
-	var fuck = require("./fuck");
+	var loadimg = require("./loadimg");
 	var pagination = require("./pagination");
 	var cant_find = require("./cant_find");
 	var rating = require("./rating");

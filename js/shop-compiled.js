@@ -226,32 +226,6 @@ firebase.initializeApp(config);
 module.exports = firebase
 
 },{"firebase":18}],4:[function(require,module,exports){
-fuck = function(storage, id){
-
-
-        var productsRef_1 = storage.ref().child('Products/Products' + id + '/0').getDownloadURL().then(function(url) {
-            //console.log(id);   
-            var show_img = document.getElementById('product' + id + '_img1');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + id + " error get img0!!");
-        });
-
-        var productsRef_2 = storage.ref().child('Products/Products' + id + '/1').getDownloadURL().then(function(url) {
-            //console.log(id);
-            var show_img = document.getElementById('product' + id + '_img2');
-            show_img.src = url;
-
-        }).catch(function(){
-            console.log('Products ' + id + " error get img1!!");
-        });
-
-} 
-  
-module.exports = fuck;
-
-},{}],5:[function(require,module,exports){
 getKindPoducts = function(db, storage, kind, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
@@ -288,6 +262,32 @@ getKindPoducts = function(db, storage, kind, page){
 } 
   
 module.exports = getKindPoducts;
+
+},{}],5:[function(require,module,exports){
+loadimg = function(storage, id){
+
+
+        var productsRef_1 = storage.ref().child('Products/Products' + id + '/0').getDownloadURL().then(function(url) {
+            //console.log(id);   
+            var show_img = document.getElementById('product' + id + '_img1');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + id + " error get img0!!");
+        });
+
+        var productsRef_2 = storage.ref().child('Products/Products' + id + '/1').getDownloadURL().then(function(url) {
+            //console.log(id);
+            var show_img = document.getElementById('product' + id + '_img2');
+            show_img.src = url;
+
+        }).catch(function(){
+            console.log('Products ' + id + " error get img1!!");
+        });
+
+} 
+  
+module.exports = loadimg;
 
 },{}],6:[function(require,module,exports){
 'use strict';
@@ -49841,7 +49841,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 
     var pagination = require("./pagination");
     var rating = require("./rating");
-    var fuck = require("./fuck");
+    var loadimg = require("./loadimg");
     //snapshot.size
 
     //i = total searched index
@@ -49856,7 +49856,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 		console.log(temp);
  		//show products....
 
-        fuck(storage, temp['product_id']);
+        loadimg(storage, temp['product_id']);
 
 
 
@@ -49964,7 +49964,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 }
 
 module.exports = product_order;
-},{"./fuck":4,"./pagination":21,"./rating":23}],23:[function(require,module,exports){
+},{"./loadimg":5,"./pagination":21,"./rating":23}],23:[function(require,module,exports){
 rating = function(index, rate){
 
     var show = document.getElementById("rating_" + index.toString());
@@ -49985,7 +49985,7 @@ module.exports = rating;
 },{}],24:[function(require,module,exports){
 search = function(db, storage, input, itemfilter, page){
 
-	var fuck = require("./fuck");
+	var loadimg = require("./loadimg");
 	var pagination = require("./pagination");
 	var cant_find = require("./cant_find");
 	var rating = require("./rating");
@@ -50142,7 +50142,7 @@ search = function(db, storage, input, itemfilter, page){
 }
 
 module.exports = search;
-},{"./cant_find":2,"./fuck":4,"./pagination":21,"./rating":23}],25:[function(require,module,exports){
+},{"./cant_find":2,"./loadimg":5,"./pagination":21,"./rating":23}],25:[function(require,module,exports){
 
 	window.addEventListener('hashchange', function(e) {
 	    console.log(e.oldURL);
@@ -50213,4 +50213,4 @@ module.exports = search;
 
 
 
-},{"./cant_find":2,"./firebase":3,"./getKindPoducts":5,"./product_order":22,"./search":24}]},{},[25]);
+},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./product_order":22,"./search":24}]},{},[25]);
