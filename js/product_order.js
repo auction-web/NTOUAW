@@ -2,7 +2,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 
     var pagination = require("./pagination");
     var rating = require("./rating");
-    var fuck = require("./fuck");
+    var loadimg = require("./loadimg");
     //snapshot.size
 
     //i = total searched index
@@ -17,7 +17,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 		console.log(temp);
  		//show products....
 
-        fuck(storage, temp['product_id']);
+        loadimg(storage, temp['product_id']);
 
 
 

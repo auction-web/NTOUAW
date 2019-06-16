@@ -52551,7 +52551,9 @@ var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
 
-//User1='User5';
+/*User1='User7';
+order=10039;
+input=0;*/
 //console.log(order);
 //console.log(input);
 if(cook==""){
@@ -52564,11 +52566,13 @@ if(input==0){
 else{
 	check='iamBuyer';
 }
+var address = document.getElementById('address');
 show.innerHTML = '';
 var user_prod_data = db.collection('User23').doc(User1).collection(check)
 	.where('order_id', '==',order).get().then(snapshop =>{
 	snapshop.forEach(product => {
-			console.log(product['id']);
+			//console.log(product['id']);
+			address.value=product.data()['address'];
 			db.collection('User23').doc(User1).collection(check).doc(product['id']).collection('Products')
 			.get().then(snapshop=>{
 				snapshop.forEach(doc=>{

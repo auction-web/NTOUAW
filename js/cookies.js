@@ -21,11 +21,26 @@ function DelCookie(name){
 	var exp = new Date(); 
 	exp.setTime(exp.getTime() - 1); 
 	var cval=getCookie(name); 
-	if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString(); 
+	if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString()+";path=/"; 
 } 
 function signout(){
-	DelCookie('productID');
-	DelCookie('sellerID');
 	DelCookie('id');
+	DelCookie('queue_href_1');
+	DelCookie('queue_href_2');
+	DelCookie('queue_href_3');
+	DelCookie('queue_href_4');
+	DelCookie('queue_href_5');
+	DelCookie('queue_index');
+	DelCookie('queue_is_full');
+	DelCookie('queue_name_1');
+	DelCookie('queue_name_2');
+	DelCookie('queue_name_3');
+	DelCookie('queue_name_4');
+	DelCookie('queue_name_5');
+	DelCookie('queue_url_1');
+	DelCookie('queue_url_2');
+	DelCookie('queue_url_3');
+	DelCookie('queue_url_4');
+	DelCookie('queue_url_5');
         location.href = "./index.html";
 }
