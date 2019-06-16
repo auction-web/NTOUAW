@@ -1,9 +1,9 @@
-/*var cook=getCookie('id');
+var cook=getCookie('id');
 
-alert(cook);
+
 if(cook!=""){
 	location.href = "./home.html";
-}*/
+}
 
 login=function(){
 	 var Account_element = document.getElementById('Account');
