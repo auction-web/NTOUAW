@@ -21,9 +21,12 @@ function DelCookie(name){
 	var exp = new Date(); 
 	exp.setTime(exp.getTime() - 1); 
 	var cval=getCookie(name); 
+	alert(getCookie('id'));
 	if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString(); 
+	alert(getCookie('id'));
 } 
 signout=function(){
 	DelCookie('id');
-        location.href = "./index.html";
+       // location.href = "./index.html";
+	
 }
