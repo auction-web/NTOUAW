@@ -185,6 +185,142 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
+var firebase= require("./firebase");
+var db = firebase.firestore();
+var cookies = getCookie('id');
+var User_cookies = 'User' + cookies;
+var User = User_cookies + '/';
+var cart_size;
+var cart_data;
+var html_r = 0;
+db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
+    cart_size = product_list.data()['Product1'].length;
+    cart_data = product_list.data()['Product1'];
+    console.log(cart_data);
+    prepare_cart_list(cart_data, cart_size);
+});
+
+prepare_cart_list = function(cart_data, cart_size){
+    for(var i = 0 ; i < cart_size; i++){
+        var cart_list = document.getElementById('cart_list');
+        cart_list.innerHTML = '';
+        db.collection('Product').where('product_id', '==', cart_data[i]).get().then(product => {
+            Cart_Dynamic_HTML(cart_list, product);
+        });
+    }
+}
+
+Cart_Dynamic_HTML = function(cart_list, snapshot){
+    html_r++;
+    console.log(html_r);
+    var product_data = snapshot.docs[0].data();
+    cart_list.innerHTML = cart_list.innerHTML +
+                        '<tr>' + 
+                            '<td>' +
+                                '<input class = "checkbox" id="checkbox' + product_data['product_id'] + '" type = "checkbox">' +
+                            '</td>' +
+                            '<td class="cart_product_img">' +
+                                '<a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>' +
+                            '</td>' +
+                            '<td class="cart_product_desc">' +
+                                '<h5>' + product_data['product_title'] + '</h5>' +
+                            '</td>' +
+                            '<td class="price">' +
+                                '<span id="price' + product_data['product_id'] + '">' + product_data['price'] + '</span>' +
+                            '</td>' +
+                            '<td class="qty">' +
+                                '<div class="qty-btn d-flex">' +
+                                    '<p>Qty</p>' +
+                                    '<div class="quantity">' +
+                                        '<span class="qty-minus" onclick="sub_qty(' + product_data['product_id'] + ')"><i class="fa fa-minus" aria-hidden="true"></i></span>' + 
+                                        '<input type="number" class="qty-text" id="qty' + product_data['product_id'] + '" step="1" min="1" max="300" name="quantity" value="1">' +
+                                        '<span class="qty-plus" onclick="add_qty(' + product_data['product_id'] + ')"><i class="fa fa-plus" aria-hidden="true"></i></span>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</td>' +
+                        '</tr>';
+    calculate_price(html_r);
+}
+
+sub_qty = function(id){
+    var effect = document.getElementById('qty' + id);
+    var qty = effect.value;
+    if( !isNaN( qty ) && qty > 1 ){
+        effect.value--;
+    } 
+    calculate_price();
+    return false;
+}
+
+add_qty = function(id){
+    var effect = document.getElementById('qty' + id);
+    var qty = effect.value;
+    if( !isNaN( qty )){
+        effect.value++;
+    }
+    calculate_price();
+    return false;
+}
+
+calculate_price = function(max_product = cart_size){
+    var tab_total_price = document.getElementById("total_price");
+    var total_price = 0;
+    for(var i = 0; i < max_product; i++){
+        var number = document.getElementById('qty' + cart_data[i]);
+        var price = document.getElementById('price' + cart_data[i]);
+        total_price = total_price + Number(number.value) * Number(price.textContent);
+    }
+    tab_total_price.textContent = total_price + "$";
+}
+
+delete_cart = function(){
+    //db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
+        //cart_size = product_list.data()['Product1'].length;
+        //cart_data = product_list.data()['Product1'];
+    var checkbox_all = document.getElementById('checkbox_all');
+    if(checkbox_all.checked){
+        cart_data = [];
+    }
+    else{
+        for(var i = 0; i < cart_size; ){
+            var checkbox = document.getElementById('checkbox' + cart_data[i]);
+            if(checkbox.checked){
+                cart_data.splice(i,1);
+                cart_size--;
+            }else{
+                i++;
+            }
+        }
+    }
+    
+    db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").update({
+        Product1 : cart_data
+    });
+    prepare_cart_list(cart_data, cart_size);
+    //});
+}
+
+checkout = function(){
+    //db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
+    //var cart_size = product_list.data()['Product1'].length;
+    //var cart_data = product_list.data()['Product1'];
+    var cart_cookies = "";
+    var checkbox_all = document.getElementById('checkbox_all');
+    for(var i = 0; i < cart_size; i++){
+        var checkbox = document.getElementById('checkbox' + cart_data[i]);
+        var number = document.getElementById('qty' + cart_data[i]);
+        if(checkbox.checked || checkbox_all.checked){
+            //cart_data.splice(i,1);
+            cart_cookies = cart_cookies + cart_data[i] + "," + number.value + "|";
+            //cart_size--;
+
+        }
+    }
+    console.log(cart_cookies);
+    setCookie("Cart_cookie",cart_cookies,1);
+    //});
+}
+},{"./firebase":3}],3:[function(require,module,exports){
 var firebase = require("firebase");
 var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
@@ -198,7 +334,7 @@ var config = {
 firebase.initializeApp(config);
 module.exports = firebase
 
-},{"firebase":15}],3:[function(require,module,exports){
+},{"firebase":16}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -695,7 +831,7 @@ exports.default = firebase;
 exports.firebase = firebase;
 
 
-},{"@firebase/logger":9,"@firebase/util":13,"tslib":17}],4:[function(require,module,exports){
+},{"@firebase/logger":10,"@firebase/util":14,"tslib":18}],5:[function(require,module,exports){
 (function (global){
 (function() {var firebase = require('@firebase/app').default;var k,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},ba="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ca(a,b){if(b){var c=ba;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];e in c||(c[e]={});c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&aa(c,a,{configurable:!0,writable:!0,value:b})}}
 function da(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function ea(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):{next:da(a)}}
@@ -1062,7 +1198,7 @@ Y(Dg.prototype,{w:{name:"toJSON",j:[V(null,!0)]}});Y(M.prototype,{toJSON:{name:"
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@firebase/app":3}],5:[function(require,module,exports){
+},{"@firebase/app":4}],6:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -16488,7 +16624,7 @@ exports.registerDatabase = registerDatabase;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":3,"@firebase/logger":9,"@firebase/util":13,"_process":1,"tslib":17}],6:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/logger":10,"@firebase/util":14,"_process":1,"tslib":18}],7:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38249,7 +38385,7 @@ exports.registerFirestore = registerFirestore;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":3,"@firebase/logger":9,"@firebase/util":13,"@firebase/webchannel-wrapper":14,"_process":1,"tslib":17}],7:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/logger":10,"@firebase/util":14,"@firebase/webchannel-wrapper":15,"_process":1,"tslib":18}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -38840,7 +38976,7 @@ registerFunctions(firebase);
 exports.registerFunctions = registerFunctions;
 
 
-},{"@firebase/app":3,"tslib":17}],8:[function(require,module,exports){
+},{"@firebase/app":4,"tslib":18}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40109,7 +40245,7 @@ registerInstallations(firebase);
 exports.registerInstallations = registerInstallations;
 
 
-},{"@firebase/app":3,"@firebase/util":13,"idb":16}],9:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/util":14,"idb":17}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40300,7 +40436,7 @@ exports.Logger = Logger;
 exports.setLogLevel = setLogLevel;
 
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -42454,7 +42590,7 @@ exports.isSupported = isSupported;
 exports.registerMessaging = registerMessaging;
 
 
-},{"@firebase/app":3,"@firebase/util":13,"tslib":17}],11:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/util":14,"tslib":18}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -43657,7 +43793,7 @@ else {
 exports.registerPerformance = registerPerformance;
 
 
-},{"@firebase/app":3,"@firebase/installations":8,"@firebase/logger":9,"@firebase/util":13,"tslib":17}],12:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/installations":9,"@firebase/logger":10,"@firebase/util":14,"tslib":18}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -47141,7 +47277,7 @@ registerStorage(firebase);
 exports.registerStorage = registerStorage;
 
 
-},{"@firebase/app":3}],13:[function(require,module,exports){
+},{"@firebase/app":4}],14:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -48895,7 +49031,7 @@ exports.validateNamespace = validateNamespace;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"tslib":17}],14:[function(require,module,exports){
+},{"tslib":18}],15:[function(require,module,exports){
 (function (global){
 (function() {'use strict';var g,goog=goog||{},k=this;function m(a){return"string"==typeof a}function aa(a){return"number"==typeof a}function n(a,b){a=a.split(".");b=b||k;for(var c=0;c<a.length;c++)if(b=b[a[c]],null==b)return null;return b}function ba(){}
 function p(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
@@ -48988,7 +49124,7 @@ X.prototype.getResponseJson=X.prototype.Va;X.prototype.getResponseText=X.prototy
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -49141,7 +49277,7 @@ console.warn("\nIt looks like you're using the development build of the Firebase
 module.exports = firebase;
 
 
-},{"@firebase/app":3,"@firebase/auth":4,"@firebase/database":5,"@firebase/firestore":6,"@firebase/functions":7,"@firebase/messaging":10,"@firebase/performance":11,"@firebase/storage":12}],16:[function(require,module,exports){
+},{"@firebase/app":4,"@firebase/auth":5,"@firebase/database":6,"@firebase/firestore":7,"@firebase/functions":8,"@firebase/messaging":11,"@firebase/performance":12,"@firebase/storage":13}],17:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -49459,7 +49595,7 @@ module.exports = firebase;
 
 }));
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -49706,175 +49842,4 @@ var __importDefault;
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
-var firebase= require("./firebase");
-var db = firebase.firestore();
-var storageRef = firebase.storage().ref();
-//get cookies
-var cookies = getCookie('id');
-var User_cookies = 'User' + cookies;
-var User = User_cookies + '/';
-
-var url_origun = location.href;
-var url = decodeURI(url_origun);
-var max_page = 0;
-var search_input = '';
-var search_itemfilter = '';
-var item_per_page = 10;
-
-SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
-    var ignore = 0;
-    var show = document.getElementById('sellerlist_t');
-    show.innerHTML = ''
-    //snapshot.size
-    max_page = Math.floor(snapshot.size / item_per_page) + 1;
-    var page_start = 0;
-    var recent_page_item = 0;
-    if(item == ''){
-        page_start = (Number(page) - 1) * item_per_page;
-        recent_page_item = item_per_page * page;
-    }
-    else{
-        for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * item_per_page){
-                if(page > 1){
-                    ignore++;
-                }
-                page_start = ignore;
-                recent_page_item = item_per_page * page;
-                ignore = 0;
-                break;
-            }
-            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
-                ignore++;
-            }
-        }
-    }
-    
-    for(var i = page_start; i < recent_page_item;){
-        var target = snapshot.docs[i + ignore].data()[itemfilter];
-        var next = false;
-        if(item == '' && (i + ignore) != snapshot.size){
-            next = true;
-        }
-        else if((i + ignore) == snapshot.size){
-            //ignore = ignore + i;
-            break;
-        }
-        else if(String(target).indexOf(item) != -1){
-            next = true;
-        }
-        else if(String(target).indexOf(item) == -1){
-            ignore++;
-            continue;
-        }
-        
-        var sellerlist_data = snapshot.docs[i + ignore].data();
-        var sellerlist_state;
-        var button_state = 'disabled';
-        var eval_button_state = 'disabled';
-        if(sellerlist_data['order_state'] == 0){
-            sellerlist_state = '交易處理中';
-        }
-        else if(sellerlist_data['order_state'] == 1){
-            sellerlist_state = '取消申請中';
-            button_state = '';
-        }
-        else if(sellerlist_data['order_state'] == 2){
-            sellerlist_state = '已完成';
-            if(sellerlist_data['is_seller_evaluated']){
-                eval_button_state = 'disabled';
-            }
-            else{
-                eval_button_state = '';
-            }
-        }
-        else if(sellerlist_data['order_state'] == 4){
-            sellerlist_state = '訂單取消';
-        }
-        var date = sellerlist_data['build_time'].toDate();
-        show.innerHTML = show.innerHTML + '<tr>' + 
-                            '<td>' +
-                                '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<a class = "listID" href = "././listdetail.html?order_id=' + sellerlist_data['order_id'] + '&isbuyer=0">' + sellerlist_data['order_id'] + '</a>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "criticize">' + sellerlist_data['buyer_evaluation'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "price">' + sellerlist_data['total_price'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "d_price">' + sellerlist_data['total_price'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "selfdefine">' + sellerlist_data['buyer_account'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<input class = "list_button" id="SL_eval' + sellerlist_data['order_id'] + '" type = "button"  onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
-                            '</td>' +
-                            '<td>' +
-                                    '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
-                            '</td>' +
-                        '</tr>';
-            
-        if(next){
-            i++;
-        }
-    }
-}
-
-find_buyer_name = function(id){
-    db.collection('User23').where('user_id', '==', id).get().then(buyer => {
-        console.log(buyer.docs[0].data()['user_name']);
-        return buyer.docs[0].data()['user_name'];
-    });
-}
-
-SLloadproduct = function (page, item = '', itemfilter = ''){
-    search_input = item;
-    search_itemfilter = itemfilter;
-    var number = 0;
-    var user_prod_data = 0;
-    //alert("loading");
-    //alert(User_cookies);
-    user_prod_data = db.collection('User23').doc(User_cookies).collection('iamSeller').orderBy('build_time', 'desc').where('is_bid', '==', false);
-    user_prod_data.get().then(snapshot=>{
-        SL_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
-    });
-    //alert(user_prod_data);
-}
-
-SLchangePage = function(page){
-    var show = document.getElementById("SLpagination");
-    SLloadproduct(page, search_input, search_itemfilter);
-    if(page >= 2){
-        show.innerHTML = '';
-
-        for(var i = Number(page) - 1; i < page + 3; i++){
-            if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="SLchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-            else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="SLchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-        }
-    }
-    else{
-        show.innerHTML = '';
-        for(var i = Number(page); i < page + 4; i++){
-            if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="SLchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-            else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="SLchangePage(' + i + ')">0' + i + '.</a></li>'
-            }
-        }
-    }
-}
-},{"./firebase":2}]},{},[18]);
+},{}]},{},[2]);
