@@ -114,14 +114,14 @@ for (var i = 1; i <= 5; i++) {
     }
 
     //--> 讀出queue中的瀏覽資料並寫入html
-    console.log('product num: ', historyProductNum);
+    //    console.log('product num: ', historyProductNum);
     while (historyProductNum > 0) {
         //從上一個商品開始抓cookie資料
         if (historyCount == 0) { //(若count變0，上一商品index=5)
             historyCount = 5;
         }
         //console.log('product', historyProductNum);
-        console.log('count', historyCount);
+        //        console.log('count', historyCount);
 
         //set cookie's reading key
         var historyQueueUrl = "queue_url_" + historyCount;
@@ -139,7 +139,7 @@ for (var i = 1; i <= 5; i++) {
         var historyUrl = readCookie(historyQueueUrl);
         var historyName = readCookie(historyQueueName);
         var historyHref = readCookie(historyQueueHref);
-        console.log('historyName', historyName);
+        //        console.log('historyName', historyName);
 
 
         //set name and url into html element
@@ -179,7 +179,7 @@ for (var i = 1; i <= 5; i++) {
             chooseNumMax = productDetail.product_quantity;
             choosedQuantity = 1; //選擇數量預設為1
             sellerName = productDetail.seller_account;
-            console.log('seller name = ', sellerName);
+            //            console.log('seller name = ', sellerName);
 
             //--> write product's name & url link into cookie(用於商品瀏覽紀錄) 
             if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
@@ -289,44 +289,44 @@ for (var i = 1; i <= 5; i++) {
         });
     } //<-- end load Product's imag.
 
-    //-->find buyer's  cart ref 
+    //-->find buyer's cart ref 
     var productCartRef;
     var cartProductName;
+    var cartProduct;
+    var cartProductNum;
     var buyerID = Number(readCookie('id'));
     var userRef = db.collection("User23");
     var getBuyerRef = userRef.where('user_id', '==', buyerID).get().then(snapshot => {
         snapshot.forEach(doc => {
-            console.log("buyerref = ", doc.ref.path);
+            //            console.log("buyerref = ", doc.ref.path);
 
-            // -->get buyer's path on database
+            // -->get buyer's cart path on database
             var buyerRef = (doc.ref.path).split('/')[1];
             productCartRef = userRef.doc(buyerRef).collection('myCart').doc('Cart');
 
             // how many products already in cart?
             productCartRef.get().then(doc => {
-            console.log(doc.data()['count']);
-            recent_order_num = doc.data()['count'];
+                cartProduct = doc.data()['Product1'];
+                cartProductNum = cartProduct.length;
+                console.log("cart", cartProduct);
+                //                console.log("cart num", cartProductNum);
+
             });
-            
+
         });
     }).catch(err => {
         console.log('Error getting document', err);
-    }); //<--　get seller's and buyer's order ref
+    }); //<-- end find buyer's cart ref 
 
     //--> click "cart" button
     $('#cart').click(function () {
-        console.log("click cart.");
+        //        console.log("click cart.");
+        cartProduct.push(Number(productID));
+        console.log("cart", cartProduct);
 
-        var productID = Number(ID);
-        var productQuantity = Number(choosedQuantity);
-        var cartProduct = {
-            is_product: true,
-            productID: productID,
-            quantity: productQuantity
-        }
-        //--> write buyer's order to firebase
-        var setCart = productCartRef.doc(cartProductName).set(cartProduct);
-        alert('商品已加入購物車!');
+        productCartRef.update({
+            Product1: cartProduct
+        });
     }); //<-- end click "cart" button
 
     //--> click "立即購買" button
