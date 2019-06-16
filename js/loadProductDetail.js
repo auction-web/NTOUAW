@@ -300,14 +300,14 @@ for (var i = 1; i <= 5; i++) {
 
             // -->get buyer's path on database
             var buyerRef = (doc.ref.path).split('/')[1];
-            productCartRef = userRef.doc(buyerRef).collection('myCart');
+            productCartRef = userRef.doc(buyerRef).collection('myCart').doc('Cart');
 
             // how many products already in cart?
-            productCartRef.where('is_product', '==', true).get().then(snap => {
-                productNum = snap.size + 1;
-                cartProductName = 'Product' + productNum;
-                console.log('buyer order:', cartProductName);
+            productCartRef.get().then(doc => {
+            console.log(doc.data()['count']);
+            recent_order_num = doc.data()['count'];
             });
+            
         });
     }).catch(err => {
         console.log('Error getting document', err);
