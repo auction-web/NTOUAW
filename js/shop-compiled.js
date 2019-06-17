@@ -211,7 +211,7 @@ cant_find = function(page){
 }
 
 module.exports = cant_find;
-},{"./pagination":21}],3:[function(require,module,exports){
+},{"./pagination":22}],3:[function(require,module,exports){
 var firebase = require("firebase");
 var config = {
     apiKey: "AIzaSyC08n0osBfvRneqZXBPfjN1PukMVF4mezw",
@@ -225,7 +225,7 @@ var config = {
 firebase.initializeApp(config);
 module.exports = firebase
 
-},{"firebase":18}],4:[function(require,module,exports){
+},{"firebase":19}],4:[function(require,module,exports){
 getKindPoducts = function(db, storage, kind, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
@@ -243,19 +243,19 @@ getKindPoducts = function(db, storage, kind, page){
 
         var docs = snapshot.docs;
         console.log(docs);
-    		})
-    		.catch(err => {
-      				console.log('Error getting documents', err);
+    	})
+    	.catch(err => {
+      	console.log('Error getting documents', err);
 
-      				cant_find(page);
+      	cant_find(page);
 
       				//????
-    });
+      });
 
-    var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
+    /*var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
     console.log(p1);
     var p2 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().then();
-    console.log(p2);
+    console.log(p2);*/
 
 
 
@@ -264,6 +264,69 @@ getKindPoducts = function(db, storage, kind, page){
 module.exports = getKindPoducts;
 
 },{}],5:[function(require,module,exports){
+getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, fee_max, fee_min, select_evaluation, select_bid){
+
+	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
+
+  if(price_max == 999999 && price_min == 999999)
+    {}
+  else{
+    if(price_max == price_min)
+      productsRef = productsRef.where('price', '==', price_min);
+    else
+      productsRef = productsRef.where("price", ">=", price_min).where("price", "<=", price_max);
+  }
+
+  if(fee_max == 999999 && fee_min == 999999)//add a attribute?? order??
+    {}
+  else{
+    if(fee_max == fee_min)
+      productsRef = productsRef.where('delivery_fee', '==', fee_min);
+    else
+      productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+  }
+
+  if(select_evaluation != 0)
+    productsRef = productsRef.where("product_evaluation", ">=", select_evaluation);
+
+  if(select_bid != 0){
+    if(select_bid == 1)
+      productsRef = productsRef.where('is_Bid', '==', false);
+    else if(select_bid == 2)
+      productsRef = productsRef.where('is_Bid', '==', true);
+  }
+
+
+
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).get().//order by sold
+			then(snapshot => {
+        
+				product_order('Products', storage, snapshot, page);
+
+        var docs = snapshot.docs;
+        console.log(docs);
+
+    	})
+    	.catch(err => {
+        console.log('Error getting documents', err);
+
+      	cant_find(page);
+
+      				//????
+    });
+
+    /*var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
+    console.log(p1);
+    var p2 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().then();
+    console.log(p2);*/
+
+
+
+} 
+  
+module.exports = getKindPoducts_filter;
+
+},{}],6:[function(require,module,exports){
 loadimg = function(storage, id){
 
 
@@ -289,7 +352,7 @@ loadimg = function(storage, id){
   
 module.exports = loadimg;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -786,7 +849,7 @@ exports.default = firebase;
 exports.firebase = firebase;
 
 
-},{"@firebase/logger":12,"@firebase/util":16,"tslib":20}],7:[function(require,module,exports){
+},{"@firebase/logger":13,"@firebase/util":17,"tslib":21}],8:[function(require,module,exports){
 (function (global){
 (function() {var firebase = require('@firebase/app').default;var k,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},ba="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ca(a,b){if(b){var c=ba;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];e in c||(c[e]={});c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&aa(c,a,{configurable:!0,writable:!0,value:b})}}
 function da(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}function ea(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):{next:da(a)}}
@@ -1153,7 +1216,7 @@ Y(Dg.prototype,{w:{name:"toJSON",j:[V(null,!0)]}});Y(M.prototype,{toJSON:{name:"
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@firebase/app":6}],8:[function(require,module,exports){
+},{"@firebase/app":7}],9:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -16579,7 +16642,7 @@ exports.registerDatabase = registerDatabase;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":6,"@firebase/logger":12,"@firebase/util":16,"_process":1,"tslib":20}],9:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/logger":13,"@firebase/util":17,"_process":1,"tslib":21}],10:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -38340,7 +38403,7 @@ exports.registerFirestore = registerFirestore;
 
 
 }).call(this,require('_process'))
-},{"@firebase/app":6,"@firebase/logger":12,"@firebase/util":16,"@firebase/webchannel-wrapper":17,"_process":1,"tslib":20}],10:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/logger":13,"@firebase/util":17,"@firebase/webchannel-wrapper":18,"_process":1,"tslib":21}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -38931,7 +38994,7 @@ registerFunctions(firebase);
 exports.registerFunctions = registerFunctions;
 
 
-},{"@firebase/app":6,"tslib":20}],11:[function(require,module,exports){
+},{"@firebase/app":7,"tslib":21}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40200,7 +40263,7 @@ registerInstallations(firebase);
 exports.registerInstallations = registerInstallations;
 
 
-},{"@firebase/app":6,"@firebase/util":16,"idb":19}],12:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/util":17,"idb":20}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -40391,7 +40454,7 @@ exports.Logger = Logger;
 exports.setLogLevel = setLogLevel;
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -42545,7 +42608,7 @@ exports.isSupported = isSupported;
 exports.registerMessaging = registerMessaging;
 
 
-},{"@firebase/app":6,"@firebase/util":16,"tslib":20}],14:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/util":17,"tslib":21}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -43748,7 +43811,7 @@ else {
 exports.registerPerformance = registerPerformance;
 
 
-},{"@firebase/app":6,"@firebase/installations":11,"@firebase/logger":12,"@firebase/util":16,"tslib":20}],15:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/installations":12,"@firebase/logger":13,"@firebase/util":17,"tslib":21}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -47232,7 +47295,7 @@ registerStorage(firebase);
 exports.registerStorage = registerStorage;
 
 
-},{"@firebase/app":6}],16:[function(require,module,exports){
+},{"@firebase/app":7}],17:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -48986,7 +49049,7 @@ exports.validateNamespace = validateNamespace;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"tslib":20}],17:[function(require,module,exports){
+},{"tslib":21}],18:[function(require,module,exports){
 (function (global){
 (function() {'use strict';var g,goog=goog||{},k=this;function m(a){return"string"==typeof a}function aa(a){return"number"==typeof a}function n(a,b){a=a.split(".");b=b||k;for(var c=0;c<a.length;c++)if(b=b[a[c]],null==b)return null;return b}function ba(){}
 function p(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
@@ -49079,7 +49142,7 @@ X.prototype.getResponseJson=X.prototype.Va;X.prototype.getResponseText=X.prototy
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -49232,7 +49295,7 @@ console.warn("\nIt looks like you're using the development build of the Firebase
 module.exports = firebase;
 
 
-},{"@firebase/app":6,"@firebase/auth":7,"@firebase/database":8,"@firebase/firestore":9,"@firebase/functions":10,"@firebase/messaging":13,"@firebase/performance":14,"@firebase/storage":15}],19:[function(require,module,exports){
+},{"@firebase/app":7,"@firebase/auth":8,"@firebase/database":9,"@firebase/firestore":10,"@firebase/functions":11,"@firebase/messaging":14,"@firebase/performance":15,"@firebase/storage":16}],20:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -49550,7 +49613,7 @@ module.exports = firebase;
 
 }));
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -49797,7 +49860,7 @@ var __importDefault;
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 pagination = function(page){
     var show = document.getElementById("pagination");
     var show_2 = document.getElementById("pagination_bottom");
@@ -49836,7 +49899,7 @@ pagination = function(page){
 }
 
 module.exports = pagination;
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 product_order = function(id, storage, snapshot, page){//div_id
 
     var pagination = require("./pagination");
@@ -49964,7 +50027,7 @@ product_order = function(id, storage, snapshot, page){//div_id
 }
 
 module.exports = product_order;
-},{"./loadimg":5,"./pagination":21,"./rating":23}],23:[function(require,module,exports){
+},{"./loadimg":6,"./pagination":22,"./rating":24}],24:[function(require,module,exports){
 rating = function(index, rate){
 
     var show = document.getElementById("rating_" + index.toString());
@@ -49982,7 +50045,7 @@ rating = function(index, rate){
 }
 
 module.exports = rating;
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 search = function(db, storage, input, itemfilter, page){
 
 	var loadimg = require("./loadimg");
@@ -49996,12 +50059,12 @@ search = function(db, storage, input, itemfilter, page){
 	if(itemfilter == 'seller'){
 		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
 		.then(snapshot => {
-				product_order('Products', storage, snapshot, page);
-    		})
-    		.catch(err => {
-  				console.log('Error getting documents', err);
-  				cant_find(page);
-    		});
+			product_order('Products', storage, snapshot, page);
+		})
+		.catch(err => {
+			console.log('Error getting documents', err);
+			cant_find(page);
+		});
 	}
 	else{
 		productQueryRef = productsRef.get().then(snapshot => {
@@ -50142,7 +50205,196 @@ search = function(db, storage, input, itemfilter, page){
 }
 
 module.exports = search;
-},{"./cant_find":2,"./loadimg":5,"./pagination":21,"./rating":23}],25:[function(require,module,exports){
+},{"./cant_find":2,"./loadimg":6,"./pagination":22,"./rating":24}],26:[function(require,module,exports){
+search_filter = function(db, storage, input, itemfilter, page, price_max, price_min, fee_max, fee_min, select_evaluation, select_bid){
+
+	var loadimg = require("./loadimg");
+	var pagination = require("./pagination");
+	var cant_find = require("./cant_find");
+	var rating = require("./rating");
+	var productQueryRef;
+	
+
+	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
+
+	if(price_max == 999999 && price_min == 999999)
+    	{}
+	else{
+		if(price_max == price_min)
+		  productsRef = productsRef.where('price', '==', price_min);
+		else
+		  productsRef = productsRef.where("price", ">=", price_min).where("price", "<=", price_max);
+	}
+
+	if(fee_max == 999999 && fee_min == 999999)//add a attribute?? order??
+		{}
+	else{
+		if(fee_max == fee_min)
+		  productsRef = productsRef.where('delivery_fee', '==', fee_min);
+		else
+		  productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+	}
+
+	if(select_evaluation != 0)
+		productsRef = productsRef.where("product_evaluation", ">=", select_evaluation);
+
+	if(select_bid != 0){
+		if(select_bid == 1)
+		  productsRef = productsRef.where('is_Bid', '==', false);
+		else if(select_bid == 2)
+		  productsRef = productsRef.where('is_Bid', '==', true);
+	}
+
+	if(itemfilter == 'seller'){
+		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
+		.then(snapshot => {
+			product_order('Products', storage, snapshot, page);
+		})
+		.catch(err => {
+			console.log('Error getting documents', err);
+			cant_find(page);
+		});
+	}
+	else{
+		productQueryRef = productsRef.get().then(snapshot => {
+			var total = 0; //also equal to total searched index
+			var showing = 0;// showing products index
+  			snapshot.forEach(doc => { 	
+  				var temp = doc.data();
+  				if(temp['product_title'].indexOf(input) != -1){
+  					if( total >=(Number(page)-1)*8 && total <= (Number(page)*8)-1 ){
+  					
+  						loadimg(storage, temp['product_id']);
+				
+
+						var show = document.getElementById('Products');
+						var div = document.createElement("div");
+						div.className = "col-12 col-sm-6 col-md-12 col-xl-6";
+						div.innerHTML = 
+						'<div class="single-product-wrapper" id = "single_product">' +
+
+					            '<!-- Product Image -->' +
+					            '<div class="product-img" >' +
+
+					                '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + total + '_link1"><!--product_detail.html?product_id=xxx -->' +
+
+					               '<img src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img1">' +  
+					                '<!-- Hover Thumb -->' +
+					                '<img class="hover-img" src="img/product-img/no-product-image.jpg"  id="product' + temp['product_id'] + '_img2">' +  
+
+					                '</a>' + 
+
+					            '</div>' +
+
+
+					            '<!-- Product Description -->' +
+					            '<div class="product-description d-flex align-items-center justify-content-between">' +
+					                '<!-- Product Meta Data -->' +
+					                '<div class="product-meta-data">' +
+					                    '<div class="line"></div>' +
+					                    '<p class="product-price">$' + temp['price'] + '</p><!-- price -->' +
+					                    '<a href="product-details.html?id=' + temp['product_id'] + '" id = "product' + total + '_link2"><!--product_detail.html?product_id=xxx -->' +
+					                        '<h6>' + temp['product_title'] + '</h6><!-- product_title -->' +
+					                    '</a>' +
+					                '</div>' +
+					                '<!-- Ratings & Cart -->' +
+					                '<div class="ratings-cart text-right" id = "right_text_'+ total + '">' +
+					                    '<div class="ratings" id = "rating_' + total + '"><!-- product_evaluation -->' +
+					                   
+					                    '</div>' +             	
+					                    '<div class="little-mark cart" >' +
+					                        '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
+					                    '</div>' +
+					                '</div>' +
+					            '</div>' +
+					        '</div>' +
+					    '</div>';
+
+
+						show.appendChild(div);
+
+						if(temp['is_Bid']){// or do stupid
+				        	var show_1 = document.getElementById('right_text_' + total);
+				        	//var show_1 = document.getElementById('right_text');
+				 			var div_1 = document.createElement("div");
+				 			div_1.className = "little-mark cart";
+				        	div_1.innerHTML = '<a href="" data-toggle="tooltip" data-placement="left" title="Bid Product"><img src="img/core-img/auctionClock.png" alt=""></a>';
+				        	//show_1.appendChild(div_1);
+							show_1.insertBefore(div_1, show_1.children[1]);
+
+				            var show_2 = document.getElementById('product' + total + '_link1');
+				            var show_3 = document.getElementById('product' + total + '_link2');
+
+				            show_2.href = "product-bid.html?id=" + temp['product_id'];
+				            show_3.href = "product-bid.html?id=" + temp['product_id'];
+				                      
+       					}
+
+						rating(total, temp['product_evaluation']);
+
+						showing = showing + 1;
+					
+				    }
+
+					total = total + 1;
+
+
+				}
+				//if(i >= 8)
+				//	return true; //can break from forEach
+				
+
+ 	 		});
+
+ 	 		var show_1 = document.getElementById('Products');
+	 		var div_1 = document.createElement("div");
+	 		div_1.className = "pageNumber_down col-12 ";
+	 		div_1.innerHTML = '<div class="pageNumber_down col-12 ">' + 
+	                '<!-- Pagination -->' + 
+	                '<nav aria-label="navigation">' + 
+	                    '<ul class="pagination justify-content-end mt-15" id = "pagination_bottom">' + 
+	               
+	                    '</ul>' + 
+	                '</nav>' + 
+	            '</div>';
+            show_1.appendChild(div_1);
+
+
+
+
+ 	 		
+ 	 		console.log(total); //how many products we get in search
+
+ 	 		if(showing == 0)
+ 	 			cant_find(page);
+ 	 		else
+ 	 		{
+	 	 		//how many product we got
+		        var show_2 = document.getElementById('total_products');
+		        if(Number(page)*8 >= total)
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + showing + ' of ' + total + '</p>';
+		        else
+		            show_2.innerHTML = '<p class="howamnypages" >Showing ' + ((Number(page)-1)*8+1) + '-' + Number(page)*8 + ' of ' + total + '</p>';
+	    	}	
+
+
+	 	 		
+	 	 	pagination(Number(page));
+
+		})
+		.catch(err => {
+
+				console.log('Error getting documents', err);
+				cant_find(page);
+
+		});//query of "kind_product = kind"
+    
+	}
+	return productQueryRef;
+}
+
+module.exports = search_filter;
+},{"./cant_find":2,"./loadimg":6,"./pagination":22,"./rating":24}],27:[function(require,module,exports){
 
 	window.addEventListener('hashchange', function(e) {
 	    console.log(e.oldURL);
@@ -50154,7 +50406,9 @@ module.exports = search;
 	var firebase = require("./firebase");
 	var product_order = require("./product_order");//
 	var getKindPoducts = require("./getKindPoducts");//
+	var getKindPoducts_filter = require("./getKindPoducts_filter");//
 	var search = require("./search");//
+	var search_filter = require("./search_filter");
 	var cant_find= require("./cant_find");
 
 
@@ -50164,43 +50418,193 @@ module.exports = search;
 	var url_origun = location.href;
 	var url = decodeURI(url_origun);
 
+	//str
 	var kind = '';
 	var page = '';//page 1(0~7), page 2(8~15), page 3(16~23), page n( (n-1)*8 ~ (n*8)-1 )
 	var input = '';
-	var is_Search = false;
+	var is_Search = false;//????????????????????????????????????????????????????????????????????
+	var is_Condition = false;
 	var itemfilter = '';
 
+	//number
+	var price_max = '';
+	var price_min = '';
+	var fee_max = '';
+	var fee_min = '';
+	var select_evaluation = '';
+	var select_bid = '';
+	//999999 means unlimited
 
-	if(url.indexOf('?') != -1){
-		if(url.indexOf('search') != -1){//has 'search'
-			is_Search = true;
-			input = url.split('?')[1].split('&')[0].split('=')[1];
-			itemfilter = url.split('?')[1].split('&')[1].split('=')[1];
-			itemfilter = itemfilter.substr(0, itemfilter.length - 1); //itemfilter - #
-			page = url.split('?')[1].split('&')[2].split('=')[1];
+	if(url.indexOf('?') != -1){//split URL, get var
+		if (url.indexOf('price_max') != -1){//has filter
+
+			is_Condition = true;
+
+			if(url.indexOf('search') != -1){//has "search"
+				is_Search = true;
+				input = url.split('?')[1].split('&')[6].split('=')[1];
+				itemfilter = url.split('?')[1].split('&')[7].split('=')[1];
+				page = url.split('?')[1].split('&')[8].split('=')[1];
+			}
+			else{//has "kind"
+				kind = url.split('?')[1].split('&')[6].split('=')[1];
+				page = url.split('?')[1].split('&')[7].split('=')[1];
+				
+			}
+
+
+			price_min = parseInt(url.split('?')[1].split('&')[0].split('=')[1], 10);
+			price_max = parseInt(url.split('?')[1].split('&')[1].split('=')[1], 10);
+			fee_min = parseInt(url.split('?')[1].split('&')[2].split('=')[1], 10);
+			fee_max = parseInt(url.split('?')[1].split('&')[3].split('=')[1], 10);
+			select_evaluation = parseInt(url.split('?')[1].split('&')[4].split('=')[1], 10);
+			select_bid = parseInt(url.split('?')[1].split('&')[5].split('=')[1], 10);//???   -->  #
+
+			if(isNaN(price_max) && isNaN(price_min) && isNaN(fee_max) && isNaN(fee_min) && select_evaluation == 0 && select_bid == 0){window.history.back();}
+			/*if(select_evaluation == 0){}
+			if(select_bid == 0){}*/
+
+			if(isNaN(price_max) || price_max < 0)
+				price_max = 999999;
+			if(isNaN(price_min) || price_min < 0)
+				price_min = 999999;
+			if(isNaN(fee_max) || fee_max < 0)
+				fee_max = 999999;
+			if(isNaN(fee_min) || fee_min < 0)
+				fee_min = 999999;
+		
+
+
+
+			if(price_max < price_min){
+				var temp = price_max;
+				price_max = price_min;
+				price_min = temp;
+			}
+			if(fee_max < fee_min){
+				var temp = fee_max;
+				fee_max = fee_min;
+				fee_min = temp;
+			}
+
+
+			console.log("price_min = " + price_min);
+			console.log("price_max = " + price_max);
+			console.log("fee_min = " + fee_min);
+			console.log("fee_max = " + fee_max);
+			console.log("select_evaluation = " + select_evaluation);
+			console.log("select_bid = " + select_bid);
+			console.log("kind = " + kind);
+			console.log("input = " + input);
+			console.log("itemfilter = " + itemfilter);
+			console.log("page = " + page);
+
+		}
+		else{//no filter
+			if(url.indexOf('search') != -1){//has 'search'
+				is_Search = true;
+				input = url.split('?')[1].split('&')[0].split('=')[1];
+				itemfilter = url.split('?')[1].split('&')[1].split('=')[1];
+				itemfilter = itemfilter.substr(0, itemfilter.length - 1); //itemfilter - #
+				page = url.split('?')[1].split('&')[2].split('=')[1];
+			}
+			else{//has "kind"
+				kind = url.split('?')[1].split('&')[0].split('=')[1];
+				page = url.split('?')[1].split('&')[1].split('=')[1];
+			}
+		}
+
+
+	}
+
+	/// then (filter + search) or (filter + kind), change action, change input value //if condition wrong,  action = "#" ??
+	//filter must after (kind or search)
+
+	//shop.html?price_range_max=&price_range_min=&fee_range_max=&fee_range_min=&select_evaluation=0&select_bid=0#&kind=0&page=1      
+	//shop.html?price_range_max=&price_range_min=&fee_range_max=&fee_range_min=&select_evaluation=0&select_bid=0#&search=薯條&itemfilter=productname&page=1      
+
+	if(is_Condition){
+
+		if(is_Search){
+			var temp = document.getElementById('search');
+			temp.value = input;
+
+			var temp_2 = document.getElementById('filter_action');
+			temp_2.action = "#&search=" + input + "&itemfilter=" + itemfilter + "&page=" + page;
+
+			if(input === ""){
+				alert("Please search something!");
+				cant_find(1);
+			}
+			else{
+				//var search_call = search(db, storage, input, itemfilter, page);
+				var search_call = search_filter(db, storage, input, itemfilter, page, price_max, price_min, fee_max, fee_min, select_evaluation, select_bid);
+			}
+		}
+		else{//change input value & selected
+			var temp = document.getElementById('filter_action');
+			temp.action = "#&kind=" + kind + "&page=" + page;
+
+			
+
+			//var products_all = getKindPoducts(db, storage, kind, page);//type: promise
+			//console.log('getKindPoducts');
+			var products_all = getKindPoducts_filter(db, storage, kind, page, price_max, price_min, fee_max, fee_min, select_evaluation, select_bid);
+			//someinput can't work, ex.two fields
+			console.log('getKindPoducts_filter');
+
+			
+			
+		}
+
+		if(price_min != 999999)
+			document.getElementById('price_min').value = price_min;
+
+		if(price_max != 999999)
+			document.getElementById('price_max').value = price_max;
+
+		if(fee_min != 999999)
+			document.getElementById('fee_min').value = fee_min;
+
+		if(fee_max != 999999)
+			document.getElementById('fee_max').value = fee_max;
+	
+
+		/*if(select_evaluation!=0) // selected 前後端(X)
+			document.getElementsByClassName('current').children[select_evaluation-2].setAttribute("selected", "selected");
+
+
+		if(select_bid!=0)
+			document.getElementById('sortByBid').children[select_bid].setAttribute("class", "option selected");*/
+
+	}
+	else{//change action
+		if(is_Search){
+			var temp = document.getElementById('search');
+			temp.value = input;
+
+
+			var temp_2 = document.getElementById('filter_action');
+			temp_2.action = "#&search=" + input + "&itemfilter=" + itemfilter + "&page=" + page;
+
+			if(input === ""){
+				alert("Please search something!");
+				cant_find(1);
+			}
+			else
+				var search_call = search(db, storage, input, itemfilter, page);
+
+
 		}
 		else{
-			kind = url.split('?')[1].split('&')[0].split('=')[1];
-			page = url.split('?')[1].split('&')[1].split('=')[1];
+			var temp = document.getElementById('filter_action');
+			temp.action = "#&kind=" + kind + "&page=" + page;
+
+
+			var products_all = getKindPoducts(db, storage, kind, page);//type: promise
+			console.log('getKindPoducts');
+
 		}
-	}
-
-	if(is_Search){
-
-
-		if(input === ""){
-			alert("Please search something!");
-			cant_find(1);
-		}
-		else
-			var search_call = search(db, storage, input, itemfilter, page);
-
-	}
-	else{
-
-		var products_all = getKindPoducts(db, storage, kind, page);//type: promise
-		console.log('getKindPoducts');
-		
 	}
 
 	document.getElementById("catagories").children[Number(kind)].className = "active";
@@ -50213,4 +50617,4 @@ module.exports = search;
 
 
 
-},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./product_order":22,"./search":24}]},{},[25]);
+},{"./cant_find":2,"./firebase":3,"./getKindPoducts":4,"./getKindPoducts_filter":5,"./product_order":23,"./search":25,"./search_filter":26}]},{},[27]);

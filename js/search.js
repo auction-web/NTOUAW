@@ -11,12 +11,12 @@ search = function(db, storage, input, itemfilter, page){
 	if(itemfilter == 'seller'){
 		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
 		.then(snapshot => {
-				product_order('Products', storage, snapshot, page);
-    		})
-    		.catch(err => {
-  				console.log('Error getting documents', err);
-  				cant_find(page);
-    		});
+			product_order('Products', storage, snapshot, page);
+		})
+		.catch(err => {
+			console.log('Error getting documents', err);
+			cant_find(page);
+		});
 	}
 	else{
 		productQueryRef = productsRef.get().then(snapshot => {
