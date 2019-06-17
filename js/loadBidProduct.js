@@ -46,6 +46,7 @@ for (var i = 1; i <= 5; i++) {
     var productDetail = new Object();
     var sellerDetail = new Object();
     var productID;
+    var buildDate;
     var price;
     var productName;
     var critize;
@@ -163,6 +164,8 @@ for (var i = 1; i <= 5; i++) {
 
             // all product info to String format. 
             productID = (productDetail.product_id).toString();
+            buildDate = productDetail['build_time'].toDate();
+            console.log("time: ", buildDate);
             price = "$" + productDetail.price;
             productName = productDetail.product_title;
             critize = "評價:" + productDetail.product_evaluation;
@@ -176,7 +179,7 @@ for (var i = 1; i <= 5; i++) {
                 }
             }
             productRemain = "庫存 : " + productDetail.product_quantity;
-            chooseNumMax = productDetail.product_quantity;
+            chooseNumMax = 100;
             choosedQuantity = 1; //選擇數量預設為1
             sellerName = productDetail.seller_account;
             console.log('seller name = ', sellerName);
@@ -211,23 +214,37 @@ for (var i = 1; i <= 5; i++) {
                         $('#sellerPhone').text("電話:" + sellerDetail.phone);
                         $('#sellerCritize').text("評價:" + sellerDetail.seller_evaluation);
 
-
                     });
                 })
                 .catch(err => {
                     console.log('Error getting document', err);
                 });
 
+            //每分鐘進行一次時間更新
+            setTimeout(function () {
+                alert("訂單交易成功! 按下確認將自動跳轉至首頁");
+                location.href = "./home.html";
+            }, 2100);
+            //set remain time
+            var nowDate = new Date();
+            console.log("now time:", nowDate);
+            var remainTime = (nowDate - buildDate)/(1000 * 60 * 60 * 24);
+            console.log("nremain time:", remainTime);
+
+//            var h = NowDate.getHours();
+//            var m = NowDate.getMinutes();
+//            var s = NowDate.getSeconds();
+
 
             // set product's info in webpage. (using jQuery) 
             $('#price').text(price);
             $('#name').text(productName);
-            $('#critize').text(critize);
+            //$('#critize').text(critize);
             $('#intro').text(intro);
             $('#delivery1').text(deliveryFee[0]);
             $('#delivery2').text(deliveryFee[1]);
             $('#delivery3').text(deliveryFee[2]);
-            $('#productRemain').text(productRemain);
+            //            $('#productRemain').text(productRemain);
             $('.qty-plus').click(function () {
                 //根據商品剩餘數設定可選擇的數量上限
                 var effect = document.getElementById('qty');
@@ -246,7 +263,6 @@ for (var i = 1; i <= 5; i++) {
         .catch(err => {
             console.log('Error getting document', err);
         }); //<-- end loading Product's page info.
-
 
     //--> load Product's imag.
     var productDoc = "Products" + ID + '/';
