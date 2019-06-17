@@ -15,19 +15,19 @@ getKindPoducts = function(db, storage, kind, page){
 
         var docs = snapshot.docs;
         console.log(docs);
-    		})
-    		.catch(err => {
-      				console.log('Error getting documents', err);
+    	})
+    	.catch(err => {
+      	console.log('Error getting documents', err);
 
-      				cant_find(page);
+      	cant_find(page);
 
       				//????
-    });
+      });
 
-    var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
+    /*var p1 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get();
     console.log(p1);
     var p2 = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().then();
-    console.log(p2);
+    console.log(p2);*/
 
 
 
