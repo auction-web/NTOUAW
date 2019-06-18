@@ -154,7 +154,7 @@ for (var i = 1; i <= 5; i++) {
 
         historyProductNum--;
     } //<-- end 商品瀏覽紀錄cookie處理 
-
+    //buildDate.setDate()
 
     //-->　load Product's page info
     var productRef = db.collection("Product").doc(id).get()
@@ -165,7 +165,10 @@ for (var i = 1; i <= 5; i++) {
             // all product info to String format. 
             productID = (productDetail.product_id).toString();
             buildDate = productDetail['build_time'].toDate();
+            var expireDate = buildDate.setDate(buildDate.getDate() + 7);
             console.log("time: ", buildDate);
+            console.log("expire time: ", expireDate);
+
             price = "$" + productDetail.price;
             productName = productDetail.product_title;
             critize = "評價:" + productDetail.product_evaluation;
@@ -221,19 +224,39 @@ for (var i = 1; i <= 5; i++) {
                 });
 
             //每分鐘進行一次時間更新
-            setTimeout(function () {
-                alert("訂單交易成功! 按下確認將自動跳轉至首頁");
-                location.href = "./home.html";
-            }, 2100);
-            //set remain time
-            var nowDate = new Date();
-            console.log("now time:", nowDate);
-            var remainTime = (nowDate - buildDate)/(1000 * 60 * 60 * 24);
-            console.log("nremain time:", remainTime);
+            updateTime = setInterval(function () {
+                console.log("test.");
+                //set remain time
+                var nowDate = new Date();
+                console.log("now time:", nowDate);
+                var remainTime = (expireDate - nowDate);
+                if (remainTime <= 0) {
+                    $('#critize').remove();
+                    $('#time').text("競標時間已結束");
+                    clearInterval(updateTime);  //停止執行更新
+                } else {
+                    var Day = remainTime / (1000 * 60 * 60 * 24);
+                    var DayR = remainTime % (1000 * 60 * 60 * 24);
+                    var remainDay = Math.floor(Day);
+                    var Hour = DayR / (1000 * 60 * 60);
+                    var HourR = DayR % (1000 * 60 * 60);
+                    var remainHour = Math.floor(Hour);
+                    var Min = HourR / (1000 * 60);
+                    var MinR = HourR % (1000 * 60);
+                    var remainMin = Math.floor(Min);
+                    var Sec = MinR / 1000;
+                    var remainSec = Math.round(Sec);
 
-//            var h = NowDate.getHours();
-//            var m = NowDate.getMinutes();
-//            var s = NowDate.getSeconds();
+                    var timeText = remainDay + "天" + remainHour + ":" + remainMin + ":" + remainSec;
+                    $('#time').text(timeText);
+
+                }
+                //                console.log("remain day:", remainDay);
+                //                console.log("remain hour:", remainHour);
+                //                console.log("remain min:", remainMin);
+                //                console.log("remain sec:", remainSec);
+
+            }, 1000);
 
 
             // set product's info in webpage. (using jQuery) 

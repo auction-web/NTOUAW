@@ -338,6 +338,7 @@ for (var i = 1; i <= 5; i++) {
         productCartRef.update({
             Product1: cartProduct
         });
+        alert("商品已加入購物車!");
     }); //<-- end click "cart" button
 
     //--> click "立即購買" button
