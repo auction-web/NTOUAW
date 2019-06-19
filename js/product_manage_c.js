@@ -49758,6 +49758,9 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             }
         }
     }
+    if(recent_page_item >= snapshot.size){
+        recent_page_item = snapshot.size;
+    }
     
     for(var i = page_start; i < recent_page_item;){
 //        console.log(i + ignore);

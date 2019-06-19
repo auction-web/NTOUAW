@@ -8,7 +8,7 @@ var User = User_cookies + '/';
 product_eval_reason = function(tab, order_id, mode){
     var eval_model = document.getElementById('eval_model');
     eval_model.style.display = "block";
-    if(tab == 'NP'){
+    if(tab == 'NP' || tab == 'BP'){
         if(mode == 0){
             db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
                 db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).collection('Products').get().then(products => {
@@ -16,9 +16,17 @@ product_eval_reason = function(tab, order_id, mode){
                 });
             });
             var eval_model_foot = document.getElementById('eval_model_foot_content');
-            eval_model_foot.innerHTML =
+            if(tab == 'NP'){
+                eval_model_foot.innerHTML =
                  '<input class = "list_button" type = "button" onclick = "eval_confirm(\'NP\', 0,' + order_id + ')" value = "確認">' + 
                  '<input class = "list_button" type = "button" onclick = "eval_model_close()" value = "取消">';
+            }
+            else{
+                eval_model_foot.innerHTML =
+                 '<input class = "list_button" type = "button" onclick = "eval_confirm(\'BP\', 0,' + order_id + ')" value = "確認">' + 
+                 '<input class = "list_button" type = "button" onclick = "eval_model_close()" value = "取消">';
+            }
+            
         }
         else if(mode == 1){
             db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
@@ -156,10 +164,15 @@ minus_point = function(order_id){
 }
 
 eval_confirm = function(tab ,mode, order_id){
-    
-    if(tab == 'NP'){
+    if(tab == 'NP' || tab == 'BP'){
         if(mode == 0){
-            var confirm_button = document.getElementById('NP_eval' + order_id)
+            var confirm_button;
+            if(tab == 'NP'){
+                confirm_button = document.getElementById('NP_eval' + order_id);
+            }
+            else{
+                confirm_button = document.getElementById('BP_eval' + order_id);
+            }
             confirm_button.disabled = true;
             db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
                 //update buyer evaluate state

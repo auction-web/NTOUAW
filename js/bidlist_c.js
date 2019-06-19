@@ -239,8 +239,6 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
     
     for(var i = page_start; i < recent_page_item;){
-        console.log("i ++");
-        console.log(i + ignore);
         if((i + ignore) >= snapshot.size){
             break;
         }
@@ -261,22 +259,18 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             i++;
         }
     }
-    console.log(i_list);
     i_list.forEach(i => {
-        console.log('load i');
-        console.log(snapshot.docs[i]['id']);
         db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).collection('Products').get().then(bid_product => {
             db.collection('Product').where('product_id', '==', bid_product.docs[0].data()['product_id']).get().then(product => {
-                console.log('load product');
-                console.log(bid_product);
-                console.log(product)
 
                 var product_data = snapshot.docs[i + ignore].data();
                 //console.log(product_data);
-                var product_state = 3;
+                var product_state;
                 //console.log(product_data);
+                var confirm_state = 'disabled';
                 if(product_data['order_state'] == 0){
                     product_state = '處理中';
+                    confirm_state = '';
                 }
                 else if(product_data['order_state'] == 2){
                     product_state = '已完成';
@@ -309,8 +303,11 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                         '<a class = "seller" href = "">' + product_data['seller_account'] + '</a>' +
                                     '</td>' +
                                     '<td>' +
-                                        '<span class = "selfdefine">' + product_state + '</span>' +
+                                        '<span id="BP_eval' + product_data['order_id'] + '">' + product_state + '</span>' +
                                     '</td>' +
+                                    '<td>' +
+                                        '<input class = "list_button" id = "BP_check' + product_data['order_id'] + '" type = "button" onclick = "BP_confirm(' + product_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
+                                    '</td>' + 
                                     '<td>' +
                                         '<input class = "list_button" id = "BP_eval' + product_data['order_id'] + '" type = "button" onclick="product_eval_reason(\'BP\', ' + product_data['order_id'] + ', 0);" value = "評價">' +
                                     '</td>' +
@@ -331,8 +328,6 @@ BPloadproduct = function (page, item = '', itemfilter = ''){
     //alert(User_cookies);
     user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').orderBy('build_time', 'desc').where('is_bid', '==', true);
     user_prod_data.get().then(snapshot=>{
-        console.log(snapshot);
-        console.log(snapshot.docs[0]['id']);
         db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).collection('Products').get().then(products => {
             BP_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
         });
@@ -367,6 +362,66 @@ BPchangePage = function(page){
             }
         }
     }
+}
+
+BP_confirm = function(order_id){
+    db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
+        snapshop.forEach(product => {
+            //change order state
+            var confirm_button = document.getElementById('BP_check' + order_id);
+            confirm_button.disabled = true;
+            var order_state = document.getElementById('BP_order_state' + order_id);
+            order_state = "已完成";
+            var eval_state = document.getElementById('BP_eval' + order_id);
+            eval_state.disabled = false;
+            
+            order_id = product.data()['order_id'];
+            seller_account = product.data()['seller_account'];
+            db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(product['id']).update({
+                order_state : 2
+            });
+            
+            db.collection('User23').where('user_name', '==', seller_account).get().then(user => {
+                var user_id = user.docs[0]['id'];
+                db.collection('User23').doc(user_id).collection('iamSeller').where('order_id', '==', order_id).get().then(order => {
+                    db.collection('User23').doc(user_id).collection('iamSeller').doc(order.docs[0]['id']).update({
+                        order_state : 2
+                    });
+                    //add sold number
+                    db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
+                        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).collection('Products').get().then(products => {
+                            products.forEach(list_product => {
+                                var list_product_data = list_product.data();
+                                var list_product_data_id = list_product_data['product_id'];
+                                var list_product_data_quy = list_product_data['product_quantity'];
+                                //product
+                                db.collection('Product').where('product_id', '==', list_product_data_id).get().then(shop_product => {
+                                    var sold = shop_product.docs[0].data()['sold'];
+                                    sold = sold + list_product_data_quy;
+                                    db.collection('Product').doc(shop_product.docs[0]['id']).update({
+                                        sold : sold
+                                    });
+                                    //user
+                                    var seller_account = shop_product.docs[0].data()['seller_account']
+                                    db.collection('User23').where('account', '==', seller_account).get().then(seller => {
+                                        db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').where('product_id', '==', list_product_data_id).get().then(user_product => {
+                                            var sold = user_product.docs[0].data()['sold'];
+                                            sold = sold + list_product_data_quy;
+                                            db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
+                                                sold : sold
+                                            });
+                                        });
+                                    });
+                                    
+                                });
+                                //console.log(list_product_data);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 }
 },{"./firebase":3}],3:[function(require,module,exports){
 var firebase = require("firebase");

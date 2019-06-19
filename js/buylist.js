@@ -48,7 +48,9 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             }
         }
     }
-    
+    if(recent_page_item >= snapshot.size){
+        recent_page_item = snapshot.size;
+    }
     for(var i = page_start; i < recent_page_item;){
         var target = snapshot.docs[i + ignore].data()[itemfilter];
         //console.log(snapshot.docs[i + ignore].data());
@@ -210,8 +212,6 @@ cancel = function(tab, order_id, state){
         order_state.innerHTML = '訂單取消';
         check.disabled = true;
     }
-    console.log(order_state);
-    console.log(check);
     db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
             //increase the quanatity of the product in product
@@ -261,10 +261,11 @@ cancel = function(tab, order_id, state){
 }
 
 confirm = function(order_id){
+    console.log(order_id);
     db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
             //change order state
-            //console.log(product['id']);
+            console.log(product['id']);
             var confirm_button = document.getElementById('NP_check' + order_id);
             confirm_button.disabled = true;
             var cancel = document.getElementById('NP_cancel' + order_id);
@@ -297,18 +298,15 @@ confirm = function(order_id){
                                 db.collection('Product').where('product_id', '==', list_product_data_id).get().then(shop_product => {
                                     var sold = shop_product.docs[0].data()['sold'];
                                     sold = sold + list_product_data_quy;
-                                    console.log(sold);
                                     db.collection('Product').doc(shop_product.docs[0]['id']).update({
                                         sold : sold
                                     });
                                     //user
                                     var seller_account = shop_product.docs[0].data()['seller_account']
                                     db.collection('User23').where('account', '==', seller_account).get().then(seller => {
-                                        console.log(seller.docs[0]['id']);
                                         db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').where('product_id', '==', list_product_data_id).get().then(user_product => {
                                             var sold = user_product.docs[0].data()['sold'];
                                             sold = sold + list_product_data_quy;
-                                            console.log(sold);
                                             db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
                                                 sold : sold
                                             });

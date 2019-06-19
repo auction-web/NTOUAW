@@ -51,5 +51,12 @@ if(url.indexOf('?')!= -1){
            target_tab[0].className += " active";
            SLloadproduct(1, search_input, search_itemfilter);
        }
+       else if(tab == 'BP'){
+           tab_id = 'bidlist';
+           document.getElementById(tab_id).style.display = "block";
+           target_tab = document.getElementsByClassName(tab);
+           target_tab[0].className += " active";
+           BPloadproduct(1, search_input, search_itemfilter);
+       }
     }
 }

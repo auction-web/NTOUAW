@@ -246,7 +246,19 @@ div.search_base form button {
 }
 
 .main-content-wrapper .bidlist-table-area table thead tr th,
-.main-content-wrapper .bidlist-table-area table tbody tr td,
+.main-content-wrapper .bidlist-table-area table tbody tr td{
+    border-top: none;
+    border-bottom: none;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 10%;
+    flex: 0 0 10%;
+    width: 10%;
+    font-size: 19px;
+    max-width: 10%;
+    color: #242424;
+    text-transform: capitalize;
+}
+
 .main-content-wrapper .selllist-table-area table thead tr th,
 .main-content-wrapper .selllist-table-area table tbody tr td,
 .main-content-wrapper .productmanage-table-area table thead tr th,
@@ -264,10 +276,12 @@ div.search_base form button {
     text-transform: capitalize;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .main-content-wrapper .bidlist-table-area table thead tr th,
+    .main-content-wrapper .bidlist-table-area table tbody tr td{
+        font-size: 16px;
+    }
     .main-content-wrapper .buylist-table-area table thead tr th,
     .main-content-wrapper .buylist-table-area table tbody tr td,
-    .main-content-wrapper .bidlist-table-area table thead tr th,
-    .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
     .main-content-wrapper .selllist-table-area table tbody tr td,
     .main-content-wrapper .productmanage-table-area table thead tr th,
@@ -276,10 +290,12 @@ div.search_base form button {
     }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .main-content-wrapper .bidlist-table-area table thead tr th,
+    .main-content-wrapper .bidlist-table-area table tbody tr td{
+        font-size: 13px;
+    }
     .main-content-wrapper .buylist-table-area table thead tr th,
     .main-content-wrapper .buylist-table-area table tbody tr td,
-    .main-content-wrapper .bidlist-table-area table thead tr th,
-    .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
     .main-content-wrapper .selllist-table-area table tbody tr td,
     .main-content-wrapper .productmanage-table-area table thead tr th,
@@ -288,10 +304,12 @@ div.search_base form button {
     }
 }
 @media only screen and (max-width: 767px) {
+    .main-content-wrapper .bidlist-table-area table thead tr th,
+    .main-content-wrapper .bidlist-table-area table tbody tr td{
+        font-size: 8px;
+    }
     .main-content-wrapper .buylist-table-area table thead tr th,
     .main-content-wrapper .buylist-table-area table tbody tr td,
-    .main-content-wrapper .bidlist-table-area table thead tr th,
-    .main-content-wrapper .bidlist-table-area table tbody tr td,
     .main-content-wrapper .selllist-table-area table thead tr th,
     .main-content-wrapper .selllist-table-area table tbody tr td,
     .main-content-wrapper .productmanage-table-area table thead tr th,
