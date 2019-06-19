@@ -52567,11 +52567,11 @@ var product_id=Number(aa);
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
-
-if(cook==""){
+check_login();
+/*if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
-}
+}*/
 //var today=new Date();
 //alert(today);
 
@@ -52925,7 +52925,29 @@ up=function(){
    var Counter = db.collection('Counter').doc('Product');
    var quid;
    var date=new Date();
-   var data={delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
+   var min;
+   if(obj[4].checked == true){
+	   min=0;
+   }
+   else{
+	   if(obj[0].checked == true && obj[2].checked == true){
+		   if(Number(price1)>=Number(price2)){
+			   min=Number(price2);
+		   }
+		   else{
+			   min=Number(price1);
+		   }
+	   }
+	   else{
+		   if(obj[0].checked == true){
+			   min=Number(price1);
+		   }
+		   else{
+			   min=Number(price2);
+		   }
+	   }
+   }
+   var data={min_delivery:min,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
    delivery_fee:[Number(price1),Number(price2),0],
    price:Number(price),product_kind:Number(category),product_quantity:Number(qty),product_title:product
    ,product_intro:introduction

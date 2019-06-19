@@ -52553,22 +52553,22 @@ var User1='User7';*/
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
-
-if(cook==""){
+check_login();
+/*if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
-}
+}*/
 storageRef.child('Users/'+User+'picture').getDownloadURL().then(function(url) {
   //// `url` is the download URL for 'images/stars.jpg'
 
   // This can be downloaded directly:
-  /*var xhr = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest();
   xhr.responseType = 'blob';
   xhr.onload = function(event) {
     var blob = xhr.response;
   };
   xhr.open('GET', url);
-  xhr.send();*/
+  xhr.send();
 
   // Or inserted into an <img> element:
   var img = document.getElementById('myDiv');
@@ -52712,7 +52712,5 @@ write_firbase=function() {
 		});
 	}
 	qu(md);
-} 
-
-
+}
 },{"./firebase":143}]},{},[144]);

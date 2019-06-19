@@ -52550,16 +52550,16 @@ var input=Number((aa[1].split('='))[1]);
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
-
+check_login();
 /*User1='User7';
 order=10039;
 input=0;*/
 //console.log(order);
 //console.log(input);
-if(cook==""){
+/*if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
-}
+}*/
 if(input==0){
 	check='iamSeller';
 }
