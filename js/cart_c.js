@@ -318,6 +318,8 @@ checkout = function(){
     }
     console.log(cart_cookies);
     setCookie("Cart_cookie",cart_cookies,1);
+    setCookie("isCart",true);
+    location.href = "./checkout.html";
     //});
 }
 },{"./firebase":3}],3:[function(require,module,exports){

@@ -9,6 +9,11 @@ const {
 const $ = require('jQuery')(window);
 //console . log ( $ ); //測試jquery是否可以正常工作
 
+//initialize firebase
+var firebase = require("./firebase");
+var db = firebase.firestore();
+var userRef = db.collection("User23");
+
 // is bid product or not?
 var isBid;
 if (readCookie('isBid') == 'true') {
@@ -16,6 +21,28 @@ if (readCookie('isBid') == 'true') {
 } else {
     isBid = false;
 }
+// is from cart or not?
+var isCart;
+var cartInfo
+if (readCookie('isCart') == 'true') {
+    isCart = true;
+    cartInfo = readCookie('Cart_cookie').split('|');
+    console.log("cartInfo",cartInfo);
+    cartProductNum = cartInfo.length;
+} else {
+    isCart = false;
+}
+var cookies = readCookie('id');
+var User_cookies = 'User' + cookies;
+var cart_size;
+var cart_data;
+var html_r = 0;
+db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
+    cart_size = product_list.data()['Product1'].length;
+    cart_data = product_list.data()['Product1'];
+    console.log(cart_data);
+    prepare_checkout_list(cart_data, cart_size);
+});
 
 //get and set data in checkout page
 (function ($) {
@@ -79,11 +106,6 @@ if (readCookie('isBid') == 'true') {
         sum = totalPrice + delievery_final_fee;
         $('#summery-sum').text("$" + sum);
     }); //<-- when click 運送方式列表
-
-    //initialize firebase
-    var firebase = require("./firebase");
-    var db = firebase.firestore();
-    var userRef = db.collection("User23");
 
     //-->　get seller's and buyer's order ref 
     var sellerOrderRef;
@@ -226,6 +248,7 @@ if (readCookie('isBid') == 'true') {
             alert("交易中，請稍後......");
             //--> erase cookie info
             eraseCookie('isBid');
+            eraseCookie('isCart');
             eraseCookie('sellerName');
             eraseCookie('productName');
             eraseCookie('productID');
@@ -245,6 +268,58 @@ if (readCookie('isBid') == 'true') {
 
 })(jQuery); //end "get and set data in checkout page"
 
+prepare_checkout_list = function (cart_data, cart_size) {
+    for (var i = 0; i < cart_size; i++) {
+        var checkout_list = document.getElementById('checkout_list');
+        checkout_list.innerHTML = '';
+        db.collection('Product').where('product_id', '==', cart_data[i]).get().then(product => {
+            Cart_Dynamic_HTML(checkout_list, product);
+        });
+    }
+}
+
+Cart_Dynamic_HTML = function (checkout_list, snapshot) {
+    html_r++;
+    console.log(html_r);
+    var product_data = snapshot.docs[0].data();
+    checkout_list.innerHTML = checkout_list.innerHTML +
+        '<tr>' +
+        '<td>' +
+        '<input class = "checkbox" id="checkbox' + product_data['product_id'] + '" type = "checkbox">' +
+        '</td>' +
+        '<td class="cart_product_img">' +
+        '<a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>' +
+        '</td>' +
+        '<td class="cart_product_desc">' +
+        '<h5>' + product_data['product_title'] + '</h5>' +
+        '</td>' +
+        '<td class="price">' +
+        '<span id="price' + product_data['product_id'] + '">' + product_data['price'] + '</span>' +
+        '</td>' +
+        '<td class="qty">' +
+        '<div class="qty-btn d-flex">' +
+        '<p>Qty</p>' +
+        '<div class="quantity">' +
+        '<span class="qty-minus" onclick="sub_qty(' + product_data['product_id'] + ')"><i class="fa fa-minus" aria-hidden="true"></i></span>' +
+        '<input type="number" class="qty-text" id="qty' + product_data['product_id'] + '" step="1" min="1" max="300" name="quantity" value="1">' +
+        '<span class="qty-plus" onclick="add_qty(' + product_data['product_id'] + ')"><i class="fa fa-plus" aria-hidden="true"></i></span>' +
+        '</div>' +
+        '</div>' +
+        '</td>' +
+        '</tr>';
+    calculate_price(html_r);
+}
+
+calculate_price = function (max_product = cart_size) {
+    var tab_total_price = document.getElementById("total_price");
+    var total_price = 0;
+    for (var i = 0; i < max_product; i++) {
+        var number = document.getElementById('qty' + cart_data[i]);
+        var price = document.getElementById('price' + cart_data[i]);
+        total_price = total_price + Number(number.value) * Number(price.textContent);
+    }
+    tab_total_price.textContent = total_price + "$";
+}
 
 //cookie創建
 function createCookie(name, value, days, path) {
