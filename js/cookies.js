@@ -1,3 +1,5 @@
+var cook=getCookie('id');
+
 function setCookie(cname,cvalue,exdays){
 	var d = new Date();
 	d.setTime(d.getTime()+(exdays*24*60*60*1000));
@@ -16,7 +18,13 @@ function getCookie(cname){
 	}
 	return "";
 }
-
+function check_login(){
+	var cook=getCookie('id');
+	if(cook==""){
+		alert("請先登入，跳轉至登入頁面");
+		location.href = "./index.html";
+	}
+}
 function DelCookie(name){ 
 	var exp = new Date(); 
 	exp.setTime(exp.getTime() - 1); 

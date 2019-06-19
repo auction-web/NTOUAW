@@ -52559,11 +52559,11 @@ var User1='User7';*/
 var cook=getCookie('id');
 var User1='User'+cook;
 var User=User1+'/';
-
-if(cook==""){
+check_login();
+/*if(cook==""){
 	alert("請先登入，跳轉至登入頁面");
 	location.href = "./index.html";
-}
+}*/
 
  del=function(){
 	   var Counter = db.collection('Counter').doc('Product');
@@ -52581,24 +52581,24 @@ if(cook==""){
 					var desertRef2 = storageRef.child('Products/'+'Products'+quid.toString()+'/2');
 					var desertRef3 = storageRef.child('Products/'+'Products'+quid.toString()+'/3');
 						desertRef.delete().then(function() {
-							console.log('Products/'+'Products'+quid.toString()+'/0'+"delete successful");
+							//console.log('Products/'+'Products'+quid.toString()+'/0'+"delete successful");
 						}).catch(function(error) {	
-						console.log('Products/'+'Products'+quid.toString()+'/0'+"delete fail");
+						//console.log('Products/'+'Products'+quid.toString()+'/0'+"delete fail");
 					});
 						desertRef1.delete().then(function() {
-							console.log('Products/'+'Products'+quid.toString()+'/1'+"delete successful");
+							//console.log('Products/'+'Products'+quid.toString()+'/1'+"delete successful");
 						}).catch(function(error) {	
-						console.log('Products/'+'Products'+quid.toString()+'/1'+"delete fail");
+						//console.log('Products/'+'Products'+quid.toString()+'/1'+"delete fail");
 					});
 						desertRef2.delete().then(function() {
-							console.log('Products/'+'Products'+quid.toString()+'/2'+"delete successful");
+							//console.log('Products/'+'Products'+quid.toString()+'/2'+"delete successful");
 						}).catch(function(error) {	
-						console.log('Products/'+'Products'+quid.toString()+'/2'+"delete fail");
+						//console.log('Products/'+'Products'+quid.toString()+'/2'+"delete fail");
 					});
 						desertRef3.delete().then(function() {
-							console.log('Products/'+'Products'+quid.toString()+'/3'+"delete successful");
+							//console.log('Products/'+'Products'+quid.toString()+'/3'+"delete successful");
 						}).catch(function(error) {	
-						console.log('Products/'+'Products'+quid.toString()+'/3'+"delete fail");
+						//console.log('Products/'+'Products'+quid.toString()+'/3'+"delete fail");
 					});
 			})
 			.catch(err => {
@@ -52894,7 +52894,29 @@ up=function(){
 	   check=true;
    }
    var increase=Number(price)*0.05;
-   var data={build_time:date,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
+   var min;
+   if(obj[4].checked == true){
+	   min=0;
+   }
+   else{
+	   if(obj[0].checked == true && obj[2].checked == true){
+		   if(Number(price1)>=Number(price2)){
+			   min=Number(price2);
+		   }
+		   else{
+			   min=Number(price1);
+		   }
+	   }
+	   else{
+		   if(obj[0].checked == true){
+			   min=Number(price1);
+		   }
+		   else{
+			   min=Number(price2);
+		   }
+	   }
+   }
+   var data={min_delivery:min,build_time:date,delivery:[obj[0].checked == true,obj[2].checked == true,obj[4].checked == true],
    delivery_fee:[Number(price1),Number(price2),0],finish_time:enddate,increase_price:increase,is_Bid:check,payment:[false,false,false],
    price:Number(price),product_evaluation:0,product_id:0,product_kind:Number(category),product_quantity:Number(qty),product_title:product
    ,reserve_price:Number(price),seller_account:'0',sold:0,state:0,winner_account:'0',product_intro:introduction
