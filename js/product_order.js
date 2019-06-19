@@ -57,7 +57,7 @@ product_order = function(id, storage, snapshot, page){//div_id
                        
                         '</div>' +             	
                         '<div class="little-mark cart" >' +
-                            '<a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
+                            '<a href="javascript:void(0)" onclick="add_cart(' + temp['product_id'] + ');" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
@@ -73,7 +73,7 @@ product_order = function(id, storage, snapshot, page){//div_id
         	//var show_1 = document.getElementById('right_text');
  			var div_1 = document.createElement("div");
  			div_1.className = "little-mark cart";
-        	div_1.innerHTML = '<a href="" data-toggle="tooltip" data-placement="left" title="Bid Product"><img src="img/core-img/auctionClock.png" alt=""></a>';
+        	div_1.innerHTML = '<img src="img/core-img/auctionClock.png" alt="">';
         	//show_1.appendChild(div_1);
 			show_1.insertBefore(div_1, show_1.children[1]);
 

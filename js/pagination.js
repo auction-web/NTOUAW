@@ -9,12 +9,12 @@ pagination = function(page){
 
         for(i = Number(page) - 1; i < page + 3; i++){
             if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
-                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
             }
             else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
-                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
             }
         }
     }
@@ -24,12 +24,12 @@ pagination = function(page){
 
         for(i = Number(page); i < page + 4; i++){
             if(i == Number(page)){
-                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
-                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show.innerHTML = show.innerHTML +　'<li class="page-item active"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item active"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
             }
             else{
-                show.innerHTML = show.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
-                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show.innerHTML = show.innerHTML +　'<li class="page-item"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
+                show_2.innerHTML = show_2.innerHTML +　'<li class="page-item"><a href="javascript:void(0)" class="page-link" onclick="changepage(' + i + ')">0' + i + '.</a></li>'
             }
         }
     }

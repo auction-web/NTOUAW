@@ -21,7 +21,7 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
   }
 
   if(select_evaluation != 0)
-    productsRef = productsRef.where("product_evaluation", ">=", select_evaluation);
+    productsRef = productsRef.where("product_evaluation", ">=", select_evaluation).orderBy('product_evaluation', 'desc');
 
   if(select_bid != 0){
     if(select_bid == 1)
@@ -32,7 +32,7 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
 
 
 
-	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).get().//order by sold
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).get().
 			then(snapshot => {
         
 				product_order('Products', storage, snapshot, page);
