@@ -205,39 +205,43 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var i_list = [];
     var ignore = 0;
     var show = document.getElementById('bidlist_t');
-    show.innerHTML = ''
-    /*console.log("Dynamic_HTML");
-    console.log(snapshot);*/
-    //snapshot.size
     max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
     var recent_page_item = 0;
     if(item == ''){
         page_start = (Number(page) - 1) * item_per_page;
-        recent_page_item = item_per_page * page;
+        recent_page_item = Number(page) * item_per_page;
     }
     else{
-        for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * item_per_page){
-                if(page > 1){
+        if(Number(page) != 1){
+            for(var i = 0; i < snapshot.size; i++){
+                //console.log('i : ' + i);
+                if(snapshot.docs[i].data()[itemfilter].toString().indexOf(String(item)) != -1){
                     ignore++;
+                    if(ignore == (Number(page) - 1) * item_per_page){
+                        page_start = i + 1;
+                        recent_page_item = i + 1 + item_per_page;
+                        break;
+                    }
+                    //console.log(ignore);
                 }
-                page_start = ignore;
-                recent_page_item = item_per_page * page;
-                ignore = 0;
-                /*console.log("ignore" +　ignore);
-                console.log(page_start);
-                console.log(recent_page_item);
-                console.log("find search page start");*/
-                break;
+                page_start = i + 1;
+                recent_page_item = i + 1 + item_per_page;
             }
-            if(snapshot.docs[i].data()[itemfilter].toString().indexOf(item) != -1){
-                ignore++;
-                //console.log(ignore);
-            }
+        }
+        else{
+            recent_page_item = Number(page) * item_per_page;
         }
     }
     
+    console.log('ignore : ' + ignore);
+    console.log("max_size : " + snapshot.size);
+    if(recent_page_item >= snapshot.size){
+        recent_page_item = snapshot.size;
+    }
+    console.log('start : ' + page_start);
+    console.log("end : " + recent_page_item);
+    ignore = 0;
     for(var i = page_start; i < recent_page_item;){
         if((i + ignore) >= snapshot.size){
             break;
@@ -247,10 +251,10 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         if(item == '' && (i + ignore) != snapshot.size){
             next = true;
         }
-        else if(String(target).indexOf(item) != -1){
+        else if(String(target).indexOf(String(item)) != -1){
             next = true;
         }
-        else if(String(target).indexOf(item) == -1){
+        else if(String(target).indexOf(String(item)) == -1){
             ignore++;
             continue;
         }
@@ -259,12 +263,14 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             i++;
         }
     }
+    console.log(i_list);
     i_list.forEach(i => {
         db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).collection('Products').get().then(bid_product => {
+            console.log(bid_product.docs[0].data()['product_id']);
             db.collection('Product').where('product_id', '==', bid_product.docs[0].data()['product_id']).get().then(product => {
 
-                var product_data = snapshot.docs[i + ignore].data();
-                //console.log(product_data);
+                var product_data = snapshot.docs[i].data();
+                console.log(product);
                 var product_state;
                 //console.log(product_data);
                 var confirm_state = 'disabled';
@@ -328,9 +334,7 @@ BPloadproduct = function (page, item = '', itemfilter = ''){
     //alert(User_cookies);
     user_prod_data = db.collection('User23').doc(User_cookies).collection('iamBuyer').orderBy('build_time', 'desc').where('is_bid', '==', true);
     user_prod_data.get().then(snapshot=>{
-        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).collection('Products').get().then(products => {
-            BP_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
-        });
+        BP_Dynamic_HTML(page, snapshot, search_input, search_itemfilter);
     });
     
     //alert(user_prod_data);
