@@ -283,30 +283,33 @@ Cart_Dynamic_HTML = function (checkout_list, snapshot) {
     console.log(html_r);
     var product_data = snapshot.docs[0].data();
     checkout_list.innerHTML = checkout_list.innerHTML +
-        '<tr>' +
-        '<td>' +
-        '<input class = "checkbox" id="checkbox' + product_data['product_id'] + '" type = "checkbox">' +
-        '</td>' +
-        '<td class="cart_product_img">' +
-        '<a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>' +
-        '</td>' +
-        '<td class="cart_product_desc">' +
-        '<h5>' + product_data['product_title'] + '</h5>' +
-        '</td>' +
-        '<td class="price">' +
-        '<span id="price' + product_data['product_id'] + '">' + product_data['price'] + '</span>' +
-        '</td>' +
-        '<td class="qty">' +
-        '<div class="qty-btn d-flex">' +
-        '<p>Qty</p>' +
-        '<div class="quantity">' +
-        '<span class="qty-minus" onclick="sub_qty(' + product_data['product_id'] + ')"><i class="fa fa-minus" aria-hidden="true"></i></span>' +
-        '<input type="number" class="qty-text" id="qty' + product_data['product_id'] + '" step="1" min="1" max="300" name="quantity" value="1">' +
-        '<span class="qty-plus" onclick="add_qty(' + product_data['product_id'] + ')"><i class="fa fa-plus" aria-hidden="true"></i></span>' +
-        '</div>' +
-        '</div>' +
-        '</td>' +
-        '</tr>';
+        '<tr>'+
+                                    '<td class="checkout_product_img">'+
+                                        '<a href="#">'+'<img src="img/bg-img/cart1.jpg" alt="Product">'+'</a>'+
+                                    '</td>'+
+                                    '<td class="check_product_desc">'+
+                                        '<h5 id="product-name">'+'</h5>'+
+                                    '</td>'+
+                                    // product name 
+                                    '<td class="price">'+
+                                        '<span id="product-price">'+'</span>'+
+                                    '</td>'+
+                                    // product quantity 
+                                    '<td class="qty">'+
+                                        '<span id="qty">'+'</span>'+
+                                    '</td>'+
+                                    // delievery
+                                    <td>
+                                         <select id="deliveryMethod" name = "itemfilter">
+                                            <option value = "1">超商店到店</option>
+                                            <option value = "2">宅急便</option>
+                                            <option value = "3">面交</option>
+                                        </select>
+                                    </td>
+                                    <!-- P.S. -->
+                                    <td class = "note">
+                                        <textarea id="productRemark" placeholder="請輸入產品規格(若沒有則圖需輸入)或想給賣家的話"></textarea>
+                                    </td>
     calculate_price(html_r);
 }
 
