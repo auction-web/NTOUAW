@@ -196,8 +196,10 @@ add_cart = function(id){
 
 	var transaction = db.runTransaction(t => {
 	  return t.get(cartRef).then(doc => {
-      	//var newCart = doc.data().product_id.push(id);//get array, and push
-      	var newCart = doc.data().Product1.push(id);
+      	//var newCart = doc.data().product_id;//get array, and push
+      	var newCart = doc.data().Product1;
+  
+      	newCart.push(id);
 
       	//t.update(cartRef, { product_id: newCart });
       	t.update(cartRef, { Product1: newCart });
