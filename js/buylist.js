@@ -18,61 +18,70 @@ NP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var show = document.getElementById('buylist_t');
     show.innerHTML = ''
     //console.log("Dynamic_HTML");
-    //console.log(snapshot);
     //snapshot.size
     max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
     var recent_page_item = 0;
     if(item == ''){
         page_start = (Number(page) - 1) * item_per_page;
-        recent_page_item = item_per_page * page;
+        recent_page_item = Number(page) * item_per_page;
     }
     else{
-        for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * item_per_page){
-                if(page > 1){
+        if(Number(page) != 1){
+            for(var i = 0; i < snapshot.size; i++){
+                //console.log('i : ' + i);
+                if(snapshot.docs[i].data()[itemfilter].toString().indexOf(String(item)) != -1){
                     ignore++;
+                    if(ignore == (Number(page) - 1) * item_per_page){
+                        page_start = i + 1;
+                        recent_page_item = i + 1 + item_per_page;
+                        break;
+                    }
+                    //console.log(ignore);
                 }
-                page_start = ignore;
-                recent_page_item = item_per_page * page;
-                ignore = 0;
-//                console.log("ignore" +　ignore);
-//                console.log(page_start);
-//                console.log(recent_page_item);
-//                console.log("find search page start");
-                break;
-            }
-            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
-                ignore++;
-                //console.log(ignore);
+                page_start = i + 1;
+                recent_page_item = i + 1 + item_per_page;
             }
         }
+        else{
+            recent_page_item = Number(page) * item_per_page;
+        }
     }
+    
+    //console.log('ignore : ' + ignore);
+    //console.log("max_size : " + snapshot.size);
     if(recent_page_item >= snapshot.size){
         recent_page_item = snapshot.size;
     }
+    console.log('start : ' + page_start);
+    console.log("end : " + recent_page_item);
+    ignore = 0;
     for(var i = page_start; i < recent_page_item;){
-        var target = snapshot.docs[i + ignore].data()[itemfilter];
         //console.log(snapshot.docs[i + ignore].data());
-        var next = false;
-        //console.log(i + ignore);
-        if(item == '' && (i + ignore) != snapshot.size){
-            ////console.log("next i++");
-            next = true;
-        }
-        else if((i + ignore) == snapshot.size){
+        if((i + ignore) == snapshot.size){
+            //console.log('1');
             //ignore = ignore + i;
             break;
         }
-        else if(String(target).indexOf(item) != -1){
+        var target = snapshot.docs[i + ignore].data()[itemfilter];
+        
+        var next = false;
+        //console.log(i + ignore);
+        if(item == '' && (i + ignore) != snapshot.size){
+            //console.log('2');
+            ////console.log("next i++");
             next = true;
         }
-        else if(String(target).indexOf(item) == -1){
+        else if(String(target).indexOf(String(item)) != -1){
+            //console.log('3');
+            next = true;
+        }
+        else if(String(target).indexOf(String(item)) == -1){
+            //console.log('4');
             ignore++;
             continue;
         }
         
-        //console.log(snapshot.docs[i + ignore].data());
         var buylist_data = snapshot.docs[i + ignore].data();
         //console.log(product_data);
 //        var sellerdata = db.collection('User23').doc('User' + buylist_data['buyer_account']).get().then(sldata =>{

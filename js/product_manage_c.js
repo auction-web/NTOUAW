@@ -49862,19 +49862,15 @@ delete_product = function(product_id){
         snapshop.forEach(product => {
             //console.log(snapshop[0]);
             product_title = product.data()['product_title'];
-            db.collection('User23').doc(User_cookies).collection('iamSeller').doc(product['id']).update({
-                state : 5
-            });
+            db.collection('User23').doc(User_cookies).collection('iamSeller').doc(product['id']).delete();
             db.collection('Product').where('product_title', '==', product_title).get().then(snapshop =>{
                 snapshop.forEach(product => {
                     //console.log(snapshop[0]);
                     //console.log(product['id']);
-                    db.collection('Product').doc(product['id']).update({
-                        state : 5
-                    });
-                //console.log(product['id']);
+                    db.collection('Product').doc(product['id']).delete();
                 });
             });
+            PMloadproduct(1);
             //console.log(product['id']);
         });
     });

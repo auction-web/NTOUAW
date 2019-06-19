@@ -231,7 +231,7 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                 console.log("find search page start");*/
                 break;
             }
-            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
+            if(snapshot.docs[i].data()[itemfilter].toString().indexOf(item) != -1){
                 ignore++;
                 //console.log(ignore);
             }

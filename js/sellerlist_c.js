@@ -49732,37 +49732,49 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var recent_page_item = 0;
     if(item == ''){
         page_start = (Number(page) - 1) * item_per_page;
-        recent_page_item = item_per_page * page;
+        recent_page_item = Number(page) * item_per_page;
     }
     else{
-        for(var i = 0; i < snapshot.size; i++){
-            if(ignore == (page - 1) * item_per_page){
-                if(page > 1){
+        if(Number(page) != 1){
+            for(var i = 0; i < snapshot.size; i++){
+                //console.log('i : ' + i);
+                if(snapshot.docs[i].data()[itemfilter].toString().indexOf(String(item)) != -1){
                     ignore++;
+                    if(ignore == (Number(page) - 1) * item_per_page){
+                        console.log("page max");
+                        page_start = i + 1;
+                        recent_page_item = i + 1 + item_per_page;
+                        break;
+                    }
+                    //console.log(ignore);
                 }
-                page_start = ignore;
-                recent_page_item = item_per_page * page;
-                ignore = 0;
-                break;
+                page_start = i + 1;
+                recent_page_item = i + 1 + item_per_page;
             }
-            if(snapshot.docs[i].data()[itemfilter].indexOf(item) != -1){
-                ignore++;
-            }
+        }
+        else{
+            recent_page_item = Number(page) * item_per_page;
         }
     }
     
+    //console.log('ignore : ' + ignore);
+    console.log("max_size : " + snapshot.size);
+    console.log("recent_page_item : " + recent_page_item);
     if(recent_page_item >= snapshot.size){
         recent_page_item = snapshot.size;
     }
+    console.log('start : ' + page_start);
+    console.log("end : " + recent_page_item);
+    ignore = 0;
     for(var i = page_start; i < recent_page_item;){
+        if((i + ignore) == snapshot.size){
+            //ignore = ignore + i;
+            break;
+        }
         var target = snapshot.docs[i + ignore].data()[itemfilter];
         var next = false;
         if(item == '' && (i + ignore) != snapshot.size){
             next = true;
-        }
-        else if((i + ignore) == snapshot.size){
-            //ignore = ignore + i;
-            break;
         }
         else if(String(target).indexOf(item) != -1){
             next = true;
