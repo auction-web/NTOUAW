@@ -9,6 +9,14 @@ const {
 const $ = require('jQuery')(window);
 //console . log ( $ ); //測試jquery是否可以正常工作
 
+// is bid product or not?
+var isBid;
+if (readCookie('isBid') == 'true') {
+    isBid = true;
+} else {
+    isBid = false;
+}
+
 //get and set data in checkout page
 (function ($) {
 
@@ -108,7 +116,7 @@ const $ = require('jQuery')(window);
             buyerOrderRef = userRef.doc(buyerRef).collection('iamBuyer');
 
             // how many buyer order already there?
-            sellerOrderRef.where('is_Order', '==', true).get().then(snap => {
+            buyerOrderRef.where('is_Order', '==', true).get().then(snap => {
                 buyerOrderNum = snap.size + 1;
                 buyerOrderName = 'Order' + buyerOrderNum;
                 console.log('buyer order:', buyerOrderName);
@@ -135,6 +143,7 @@ const $ = require('jQuery')(window);
             console.log(doc.data()['count']);
             recent_order_num = doc.data()['count'];
             console.log("order id : " + recent_order_num);
+            console.log('is bid?', isBid);
             //create order data
             var OrderDetail = {
                 //seller info
@@ -144,7 +153,7 @@ const $ = require('jQuery')(window);
                 buyer_evaluation: 0,
                 //oder info
                 is_Order: true,
-                is_bid: false,
+                is_bid: isBid,
                 is_buyer_evaluated: false,
                 is_seller_evaluated: false,
                 order_state: processing,
@@ -188,32 +197,47 @@ const $ = require('jQuery')(window);
             var setBuyerOrder = buyerOrderRef.doc(buyerOrderName).set(OrderDetail);
             var setBuyerOrderProducts = buyerOrderRef.doc(buyerOrderName).collection('Products').doc('Product1').set(ProductDetail);
 
-            // --> update product's amount in database.
+            // --> update product's amount & price in database.
             var updateProduct = db.collection('Product').where('product_id', '==', productID).get().then(snapshot => {
                 snapshot.forEach(doc => {
                     var product = doc.data();
-                    var productAmount = product.product_quantity;
-                    productAmount -= Number(quantity);
-                    console.log('product num: ', productAmount);
-
                     var productRef = (doc.ref.path).split('/')[1];
-                    console.log('path: ', productRef);
 
-                    db.collection('Product').doc(productRef).update({
-                        product_quantity: productAmount
-                    });
+                    //update
+                    if (isBid) { //競標商品:更新價格、得標者account
+                        db.collection('Product').doc(productRef).update({
+                            price: productPrice_num,
+                            winner_id: buyerID
+                        });
+                    } else { //一般商品:更新庫存數量
+                        var productAmount = product.product_quantity;
+                        productAmount -= Number(quantity);
+                        db.collection('Product').doc(productRef).update({
+                            product_quantity: productAmount
+                        });
+                    }
+
                 });
             }).catch(err => {
                 console.log('Error getting document', err);
             });
 
 
-            //--> wait firebase for few seconds
             alert("交易中，請稍後......");
+            //--> erase cookie info
+            eraseCookie('isBid');
+            eraseCookie('sellerName');
+            eraseCookie('productName');
+            eraseCookie('productID');
+            eraseCookie('productPrice');
+            eraseCookie('quantity', 1);
+            eraseCookie('delievery_payWhenGet');
+            eraseCookie('delievery_blackCat');
+            eraseCookie('delievery_face');
             setTimeout(function () {
                 alert("訂單交易成功! 按下確認將自動跳轉至首頁");
                 location.href = "./home.html";
-            }, 2100);
+            }, 2000);
         });
 
 

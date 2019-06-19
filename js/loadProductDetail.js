@@ -343,6 +343,8 @@ for (var i = 1; i <= 5; i++) {
 
     //--> click "立即購買" button
     $('#buyNow').click(function () {
+        //是否為競標商品
+        createCookie('isBid',false);
         //將商品id, 賣家名稱, 數量製作成cookie
         createCookie('sellerName', sellerDetail.user_name);
         createCookie('productName', productName);

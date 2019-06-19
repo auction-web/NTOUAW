@@ -48,6 +48,7 @@ for (var i = 1; i <= 5; i++) {
     var productID;
     var buildDate;
     var price;
+    var yourPrice;
     var productName;
     var critize;
     var intro;
@@ -169,6 +170,7 @@ for (var i = 1; i <= 5; i++) {
             console.log("time: ", buildDate);
             console.log("expire time: ", expireDate);
 
+            yourPrice = productDetail.price;
             price = "$" + productDetail.price;
             productName = productDetail.product_title;
             critize = "評價:" + productDetail.product_evaluation;
@@ -225,15 +227,16 @@ for (var i = 1; i <= 5; i++) {
 
             //每分鐘進行一次時間更新
             updateTime = setInterval(function () {
-                console.log("test.");
+                //                console.log("test.");
                 //set remain time
                 var nowDate = new Date();
-                console.log("now time:", nowDate);
+                //                console.log("now time:", nowDate);
                 var remainTime = (expireDate - nowDate);
                 if (remainTime <= 0) {
                     $('#critize').remove();
+                    $('#buyNow').remove();
                     $('#time').text("競標時間已結束");
-                    clearInterval(updateTime);  //停止執行更新
+                    clearInterval(updateTime); //停止執行更新
                 } else {
                     var Day = remainTime / (1000 * 60 * 60 * 24);
                     var DayR = remainTime % (1000 * 60 * 60 * 24);
@@ -261,6 +264,7 @@ for (var i = 1; i <= 5; i++) {
 
             // set product's info in webpage. (using jQuery) 
             $('#price').text(price);
+            $('#yourPrice').text(price);
             $('#name').text(productName);
             //$('#critize').text(critize);
             $('#intro').text(intro);
@@ -273,14 +277,39 @@ for (var i = 1; i <= 5; i++) {
                 var effect = document.getElementById('qty');
                 var qty = effect.value;
                 if (!isNaN(qty) & qty < chooseNumMax) {
-                    effect.value++;
+                    if (qty == 1) {
+                        effect.value = 5;
+                    } else {
+                        effect.value = Number(qty) + 5;
+                    }
+                    yourPrice = Math.round((productDetail.price) + (productDetail.price) * (effect.value / 100));
+                    $('#yourPrice').text('$' + yourPrice);
                     choosedQuantity = effect.value;
+                    //此處choosedQuantity代表增加%數
                     return false;
                 } else {
                     effect.value = chooseNumMax;
                     choosedQuantity = effect.value;
                 }
-            })
+            });
+            $('.qty-minus').click(function () {
+                //根據商品剩餘數設定可選擇的數量上限
+                var effect = document.getElementById('qty');
+                var qty = effect.value;
+                if (!isNaN(qty) & qty > 5) {
+                    effect.value = Number(qty) - 5;
+                    yourPrice = Math.round((productDetail.price) + (productDetail.price) * (effect.value / 100));
+                    $('#yourPrice').text('$' + yourPrice);
+                    choosedQuantity = effect.value;
+                    //此處choosedQuantity代表增加%數
+                    return false;
+                } else {
+                    effect.value = 1;
+                    yourPrice = Math.round((productDetail.price) + (productDetail.price) * (effect.value / 100));
+                    $('#yourPrice').text('$' + yourPrice);
+                    choosedQuantity = effect.value;
+                }
+            });
 
         })
         .catch(err => {
@@ -331,12 +360,14 @@ for (var i = 1; i <= 5; i++) {
 
     //--> click "參與競標" button
     $('#buyNow').click(function () {
+        //是否為競標商品
+        createCookie('isBid', true);
         //將商品id, 賣家名稱, 數量製作成cookie
         createCookie('sellerName', sellerDetail.user_name);
         createCookie('productName', productName);
         createCookie('productID', productID);
-        createCookie('productPrice', price);
-        createCookie('quantity', choosedQuantity);
+        createCookie('productPrice', '$'+yourPrice);
+        createCookie('quantity', 1);
         createCookie('delievery_payWhenGet', deliveryFee[0]);
         createCookie('delievery_blackCat', deliveryFee[1]);
         createCookie('delievery_face', deliveryFee[2]);
