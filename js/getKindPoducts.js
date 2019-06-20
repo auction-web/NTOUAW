@@ -1,7 +1,7 @@
 getKindPoducts = function(db, storage, kind, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
-	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().//order by sold
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).where('state', '==', 0).orderBy('sold', 'desc').get().//order by sold
 			then(snapshot => {
         //last = snapshot.docs[snapshot.docs.length - 1];
 				product_order('Products', storage, snapshot, page);//product_order(div_id, snapshot, page);
