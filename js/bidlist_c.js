@@ -285,7 +285,9 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                 }
                 else if(product_data['order_state'] == 2){
                     product_state = '已完成';
-                    eval_state = '';
+                    if(!product_data['is_buyer_evaluated']){
+                        eval_state = '';
+                    }
                 }
                 else if(product_data['order_state'] == 3){
                     product_state = '得標';
@@ -353,7 +355,7 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                         '<a class = "seller" href = "">' + product_data['seller_account'] + '</a>' +
                                     '</td>' +
                                     '<td>' +
-                                        '<span id="BP_eval' + product_data['order_id'] + '">' + product_state + '</span>' +
+                                        '<span id="BP_order_state' + product_data['order_id'] + '">' + product_state + '</span>' +
                                     '</td>' +
                                     '<td>' +
                                         '<input class = "list_button" id = "BP_check' + product_data['order_id'] + '" type = "button" onclick = "BP_confirm(' + product_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
@@ -413,14 +415,17 @@ BPchangePage = function(page){
 }
 
 BP_confirm = function(order_id){
+    console.log("confirm");
     db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshop =>{
         snapshop.forEach(product => {
             //change order state
             var confirm_button = document.getElementById('BP_check' + order_id);
             confirm_button.disabled = true;
             var order_state = document.getElementById('BP_order_state' + order_id);
-            order_state = "已完成";
+            console.log(order_state);
+            order_state.textContent = "已完成";
             var eval_state = document.getElementById('BP_eval' + order_id);
+            console.log(eval_state);
             eval_state.disabled = false;
             
             order_id = product.data()['order_id'];

@@ -210,12 +210,12 @@ eval_confirm = function(tab ,mode, order_id){
                             //to user product
                             db.collection('User23').where('account', '==', shop_product.docs[0].data()['seller_account']).get().then(user => {
                                 db.collection('User23').doc(user.docs[0]['id']).collection('iamSeller').where('product_id', '==', product_data['product_id']).get().then(user_product => {
-                                    var sold = user_product.docs[0].data()['sold'];
-                                    var eval = user_product.docs[0].data()['product_evaluation'];
-                                    var r_sold = product_data['product_quantity'];
-                                    
-                                    
-                                    var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold - 1);
+//                                    var sold = user_product.docs[0].data()['sold'];
+//                                    var eval = user_product.docs[0].data()['product_evaluation'];
+//                                    var r_sold = product_data['product_quantity'];
+//                                    
+//                                    
+//                                    var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold);
                                     console.log("pp : " + point);
                                     db.collection('User23').doc(user.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
                                         product_evaluation: Number(point.toFixed(1))
@@ -233,7 +233,7 @@ eval_confirm = function(tab ,mode, order_id){
                                     console.log(total_sold);
                                     var seller_eval = Number(evaluation) / total_sold;
                                     db.collection('User23').doc(user.docs[0]['id']).update({
-                                        seller_evaluation:seller_eval.toFixed(1)
+                                        seller_evaluation:Number(seller_eval.toFixed(1))
                                     });
                                 });
                             });
