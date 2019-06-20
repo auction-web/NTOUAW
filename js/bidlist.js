@@ -82,21 +82,64 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).collection('Products').get().then(bid_product => {
             //console.log(bid_product.docs[0].data()['product_id']);
             db.collection('Product').where('product_id', '==', bid_product.docs[0].data()['product_id']).get().then(product => {
-
+                var now = new Date();   
+                var end = product.docs[0].data()['finish_time'].toDate();
+                console.log(end);
+                console.log(now);
+                
                 var product_data = snapshot.docs[i].data();
                 //console.log(product);
                 var product_state;
                 //console.log(product_data);
                 var confirm_state = 'disabled';
+                var eval_state = 'disabled';
                 if(product_data['order_state'] == 0){
-                    product_state = '處理中';
-                    confirm_state = '';
+                    product_state = '競標進行中';
                 }
                 else if(product_data['order_state'] == 2){
                     product_state = '已完成';
+                    eval_state = '';
                 }
                 else if(product_data['order_state'] == 3){
-                    product_state = '競標進行中';
+                    product_state = '得標';
+                    confirm_state = '';
+                }
+                else if(produc_data['order_state'] == 5){
+                    product_state = '未得標';
+                }
+                if(now > end){
+                    console.log("change state");
+                    if(bid_product.docs[0].data()['product_price'] == product.docs[0].data()['price']){
+                        product_state = '得標';
+                        confirm_state = '';
+                        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).update({
+                            order_state : 3
+                        });
+                        db.collection('User23').where('User_name', '==', product_data['seller_account']).get().then(seller_id => {
+                            
+                            db.collection('User23').doc(seller_id.docs[0]['id']).collection('iamSeller').where('order_id', '==', product_data['order_id']).get().then(seller_order => {
+                                db.collection('User23').doc(seller_id.docs[0]['id']).collection('iamSeller').doc(seller_order.docs[0]['id']).update({
+                                    order_state : 3
+                                });
+                            });
+                        });
+                    }
+                    else{
+                        product_state = '未得標';
+                        db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).update({
+                            order_state : 5
+                        });
+                        db.collection('User23').where('user_name', '==', product_data['seller_account']).get().then(seller_id => {
+                            console.log(seller_id);
+                            db.collection('User23').doc(seller_id.docs[0]['id']).collection('iamSeller').where('order_id', '==', product_data['order_id']).get().then(seller_order => {
+                                console.log(seller_order);
+                                db.collection('User23').doc(seller_id.docs[0]['id']).collection('iamSeller').doc(seller_order.docs[0]['id']).update({
+                                    order_state : 5
+                                });
+                            });
+                        });
+                    }
+                    
                 }
                 var date = product_data['build_time'].toDate();
                 //console.log(date);
@@ -129,7 +172,7 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                         '<input class = "list_button" id = "BP_check' + product_data['order_id'] + '" type = "button" onclick = "BP_confirm(' + product_data['order_id'] + ')" value = "確認" ' + confirm_state + '>' +
                                     '</td>' + 
                                     '<td>' +
-                                        '<input class = "list_button" id = "BP_eval' + product_data['order_id'] + '" type = "button" onclick="product_eval_reason(\'BP\', ' + product_data['order_id'] + ', 0);" value = "評價">' +
+                                        '<input class = "list_button" id = "BP_eval' + product_data['order_id'] + '" type = "button" onclick="product_eval_reason(\'BP\', ' + product_data['order_id'] + ', 0);" value = "評價" ' + eval_state + '>' +
                                     '</td>' +
                                 '</tr>';
             });
