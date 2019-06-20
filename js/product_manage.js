@@ -97,6 +97,10 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         else{
             product_state = '下架';
         }
+        var product_info = 'product-details';
+        if(product_data['is_Bid']){
+            product_info = 'product-bid'
+        }
         var date = product_data['build_time'].toDate();
         //console.log(date);
         show.innerHTML = show.innerHTML + '<tr>' +
@@ -104,7 +108,7 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                 '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
                             '</td>' +
                             '<td>' +
-                                '<a class = "listID" href = "./product-details.html?id=' + product_data['product_id'] +'">' + product_data['product_title'] + '</a>' +
+                                '<a class = "listID" href = "./' + product_info + '.html?id=' + product_data['product_id'] +'">' + product_data['product_title'] + '</a>' +
                             '</td>' +
                             '<td>' +
                                 '<span class = "bid">' + product_data['is_Bid'] + '</span>' +
