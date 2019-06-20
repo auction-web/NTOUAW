@@ -91,6 +91,8 @@ PM_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
         else if(product_data['state'] == 5){
             product_state = '刪除';
+            ignore++;
+            continue
         }
         else{
             product_state = '下架';
