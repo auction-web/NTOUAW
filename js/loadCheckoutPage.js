@@ -21,28 +21,175 @@ if (readCookie('isBid') == 'true') {
 } else {
     isBid = false;
 }
+////
+createCookie("isCart", true);
+createCookie('Cart_cookie', '1,1|30,3|28,2|');
+var cartInfo
+var cartProductNum;
+var cartProductID = new Array();
+var cartProductQuan = new Array();
+var cartProductPrice = 0;
+var cartDelieveryFee;
+var sum;
+////
+getCartProductInfo = function () {
+    cartInfo = readCookie('Cart_cookie').split('|');
+    console.log("cartInfo: ", cartInfo);
+    cartProductNum = cartInfo.length - 1; //最後一個是空的
+    console.log("cartProductNum: ", cartProductNum);
+
+    for (var i = 0; i < cartProductNum; i++) {
+        var cartProduct = cartInfo[i];
+        console.log('cartProduct: ', cartProduct);
+
+        cartProductID[i] = Number(cartProduct.split(',')[0]);
+        cartProductQuan[i] = Number(cartProduct.split(',')[1]);
+    }
+    console.log("cartProductID: ", cartProductID);
+    console.log("cartProductQuan: ", cartProductQuan);
+    prepare_checkout_list(cartProductID, cartProductNum);
+
+}
+prepare_checkout_list = function (cartProductID, cartProductNum) {
+    for (var i = 0; i < cartProductNum; i++) {
+        var checkout_list = document.getElementById('checkout_list');
+        checkout_list.innerHTML = '';
+        console.log("cartProductID: ", cartProductID[i]);
+
+        db.collection('Product').where('product_id', '==', cartProductID[i]).get().then(product => {
+            Cart_Dynamic_HTML(checkout_list, product);
+        });
+    }
+}
+find_Quan_by_id = function (id) {
+    var index = cartProductID.indexOf(id);
+    return cartProductQuan[index];
+}
+calculate_price = function () {
+
+}
+create_delievery_list = function (id, delievery, delieveryFee) {
+    var delieveryList = '<td>' +
+        '<select id="deliveryMethod' + id + '" name = "itemfilter">';
+    for (var i = 0; i < 3; i++) {
+        if (delievery[i] == true) {
+            switch (i) {
+                case 0:
+                    delieveryList = delieveryList + '<option value = "0">超商店到店$' +
+                        delieveryFee[i] + '</option>';
+                    break;
+                case 1:
+                    delieveryList = delieveryList + '<option value = "1">宅急便$' +
+                        delieveryFee[i] + '</option>';
+                    break;
+                case 2:
+                    delieveryList = delieveryList + '<option value = "2">面交$' +
+                        delieveryFee[i] + '</option>';
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    delieveryList = delieveryList + '</select>' + '</td>';
+    return delieveryList;
+}
+
+Cart_Dynamic_HTML = function (checkout_list, snapshot) {
+    html_r++;
+    console.log('html_r', html_r);
+    var product_data = snapshot.docs[0].data();
+    console.log('product_data:　', (snapshot.docs[0].data()));
+
+    var productName = product_data.product_title;
+    var productprice = product_data.price;
+    var productNum = find_Quan_by_id(product_data.product_id);
+    console.log('productNum:　', productNum);
+    cartProductPrice = cartProductPrice + productprice * productNum;
+    console.log('cartProductPrice:　', cartProductPrice);
+
+
+    var delievery = product_data.delivery;
+    console.log('delievery:　', delievery);
+
+    var delieveryFee = product_data.delivery_fee;
+    console.log('delieveryFee: ', delieveryFee);
+
+    var delieveryList = create_delievery_list(product_data.product_id, delievery, delieveryFee);
+
+    checkout_list.innerHTML = checkout_list.innerHTML +
+        '<tr>' +
+        '<td class="checkout_product_img">' +
+        '<a href="#">' + '<img src="img/bg-img/cart1.jpg" alt="Product">' + '</a>' +
+        '</td>' +
+        //product name
+        '<td class="check_product_desc">' +
+        '<h5 id="product-name">' + productName + '</h5>' +
+        '</td>' +
+        // product name 
+        '<td class="price">' +
+        '<span id="product-price">' + productprice + '</span>' +
+        '</td>' +
+        // product quantity 
+        '<td class="qty">' +
+        '<span id="qty">' + productNum + '</span>' +
+        '</td>' +
+        // delievery
+        delieveryList +
+        '<td class = "note">' +
+        '<textarea id="productRemark" placeholder="請輸入產品規格(若沒有則圖需輸入)或想給賣家的話"></textarea>' +
+        '</td>';
+
+    var listID = '#deliveryMethod' + product_data.product_id;
+    (function ($) {
+        $(listID).change(function () {
+            var method = Number($(listID).val());
+            //console.log("method = ", method);
+            switch (method) {
+                case 0:
+                    delieveryFee[0];
+                    console.log('delieveryFee[0]: ', delieveryFee[0]);
+
+                    break;
+                case 1:
+                    delieveryFee[1];
+                    console.log('delieveryFee[1]: ', delieveryFee[1]);
+
+                    break;
+                case 2:
+                    delieveryFee[2];
+                    console.log('delieveryFee[2]: ', delieveryFee[2]);
+
+                    break;
+                default:
+                    console.log("error.");
+                    break;
+            }
+            //recaculate the price and sum
+            sum = totalPrice + delievery_final_fee;
+            $('#summery-sum').text("$" + sum);
+        });
+    })(jQuery);
+
+    calculate_price(html_r);
+}
 // is from cart or not?
 var isCart;
-var cartInfo
 if (readCookie('isCart') == 'true') {
     isCart = true;
-    cartInfo = readCookie('Cart_cookie').split('|');
-    console.log("cartInfo",cartInfo);
-    cartProductNum = cartInfo.length;
+    getCartProductInfo();
 } else {
     isCart = false;
 }
-var cookies = readCookie('id');
-var User_cookies = 'User' + cookies;
-var cart_size;
+
+
+var id = readCookie('id');
+var User_id = 'User' + id;
 var cart_data;
 var html_r = 0;
-db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
-    cart_size = product_list.data()['Product1'].length;
-    cart_data = product_list.data()['Product1'];
-    console.log(cart_data);
-    prepare_checkout_list(cart_data, cart_size);
-});
+
+
+
 
 //get and set data in checkout page
 (function ($) {
@@ -82,7 +229,7 @@ db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get()
     $('#deliveryMethod').change(function () {
         var method = Number($('#deliveryMethod').val());
         //console.log("method = ", method);
-        switch (method - 1) {
+        switch (method) {
             case 0:
                 delievery_final_method = 0;
                 delievery_final_fee = delievery_fee_payWhenGet;
@@ -268,61 +415,6 @@ db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get()
 
 })(jQuery); //end "get and set data in checkout page"
 
-prepare_checkout_list = function (cart_data, cart_size) {
-    for (var i = 0; i < cart_size; i++) {
-        var checkout_list = document.getElementById('checkout_list');
-        checkout_list.innerHTML = '';
-        db.collection('Product').where('product_id', '==', cart_data[i]).get().then(product => {
-            Cart_Dynamic_HTML(checkout_list, product);
-        });
-    }
-}
-
-Cart_Dynamic_HTML = function (checkout_list, snapshot) {
-    html_r++;
-    console.log(html_r);
-    var product_data = snapshot.docs[0].data();
-    checkout_list.innerHTML = checkout_list.innerHTML +
-        '<tr>'+
-                                    '<td class="checkout_product_img">'+
-                                        '<a href="#">'+'<img src="img/bg-img/cart1.jpg" alt="Product">'+'</a>'+
-                                    '</td>'+
-                                    '<td class="check_product_desc">'+
-                                        '<h5 id="product-name">'+'</h5>'+
-                                    '</td>'+
-                                    // product name 
-                                    '<td class="price">'+
-                                        '<span id="product-price">'+'</span>'+
-                                    '</td>'+
-                                    // product quantity 
-                                    '<td class="qty">'+
-                                        '<span id="qty">'+'</span>'+
-                                    '</td>'+
-                                    // delievery
-                                    <td>
-                                         <select id="deliveryMethod" name = "itemfilter">
-                                            <option value = "1">超商店到店</option>
-                                            <option value = "2">宅急便</option>
-                                            <option value = "3">面交</option>
-                                        </select>
-                                    </td>
-                                    <!-- P.S. -->
-                                    <td class = "note">
-                                        <textarea id="productRemark" placeholder="請輸入產品規格(若沒有則圖需輸入)或想給賣家的話"></textarea>
-                                    </td>
-    calculate_price(html_r);
-}
-
-calculate_price = function (max_product = cart_size) {
-    var tab_total_price = document.getElementById("total_price");
-    var total_price = 0;
-    for (var i = 0; i < max_product; i++) {
-        var number = document.getElementById('qty' + cart_data[i]);
-        var price = document.getElementById('price' + cart_data[i]);
-        total_price = total_price + Number(number.value) * Number(price.textContent);
-    }
-    tab_total_price.textContent = total_price + "$";
-}
 
 //cookie創建
 function createCookie(name, value, days, path) {
