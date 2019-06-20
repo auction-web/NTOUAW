@@ -22,8 +22,6 @@ if (readCookie('isBid') == 'true') {
     isBid = false;
 }
 ////
-createCookie("isCart", true);
-createCookie('Cart_cookie', '1,1|30,3|28,2|');
 var cartInfo
 var cartProductNum;
 var cartProductID = new Array();
