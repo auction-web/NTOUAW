@@ -249,6 +249,7 @@ if (readCookie('isCart') == 'true') {
         var productID = Number(readCookie('productID'));
         var productName = readCookie('productName');
         var productPrice = readCookie('productPrice');
+        var productUrl = readCookie('productUrl');
         var productPrice_num = Number(productPrice.split('$')[1]);
         var quantity = readCookie('quantity');
         var totalPrice = productPrice_num * Number(quantity);
@@ -262,12 +263,14 @@ if (readCookie('isCart') == 'true') {
         var delievery_final_fee = delievery_fee_payWhenGet;
         var sum = totalPrice + delievery_fee_payWhenGet;
         console.log("sum = ", sum); //<-- get info from cookie
+        eraseCookie('productUrl');
 
         //--> set order's info in checkout page
         // seller region
         $('#seller').text("賣家:" + sellerName);
         $('#product-name').text(productName);
         $('#product-price').text(productPrice);
+        $('#product_img').attr('src',productUrl);
         $('#qty').text(quantity);
         // summery region
         $('#summery-product-price').text(productPrice);
