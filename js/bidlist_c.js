@@ -205,6 +205,7 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     var i_list = [];
     var ignore = 0;
     var show = document.getElementById('bidlist_t');
+    show.innerHTML = '';
     max_page = Math.floor(snapshot.size / item_per_page) + 1;
     var page_start = 0;
     var recent_page_item = 0;
@@ -234,13 +235,13 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
         }
     }
     
-    console.log('ignore : ' + ignore);
-    console.log("max_size : " + snapshot.size);
+    //console.log('ignore : ' + ignore);
+    //console.log("max_size : " + snapshot.size);
     if(recent_page_item >= snapshot.size){
         recent_page_item = snapshot.size;
     }
-    console.log('start : ' + page_start);
-    console.log("end : " + recent_page_item);
+    //console.log('start : ' + page_start);
+    //console.log("end : " + recent_page_item);
     ignore = 0;
     for(var i = page_start; i < recent_page_item;){
         if((i + ignore) >= snapshot.size){
@@ -263,14 +264,14 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             i++;
         }
     }
-    console.log(i_list);
+    //console.log(i_list);
     i_list.forEach(i => {
         db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[i]['id']).collection('Products').get().then(bid_product => {
-            console.log(bid_product.docs[0].data()['product_id']);
+            //console.log(bid_product.docs[0].data()['product_id']);
             db.collection('Product').where('product_id', '==', bid_product.docs[0].data()['product_id']).get().then(product => {
 
                 var product_data = snapshot.docs[i].data();
-                console.log(product);
+                //console.log(product);
                 var product_state;
                 //console.log(product_data);
                 var confirm_state = 'disabled';

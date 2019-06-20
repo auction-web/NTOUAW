@@ -49932,8 +49932,8 @@ eval_confirm = function(tab ,mode, order_id){
                                         evaluation = evaluation + user_products.docs[i].data()['product_evaluation'];
                                         total_sold = total_sold + user_products.docs[i].data()['sold'];
                                     }
-                                    console.log(evaluation);
-                                    console.log(total_sold);
+                                    //console.log(evaluation);
+                                    //console.log(total_sold);
                                     var seller_eval = evaluation / total_sold;
                                     db.collection('User23').doc(user.docs[0]['id']).update({
                                         seller_evaluation:seller_eval.toFixed(1)
@@ -49961,7 +49961,7 @@ eval_confirm = function(tab ,mode, order_id){
                         });
                     });
                 });
-                console.log(order_id);
+                //console.log(order_id);
                 cancel('NP', order_id, 1);
                 eval_model_close();
             });

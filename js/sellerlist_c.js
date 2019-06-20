@@ -49741,7 +49741,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                 if(snapshot.docs[i].data()[itemfilter].toString().indexOf(String(item)) != -1){
                     ignore++;
                     if(ignore == (Number(page) - 1) * item_per_page){
-                        console.log("page max");
+                        //console.log("page max");
                         page_start = i + 1;
                         recent_page_item = i + 1 + item_per_page;
                         break;
@@ -49758,13 +49758,13 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     }
     
     //console.log('ignore : ' + ignore);
-    console.log("max_size : " + snapshot.size);
-    console.log("recent_page_item : " + recent_page_item);
+    //console.log("max_size : " + snapshot.size);
+    //console.log("recent_page_item : " + recent_page_item);
     if(recent_page_item >= snapshot.size){
         recent_page_item = snapshot.size;
     }
-    console.log('start : ' + page_start);
-    console.log("end : " + recent_page_item);
+    //console.log('start : ' + page_start);
+    //console.log("end : " + recent_page_item);
     ignore = 0;
     for(var i = page_start; i < recent_page_item;){
         if((i + ignore) == snapshot.size){
@@ -49846,7 +49846,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
 
 find_buyer_name = function(id){
     db.collection('User23').where('user_id', '==', id).get().then(buyer => {
-        console.log(buyer.docs[0].data()['user_name']);
+        //console.log(buyer.docs[0].data()['user_name']);
         return buyer.docs[0].data()['user_name'];
     });
 }

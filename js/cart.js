@@ -16,13 +16,12 @@ db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get()
     cart_data_t.forEach(index => {
         //console.log("data : " + index);
         db.collection('Product').where('product_id', '==', index).get().then(product => {
-            if(!product.empty){
+            if(product.docs[0].data()['state'] != 5){
                 //console.log(product.docs[0].data());
                 cart_data.push(product.docs[0].data()['product_id']);
                 //console.log(cart_data);
                 cart_size = cart_data.length;
             }
-            //console.log(cart_data_t);
             //console.log(cart_data_t[cart_data_t.length - 1]);
             if(index == cart_data_t[cart_data_t.length - 1]){
                 db.collection('User23').doc(User_cookies).collection('myCart').doc('Cart').update({
@@ -159,7 +158,7 @@ delete_cart = function(){
             }
         }
     }
-    console.log(cart_data);
+    //console.log(cart_data);
     db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").update({
         Product1 : cart_data
     });
