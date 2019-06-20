@@ -236,7 +236,7 @@ Cart_Dynamic_HTML = function(cart_list, snapshot){
     cart_list.innerHTML = cart_list.innerHTML +
                         '<tr>' + 
                             '<td>' +
-                                '<input class = "checkbox" id="checkbox' + product_data['product_id'] + '" type = "checkbox">' +
+                                '<input class = "checkbox" onclick="calculate_price()" id="checkbox' + product_data['product_id'] + '" type = "checkbox">' +
                             '</td>' +
                             '<td class="cart_product_img">' +
                                 '<a href="#"><img src="img/bg-img/cart1.jpg" alt="Product"></a>' +
@@ -287,7 +287,11 @@ calculate_price = function(max_product = cart_size){
     for(var i = 0; i < max_product; i++){
         var number = document.getElementById('qty' + cart_data[i]);
         var price = document.getElementById('price' + cart_data[i]);
-        total_price = total_price + Number(number.value) * Number(price.textContent);
+        var checkbox = document.getElementById('checkbox' + cart_data[i]);
+        var checkbox_all = document.getElementById('checkbox_all');
+        if(checkbox.checked || checkbox_all.checked){
+            total_price = total_price + Number(number.value) * Number(price.textContent);
+        }
     }
     tab_total_price.textContent = total_price + "$";
 }
@@ -326,6 +330,16 @@ cart_checkout = function(){
     var cart_cookies = "";
     
     var checkbox_all = document.getElementById('checkbox_all');
+    for(var i = 0; i < cart_size; i++){
+        var checkbox = document.getElementById('checkbox' + cart_data[i]);
+        console.log(cart_data[i]);
+        var number = document.getElementById('qty' + cart_data[i]);
+        if(checkbox.checked || checkbox_all.checked){
+            //cart_data.splice(i,1);
+            cart_cookies = cart_cookies + cart_data[i] + "," + number.value + "|";
+            //cart_size--;
+        }
+    }
     for(var i = 0; i < cart_size; i++){
         var checkbox = document.getElementById('checkbox' + cart_data[i]);
         console.log(cart_data[i]);
