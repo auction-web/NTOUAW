@@ -22,9 +22,9 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 		{}
 	else{
 		if(fee_max == fee_min)
-		  productsRef = productsRef.where('delivery_fee', '==', fee_min);
+		  productsRef = productsRef.where('min_delivery', '==', fee_min);
 		else
-		  productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+		  productsRef = productsRef.where("min_delivery", ">=", fee_min).where("min_delivery", "<=", fee_max);
 	}
 
 	if(select_evaluation != 0)
@@ -38,7 +38,7 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 	}
 
 	if(itemfilter == 'seller'){
-		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
+		productQueryRef = productsRef.where('seller_account', '==', input).where('state', '==', 0).get()//???
 		.then(snapshot => {
 			product_order('Products', storage, snapshot, page);
 		})
@@ -48,7 +48,7 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 		});
 	}
 	else{
-		productQueryRef = productsRef.get().then(snapshot => {
+		productQueryRef = productsRef.where('state', '==', 0).get().then(snapshot => {
 			var total = 0; //also equal to total searched index
 			var showing = 0;// showing products index
   			snapshot.forEach(doc => { 	

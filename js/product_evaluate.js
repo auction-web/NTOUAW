@@ -169,11 +169,14 @@ eval_confirm = function(tab ,mode, order_id){
             var confirm_button;
             if(tab == 'NP'){
                 confirm_button = document.getElementById('NP_eval' + order_id);
+                confirm_button.disabled = true;
             }
             else{
+                console.log("BP eval");
                 confirm_button = document.getElementById('BP_eval' + order_id);
+                confirm_button.disabled = true;
             }
-            confirm_button.disabled = true;
+            
             db.collection('User23').doc(User_cookies).collection('iamBuyer').where('order_id', '==', order_id).get().then(snapshot =>{
                 //update buyer evaluate state
                 db.collection('User23').doc(User_cookies).collection('iamBuyer').doc(snapshot.docs[0]['id']).update({
@@ -199,20 +202,23 @@ eval_confirm = function(tab ,mode, order_id){
                             var eval = shop_product.docs[0].data()['product_evaluation'];
                             var r_sold = product_data['product_quantity'];
                             
-                            var point = (sold * eval + r_point.value * r_sold) / (sold + r_sold);
+                            
+                            var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold - 1);
                             db.collection('Product').doc(shop_product.docs[0]['id']).update({
-                                product_evaluation:point.toFixed(1)
+                                product_evaluation: Number(point.toFixed(1))
                             });
                             //to user product
                             db.collection('User23').where('account', '==', shop_product.docs[0].data()['seller_account']).get().then(user => {
                                 db.collection('User23').doc(user.docs[0]['id']).collection('iamSeller').where('product_id', '==', product_data['product_id']).get().then(user_product => {
-                                    var sold = user_product.docs[0].data()['sold'];
-                                    var eval = user_product.docs[0].data()['product_evaluation'];
-                                    var r_sold = product_data['product_quantity'];
-
-                                    var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold);
+//                                    var sold = user_product.docs[0].data()['sold'];
+//                                    var eval = user_product.docs[0].data()['product_evaluation'];
+//                                    var r_sold = product_data['product_quantity'];
+//                                    
+//                                    
+//                                    var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold);
+                                    console.log("pp : " + point);
                                     db.collection('User23').doc(user.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
-                                        product_evaluation:point.toFixed(1)
+                                        product_evaluation: Number(point.toFixed(1))
                                     });
                                 });
                                 //to user self
@@ -223,11 +229,11 @@ eval_confirm = function(tab ,mode, order_id){
                                         evaluation = evaluation + user_products.docs[i].data()['product_evaluation'];
                                         total_sold = total_sold + user_products.docs[i].data()['sold'];
                                     }
-                                    //console.log(evaluation);
-                                    //console.log(total_sold);
-                                    var seller_eval = evaluation / total_sold;
+                                    console.log(evaluation);
+                                    console.log(total_sold);
+                                    var seller_eval = Number(evaluation) / total_sold;
                                     db.collection('User23').doc(user.docs[0]['id']).update({
-                                        seller_evaluation:seller_eval.toFixed(1)
+                                        seller_evaluation:Number(seller_eval.toFixed(1))
                                     });
                                 });
                             });

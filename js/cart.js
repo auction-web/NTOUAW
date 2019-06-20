@@ -107,13 +107,15 @@ sub_qty = function(id){
 }
 
 add_qty = function(id){
-    var effect = document.getElementById('qty' + id);
-    var qty = effect.value;
-    if( !isNaN( qty )){
-        effect.value++;
-    }
-    calculate_price();
-    return false;
+    db.collection('Product').doc('Product' + id).get().then(product => {
+        var effect = document.getElementById('qty' + id);
+        var qty = effect.value;
+        if( !isNaN( qty ) && qty < product.data()['product_quantity']){
+            effect.value++;
+        }
+        calculate_price();
+        return false;
+    });
 }
 
 calculate_price = function(max_page = html_r){

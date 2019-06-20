@@ -12,19 +12,34 @@
     display: inline !important; 
 } 
 
-/* side bar area start */
-
-/* side bar area end */
-
-    /* Score Filter */
-    .score-filter-p {
-        margin-top: auto;
-        margin-right: 5%;
-        margin-bottom: auto;
-        margin-left: 0;
-    }
+/* Score Filter */
+.score-filter-p {
+    margin-top: auto;
+    margin-right: 5%;
+    margin-bottom: auto;
+    margin-left: 0;
+}
 
 /* main product area start */
+div.product-img a img{
+    height: 550px;;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    div.product-img a img{
+    height: 600px;
+}
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    div.product-img a img{
+    height: 550px;
+}
+}
+@media only screen and (max-width: 767px) {
+    div.product-img a img{
+    height: 350px;
+}
+}
     /* page number area */
     .howamnypages {
         margin-bottom: 0 !important;
