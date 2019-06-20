@@ -4,16 +4,35 @@ var cookies = getCookie('id');
 var User_cookies = 'User' + cookies;
 var User = User_cookies + '/';
 var cart_size;
-var cart_data;
+var cart_data = [];
 var html_r = 0;
 db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
-    cart_size = product_list.data()['Product1'].length;
-    cart_data = product_list.data()['Product1'];
-    console.log(cart_data);
-    prepare_cart_list(cart_data, cart_size);
+    cart_data_t = product_list.data()['Product1'];
+    console.log(cart_data_t);
+    cart_data_t.forEach(index => {
+        console.log("data : " + index);
+        db.collection('Product').where('product_id', '==', index).get().then(product => {
+            if(!product.empty){
+                //console.log(product.docs[0].data());
+                cart_data.push(product.docs[0].data()['product_id']);
+                //console.log(cart_data);
+                cart_size = cart_data.length;
+            }
+            console.log(cart_data_t);
+            console.log(cart_data_t[cart_data_t.length - 1]);
+            if(index == cart_data_t[cart_data_t.length - 1]){
+                db.collection('User23').doc(User_cookies).collection('myCart').doc('Cart').update({
+                    Product1 : cart_data
+                });
+                prepare_cart_list(cart_data, cart_size);
+            }
+        });
+    });
+    
 });
 
 prepare_cart_list = function(cart_data, cart_size){
+    console.log("prepare : " + cart_data);
     for(var i = 0 ; i < cart_size; i++){
         var cart_list = document.getElementById('cart_list');
         cart_list.innerHTML = '';
@@ -113,20 +132,21 @@ delete_cart = function(){
     //});
 }
 
-checkout = function(){
+cart_checkout = function(){
     //db.collection('User23').doc(User_cookies).collection('myCart').doc("Cart").get().then(product_list => {
     //var cart_size = product_list.data()['Product1'].length;
     //var cart_data = product_list.data()['Product1'];
     var cart_cookies = "";
+    
     var checkbox_all = document.getElementById('checkbox_all');
     for(var i = 0; i < cart_size; i++){
         var checkbox = document.getElementById('checkbox' + cart_data[i]);
+        console.log(cart_data[i]);
         var number = document.getElementById('qty' + cart_data[i]);
         if(checkbox.checked || checkbox_all.checked){
             //cart_data.splice(i,1);
             cart_cookies = cart_cookies + cart_data[i] + "," + number.value + "|";
             //cart_size--;
-
         }
     }
     console.log(cart_cookies);
