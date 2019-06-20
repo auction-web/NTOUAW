@@ -15,9 +15,9 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
     {}
   else{
     if(fee_max == fee_min)
-      productsRef = productsRef.where('delivery_fee', '==', fee_min);
+      productsRef = productsRef.where('min_delivery', '==', fee_min);
     else
-      productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+      productsRef = productsRef.where("min_delivery", ">=", fee_min).where("min_delivery", "<=", fee_max);
   }
 
   if(select_evaluation != 0)
@@ -32,7 +32,7 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
 
 
 
-	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).get().
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).where('state', '==', 0).get().
 			then(snapshot => {
         
 				product_order('Products', storage, snapshot, page);

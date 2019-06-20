@@ -9,7 +9,7 @@ search = function(db, storage, input, itemfilter, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	if(itemfilter == 'seller'){
-		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
+		productQueryRef = productsRef.where('seller_account', '==', input).where('state', '==', 0).get()//???
 		.then(snapshot => {
 			product_order('Products', storage, snapshot, page);
 		})
@@ -19,7 +19,7 @@ search = function(db, storage, input, itemfilter, page){
 		});
 	}
 	else{
-		productQueryRef = productsRef.get().then(snapshot => {
+		productQueryRef = productsRef.where('state', '==', 0).get().then(snapshot => {
 			var total = 0; //also equal to total searched index
 			var showing = 0;// showing products index
   			snapshot.forEach(doc => { 	

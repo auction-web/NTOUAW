@@ -229,7 +229,7 @@ module.exports = firebase
 getKindPoducts = function(db, storage, kind, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
-	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).orderBy('sold', 'desc').get().//order by sold
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).where('state', '==', 0).orderBy('sold', 'desc').get().//order by sold
 			then(snapshot => {
         //last = snapshot.docs[snapshot.docs.length - 1];
 				product_order('Products', storage, snapshot, page);//product_order(div_id, snapshot, page);
@@ -281,9 +281,9 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
     {}
   else{
     if(fee_max == fee_min)
-      productsRef = productsRef.where('delivery_fee', '==', fee_min);
+      productsRef = productsRef.where('min_delivery', '==', fee_min);
     else
-      productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+      productsRef = productsRef.where("min_delivery", ">=", fee_min).where("min_delivery", "<=", fee_max);
   }
 
   if(select_evaluation != 0)
@@ -298,7 +298,7 @@ getKindPoducts_filter = function(db, storage, kind, page, price_max, price_min, 
 
 
 
-	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).get().
+	var productQueryRef = productsRef.where('product_kind', '==', Number(kind)).where('state', '==', 0).get().
 			then(snapshot => {
         
 				product_order('Products', storage, snapshot, page);
@@ -50057,7 +50057,7 @@ search = function(db, storage, input, itemfilter, page){
 
 	var productsRef = db.collection('Product');/////////////////////!!!!!!!!!!!!!!!!!!!!!!!Products
 	if(itemfilter == 'seller'){
-		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
+		productQueryRef = productsRef.where('seller_account', '==', input).where('state', '==', 0).get()//???
 		.then(snapshot => {
 			product_order('Products', storage, snapshot, page);
 		})
@@ -50067,7 +50067,7 @@ search = function(db, storage, input, itemfilter, page){
 		});
 	}
 	else{
-		productQueryRef = productsRef.get().then(snapshot => {
+		productQueryRef = productsRef.where('state', '==', 0).get().then(snapshot => {
 			var total = 0; //also equal to total searched index
 			var showing = 0;// showing products index
   			snapshot.forEach(doc => { 	
@@ -50230,9 +50230,9 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 		{}
 	else{
 		if(fee_max == fee_min)
-		  productsRef = productsRef.where('delivery_fee', '==', fee_min);
+		  productsRef = productsRef.where('min_delivery', '==', fee_min);
 		else
-		  productsRef = productsRef.where("delivery_fee", ">=", fee_min).where("delivery_fee", "<=", fee_max);
+		  productsRef = productsRef.where("min_delivery", ">=", fee_min).where("min_delivery", "<=", fee_max);
 	}
 
 	if(select_evaluation != 0)
@@ -50246,7 +50246,7 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 	}
 
 	if(itemfilter == 'seller'){
-		productQueryRef = productsRef.where('seller_account', '==', input).get()//???
+		productQueryRef = productsRef.where('seller_account', '==', input).where('state', '==', 0).get()//???
 		.then(snapshot => {
 			product_order('Products', storage, snapshot, page);
 		})
@@ -50256,7 +50256,7 @@ search_filter = function(db, storage, input, itemfilter, page, price_max, price_
 		});
 	}
 	else{
-		productQueryRef = productsRef.get().then(snapshot => {
+		productQueryRef = productsRef.where('state', '==', 0).get().then(snapshot => {
 			var total = 0; //also equal to total searched index
 			var showing = 0;// showing products index
   			snapshot.forEach(doc => { 	
