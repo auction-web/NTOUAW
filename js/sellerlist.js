@@ -14,6 +14,7 @@ var search_itemfilter = '';
 var item_per_page = 10;
 
 SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
+    console.log(snapshot);
     var ignore = 0;
     var show = document.getElementById('sellerlist_t');
     show.innerHTML = ''
@@ -57,6 +58,7 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
     //console.log('start : ' + page_start);
     //console.log("end : " + recent_page_item);
     ignore = 0;
+    var i_list = [];
     for(var i = page_start; i < recent_page_item;){
         if((i + ignore) == snapshot.size){
             //ignore = ignore + i;
@@ -74,65 +76,76 @@ SL_Dynamic_HTML = function(page, snapshot, item, itemfilter){
             ignore++;
             continue;
         }
-        
-        var sellerlist_data = snapshot.docs[i + ignore].data();
-        var sellerlist_state;
-        var button_state = 'disabled';
-        var eval_button_state = 'disabled';
-        if(sellerlist_data['order_state'] == 0){
-            sellerlist_state = '交易處理中';
-        }
-        else if(sellerlist_data['order_state'] == 1){
-            sellerlist_state = '取消申請中';
-            button_state = '';
-        }
-        else if(sellerlist_data['order_state'] == 2){
-            sellerlist_state = '已完成';
-            if(sellerlist_data['is_seller_evaluated']){
-                eval_button_state = 'disabled';
-            }
-            else{
-                eval_button_state = '';
-            }
-        }
-        else if(sellerlist_data['order_state'] == 4){
-            sellerlist_state = '訂單取消';
-        }
-        var date = sellerlist_data['build_time'].toDate();
-        show.innerHTML = show.innerHTML + '<tr>' + 
-                            '<td>' +
-                                '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<a class = "listID" href = "././listdetail.html?order_id=' + sellerlist_data['order_id'] + '&isbuyer=0">' + sellerlist_data['order_id'] + '</a>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "criticize">' + sellerlist_data['buyer_evaluation'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "price">' + sellerlist_data['total_price'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "d_price">' + sellerlist_data['total_price'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "selfdefine">' + sellerlist_data['buyer_account'] + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
-                            '</td>' +
-                            '<td>' +
-                                '<input class = "list_button" id="SL_eval' + sellerlist_data['order_id'] + '" type = "button"  onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
-                            '</td>' +
-                            '<td>' +
-                                    '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
-                            '</td>' +
-                        '</tr>';
+        i_list.push(i);
             
         if(next){
             i++;
         }
     }
+    i_list.forEach(i => {
+        console.log(snapshot.docs[i]['id']);
+        db.collection("User23").doc(User_cookies).collection("iamSeller").doc(snapshot.docs[i]['id']).collection("Products").get().then(product => {
+            console.log(product);
+            var sellerlist_data = snapshot.docs[i].data();
+            var sellerlist_state;
+            var button_state = 'disabled';
+            var eval_button_state = 'disabled';
+            if(sellerlist_data['order_state'] == 0){
+                sellerlist_state = '交易處理中';
+            }
+            else if(sellerlist_data['order_state'] == 1){
+                sellerlist_state = '取消申請中';
+                button_state = '';
+            }
+            else if(sellerlist_data['order_state'] == 2){
+                sellerlist_state = '已完成';
+                if(sellerlist_data['is_seller_evaluated']){
+                    eval_button_state = 'disabled';
+                }
+                else{
+                    eval_button_state = '';
+                }
+            }
+            else if(sellerlist_data['order_state'] == 4){
+                sellerlist_state = '訂單取消';
+            }
+
+            db.collection("User23").doc(User_cookies).collection('iamSeller').doc(snapshot.docs[0]['id']).collection('Products').doc('Product1').get().then(list_product => {
+                console.log(list_product.data()['delivery_fee']);
+            });
+            console.log("create html");
+            var date = sellerlist_data['build_time'].toDate();
+            show.innerHTML = show.innerHTML + '<tr>' + 
+                                '<td>' +
+                                    '<span class = "date">' + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<a class = "listID" href = "././listdetail.html?order_id=' + sellerlist_data['order_id'] + '&isbuyer=0">' + sellerlist_data['order_id'] + '</a>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class = "criticize">' + sellerlist_data['buyer_evaluation'] + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class = "price">' + sellerlist_data['total_price'] + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class = "d_price">' + product.docs[0].data()['delivery_fee'] + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class = "selfdefine">' + sellerlist_data['buyer_account'] + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<span class = "selfdefine" id = "SL_order_state' + sellerlist_data['order_id'] + '">' + sellerlist_state + '</span>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<input class = "list_button" id="SL_eval' + sellerlist_data['order_id'] + '" type = "button"  onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 0);" value = "評價" ' + eval_button_state + '>' +
+                                '</td>' +
+                                '<td>' +
+                                        '<input class = "list_button" id="SL_check' + sellerlist_data['order_id'] + '" type = "button" onclick = "product_eval_reason(\'SL\', ' + sellerlist_data['order_id'] + ', 1)" value = "查看"' + button_state + '>'
+                                '</td>' +
+                            '</tr>';
+        });
+    });
 }
 
 find_buyer_name = function(id){

@@ -299,7 +299,7 @@ eval_confirm = function(tab ,mode, order_id){
                         var temp2 = total + 1;
                         //update buyer evaluation
                         db.collection('User23').doc(buyer_account.docs[0]['id']).update({
-                            buyer_evaluation: point.toFixed(1)
+                            buyer_evaluation: Number(point.toFixed(1))
                         });
                     });
                     eval_model_close();
