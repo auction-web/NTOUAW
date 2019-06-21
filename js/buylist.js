@@ -280,7 +280,7 @@ confirm = function(order_id){
             var cancel = document.getElementById('NP_cancel' + order_id);
             cancel.disabled = true;
             var order_state = document.getElementById('NP_order_state' + order_id);
-            order_state = "已完成";
+            order_state.textContent = "已完成";
             var eval_state = document.getElementById('NP_eval' + order_id);
             eval_state.disabled = false;
             

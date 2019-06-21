@@ -467,7 +467,7 @@ confirm = function(order_id){
             var cancel = document.getElementById('NP_cancel' + order_id);
             cancel.disabled = true;
             var order_state = document.getElementById('NP_order_state' + order_id);
-            order_state = "已完成";
+            order_state.textContent = "已完成";
             var eval_state = document.getElementById('NP_eval' + order_id);
             eval_state.disabled = false;
             
@@ -495,7 +495,7 @@ confirm = function(order_id){
                                     var sold = shop_product.docs[0].data()['sold'];
                                     sold = sold + list_product_data_quy;
                                     db.collection('Product').doc(shop_product.docs[0]['id']).update({
-                                        sold : sold
+                                        sold : Number(sold)
                                     });
                                     //user
                                     var seller_account = shop_product.docs[0].data()['seller_account']
@@ -504,7 +504,7 @@ confirm = function(order_id){
                                             var sold = user_product.docs[0].data()['sold'];
                                             sold = sold + list_product_data_quy;
                                             db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
-                                                sold : sold
+                                                sold : Number(sold)
                                             });
                                         });
                                     });

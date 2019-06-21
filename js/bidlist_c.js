@@ -340,7 +340,7 @@ BP_Dynamic_HTML = function(page, snapshot, item, itemfilter){
                                         '<a class = "listID" href = "./listdetail.html?order_id=' + product_data['order_id'] + '&isbuyer=1">' + product_data['order_id'] + '</a>' +
                                     '</td>' +
                                     '<td>' +
-                                        '<a class = "listID" href = "./product-details.html?id=' + bid_product.docs[0].data()['product_id'] +'">' + bid_product.docs[0].data()['product_title'] + '</a>' +
+                                        '<a class = "listID" href = "./product-bid.html?id=' + bid_product.docs[0].data()['product_id'] +'">' + bid_product.docs[0].data()['product_title'] + '</a>' +
                                     '</td>' +
                                     '<td>' +
                                         '<span class = "selfdefine">' + bid_product.docs[0].data()['product_price'] + '</span>' +
