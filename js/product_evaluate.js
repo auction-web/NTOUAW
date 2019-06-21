@@ -201,9 +201,12 @@ eval_confirm = function(tab ,mode, order_id){
                             var sold = shop_product.docs[0].data()['sold'];
                             var eval = shop_product.docs[0].data()['product_evaluation'];
                             var r_sold = product_data['product_quantity'];
+                            console.log("sold : " + sold);
+                            console.log("eval : " + eval);
+                            console.log("r_sold : " + r_sold);
                             
-                            
-                            var point = (sold * eval + Number(r_point.value) * r_sold) / (sold + r_sold - 1);
+                            var point = ((sold - r_sold) * eval + Number(r_point.value) * r_sold) / sold;
+                            console.log("point : " + point);
                             db.collection('Product').doc(shop_product.docs[0]['id']).update({
                                 product_evaluation: Number(point.toFixed(1))
                             });

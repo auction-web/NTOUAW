@@ -308,7 +308,7 @@ confirm = function(order_id){
                                     var sold = shop_product.docs[0].data()['sold'];
                                     sold = sold + list_product_data_quy;
                                     db.collection('Product').doc(shop_product.docs[0]['id']).update({
-                                        sold : sold
+                                        sold : Number(sold)
                                     });
                                     //user
                                     var seller_account = shop_product.docs[0].data()['seller_account']
@@ -317,7 +317,7 @@ confirm = function(order_id){
                                             var sold = user_product.docs[0].data()['sold'];
                                             sold = sold + list_product_data_quy;
                                             db.collection('User23').doc(seller.docs[0]['id']).collection('iamSeller').doc(user_product.docs[0]['id']).update({
-                                                sold : sold
+                                                sold : Number(sold)
                                             });
                                         });
                                     });
