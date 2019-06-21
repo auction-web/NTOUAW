@@ -46,6 +46,7 @@ for (var i = 1; i <= 5; i++) {
     var productDetail = new Object();
     var sellerDetail = new Object();
     var productID;
+    var productUrl;
     var price;
     var productName;
     var critize;
@@ -276,6 +277,7 @@ for (var i = 1; i <= 5; i++) {
         }
         //讀取firebase中的圖片寫入
         var productImagRef = storage.ref().child('Products/' + productDoc + productImagNum).getDownloadURL().then(function (url) {
+            
             // `url` is the download URL for 'images/stars.jpg'
             imagNum = (url.split('?')[0]).split('F')[2];
             var imageID = "#image" + imagNum;
@@ -289,6 +291,7 @@ for (var i = 1; i <= 5; i++) {
 
             //--> write productImage[0]'s url into cookie(用於商品瀏覽紀錄)
             if (imagNum == '0') {
+                createCookie('productUrl',url);
                 if (!is_sameAsLastOne) { //跟上次瀏覽的為不同商品才寫入
                     createCookie(ckQueueUrl, url);
                 }

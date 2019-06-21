@@ -218,22 +218,22 @@ if (readCookie('isCart') == 'true') {
 
         //--> click "checkout confirm" button.
         $('#checkoutConfirm').click(function () {
-                alert("交易中，請稍後......");
-                //--> erase cookie info
-                eraseCookie('isBid');
-                eraseCookie('isCart');
-                eraseCookie('sellerName');
-                eraseCookie('productName');
-                eraseCookie('productID');
-                eraseCookie('productPrice');
-                eraseCookie('quantity', 1);
-                eraseCookie('delievery_payWhenGet');
-                eraseCookie('delievery_blackCat');
-                eraseCookie('delievery_face');
-                setTimeout(function () {
-                    alert("訂單交易成功! 按下確認將自動跳轉至首頁");
-                    location.href = "./home.html";
-                }, 2000);
+            alert("交易中，請稍後......");
+            //--> erase cookie info
+            eraseCookie('isBid');
+            eraseCookie('isCart');
+            eraseCookie('sellerName');
+            eraseCookie('productName');
+            eraseCookie('productID');
+            eraseCookie('productPrice');
+            eraseCookie('quantity', 1);
+            eraseCookie('delievery_payWhenGet');
+            eraseCookie('delievery_blackCat');
+            eraseCookie('delievery_face');
+            setTimeout(function () {
+                alert("訂單交易成功! 按下確認將自動跳轉至首頁");
+                location.href = "./home.html";
+            }, 2000);
         }); //<-- "checkout button" handler
 
     }
@@ -249,6 +249,7 @@ if (readCookie('isCart') == 'true') {
         var productID = Number(readCookie('productID'));
         var productName = readCookie('productName');
         var productPrice = readCookie('productPrice');
+        var productUrl = readCookie('productUrl');
         var productPrice_num = Number(productPrice.split('$')[1]);
         var quantity = readCookie('quantity');
         var totalPrice = productPrice_num * Number(quantity);
@@ -262,12 +263,26 @@ if (readCookie('isCart') == 'true') {
         var delievery_final_fee = delievery_fee_payWhenGet;
         var sum = totalPrice + delievery_fee_payWhenGet;
         console.log("sum = ", sum); //<-- get info from cookie
+        eraseCookie('productID');
+        eraseCookie('productName');
+        eraseCookie('productPrice');
+        eraseCookie('productUrl');
+        eraseCookie('delievery_payWhenGet');
+        eraseCookie('delievery_blackCat');
+        eraseCookie('delievery_face');
+        eraseCookie('isBid');
+        eraseCookie('isCart');
+        eraseCookie('Cart_cookie');
+
+
+
 
         //--> set order's info in checkout page
         // seller region
         $('#seller').text("賣家:" + sellerName);
         $('#product-name').text(productName);
         $('#product-price').text(productPrice);
+        $('#product_img').attr('src', productUrl);
         $('#qty').text(quantity);
         // summery region
         $('#summery-product-price').text(productPrice);

@@ -264,7 +264,7 @@ for (var i = 1; i <= 5; i++) {
 
             // set product's info in webpage. (using jQuery) 
             $('#price').text(price);
-            $('#yourPrice').text(price);
+            $('#yourPrice').text("");
             $('#name').text(productName);
             //$('#critize').text(critize);
             $('#intro').text(intro);
