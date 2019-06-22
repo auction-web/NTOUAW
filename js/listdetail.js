@@ -51,7 +51,7 @@ var user_prod_data = db.collection('User23').doc(User1).collection(check)
 										   '<div class="qty-btn d-flex">'+
 												'<p>Qty</p>'+
 												'<div class="quantity">'+
-													'<input type="number" disabled = "disabled" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">'+
+													'<input type="number" disabled = "disabled" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value='+doc.data()['product_quantity']+'>'+
 												'</div>'+
 										   '</div>'+
 									  '</td>'+
